@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "snyk-broker.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "snyk-broker.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "snyk-broker.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "snyk-broker.selectorLabels" . | nindent 8 }}
+    spec:
+      serviceAccountName: {{ include "snyk-broker.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.scmTypeLabel}}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.deployment.container.containerPort }}
+          env:
+            - name: BROKER_TOKEN
+              value: {{ .Values.brokerToken }}
+            - name: {{ .Values.scmType}}_TOKEN
+              value: {{ .Values.scmToken }}
+            - name: PORT
+              value: {{ .Values.deployment.container.containerPort }}
+            - name: BROKER_CLIENT_URL
+              value: {{ .Values.brokerClientUrl }}

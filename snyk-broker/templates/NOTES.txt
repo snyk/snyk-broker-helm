@@ -1,0 +1,3 @@
+Thank you for installing the Snyk Broker
+
+Login to the Snyk UI to start onboarding projects: https://app.snyk.io
