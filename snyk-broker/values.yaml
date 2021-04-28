@@ -8,7 +8,7 @@ namespace: snyk-broker
 
 #Snyk Specific Values
 scmType: "GITHUB"
-scmLabelType: "github-com"
+scmTypeLabel: "github-com"
 brokerToken: ""
 scmToken: ""
 brokerClientUrl: ""

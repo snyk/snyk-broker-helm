@@ -39,6 +39,6 @@ spec:
             - name: {{ .Values.scmType}}_TOKEN
               value: {{ .Values.scmToken }}
             - name: PORT
-              value: {{ .Values.deployment.container.containerPort }}
+              value: {{ .Values.deployment.container.containerPort | squote }}
             - name: BROKER_CLIENT_URL
               value: {{ .Values.brokerClientUrl }}
