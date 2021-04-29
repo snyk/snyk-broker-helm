@@ -142,3 +142,11 @@ spec:
             - name: BROKER_CLIENT_URL
               value: {{ .Values.brokerClientUrl }}
           {{ end }}
+          # Advanced
+          ## To Add Here
+
+          #Logging
+            - name: LOG_LEVEL
+              value:  {{ .Values.logLevel }}
+            - name: LOG_ENABLE_BODY
+              value:  {{ .Values.logEnableBody | squote }}

@@ -4,9 +4,7 @@
 
 replicaCount: 1
 
-namespace: snyk-broker
-
-#Snyk Specific Values
+# Snyk Specific Values
 brokerToken: ""
 brokerClientUrl: ""
 
@@ -45,6 +43,13 @@ jiraHostname: ""
 # Container Registry Agent
 crAgentUrl: ""
 crCredentials: ""
+
+# Logging
+logLevel: "info"
+logEnableBody: "false"
+
+# Advanced
+advanced: "false"
 
 
 image:
