@@ -7,11 +7,44 @@ replicaCount: 1
 namespace: snyk-broker
 
 #Snyk Specific Values
-scmType: "GITHUB"
-scmTypeLabel: "github-com"
 brokerToken: ""
-scmToken: ""
 brokerClientUrl: ""
+
+# SCM Generic
+scmType: "github-com"
+scmToken: ""
+
+# Github Enterprise
+github: ""
+githubApi: ""
+githubGraphQl: ""
+
+# Bitbucket Server 
+bitbucketUsername: ""
+bitbucketPassword: ""
+bitbucker: ""
+bitbucketApi: ""
+
+# GitLab
+gitlabToken: ""
+gitlab: ""
+
+# Azure Repos
+azureReposToken : ""
+azureReposOrg: ""
+azureReposHost: ""
+
+# Artifactory
+artifactoryUrl: ""
+
+# Jira
+jiraUsername: ""
+jiraPassword: ""
+jiraHostname: ""
+
+# Container Registry Agent
+crAgentUrl: ""
+crCredentials: ""
 
 
 image:
@@ -51,7 +84,7 @@ securityContext: {}
   # runAsUser: 1000
 
 service:
-  type: LoadBalancer
+  type: ClusterIP
   #This is the front end port for Snyk Broker
   port: 8000
 

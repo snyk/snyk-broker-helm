@@ -28,17 +28,117 @@ spec:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.scmTypeLabel}}"
+          image: "{{ .Values.image.repository }}:{{ .Values.scmType}}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
               containerPort: {{ .Values.deployment.container.containerPort }}
           env:
+          # Github
+          {{ if eq .Values.scmType "github-com" }}
             - name: BROKER_TOKEN
               value: {{ .Values.brokerToken }}
-            - name: {{ .Values.scmType}}_TOKEN
+            - name: GITHUB_TOKEN
               value: {{ .Values.scmToken }}
             - name: PORT
               value: {{ .Values.deployment.container.containerPort | squote }}
             - name: BROKER_CLIENT_URL
               value: {{ .Values.brokerClientUrl }}
+          {{ end }}
+          # Github Enterprise
+          {{ if eq .Values.scmType "github-enterprise" }}
+            - name: BROKER_TOKEN
+              value: {{ .Values.brokerToken }}
+            - name: GITHUB_TOKEN
+              value: {{ .Values.scmToken }}
+            - name: GITHUB
+              value: {{ .Values.github }}
+            - name: GITHUB_API
+              value: {{ .Values.githubApi }}
+            - name: GITHUB_GRAPHQL
+              value: {{ .Values.githubGraphQl}}              
+            - name: PORT
+              value: {{ .Values.deployment.container.containerPort | squote }}
+            - name: BROKER_CLIENT_URL
+              value: {{ .Values.brokerClientUrl }}
+          {{ end }}
+          # Bitbucket
+          {{ if eq .Values.scmType "bitbucket-server" }}
+            - name: BROKER_TOKEN
+              value: {{ .Values.brokerToken }}
+            - name: BITBUCKET_USERNAME
+              value: {{ .Values.bitbucketUsername }}
+            - name: BITBUCKET_PASSWORD
+              value: {{ .Values.bitBucketPassword }}
+            - name: BITBUCKET
+              value: {{ .Values.bitbucket }}
+            - name: BITBUCKET_API
+              value: {{ .Values.bitbucketApi }}              
+            - name: PORT
+              value: {{ .Values.deployment.container.containerPort | squote }}
+            - name: BROKER_CLIENT_URL
+              value: {{ .Values.brokerClientUrl }}
+          {{ end }}
+          # Gitlab
+          {{ if eq .Values.scmType "gitlab" }}
+            - name: BROKER_TOKEN
+              value: {{ .Values.brokerToken }}
+            - name: GITLAB_TOKEN
+              value: {{ .Values.gitlabToken }}
+            - name: GITLAB
+              value: {{ .Values.gitlab }}              
+            - name: PORT
+              value: {{ .Values.deployment.container.containerPort | squote }}
+            - name: BROKER_CLIENT_URL
+              value: {{ .Values.brokerClientUrl }}
+          {{ end }}
+          # Azure Repos
+          {{ if eq .Values.scmType "azure-repos" }}
+            - name: BROKER_TOKEN
+              value: {{ .Values.brokerToken }}
+            - name: AZURE_REPOS_TOKEN
+              value: {{ .Values.azureReposToken }}
+            - name: AZURE_REPOS_ORG
+              value: {{ .Values.azureReposOrg }}
+            - name: AZURE_REPOS_HOST
+              value: {{ .Values.azureReposHost }}        
+            - name: PORT
+              value: {{ .Values.deployment.container.containerPort | squote }}
+            - name: BROKER_CLIENT_URL
+              value: {{ .Values.brokerClientUrl }}
+          {{ end }}
+          # Artifactory
+          {{ if eq .Values.scmType "artifactory" }}
+            - name: BROKER_TOKEN
+              value: {{ .Values.brokerToken }}
+            - name: ARTIFACTORY_URL
+              value: {{ .Values.artifactoryUrl }}
+          {{ end }}
+          # Jira
+          {{ if eq .Values.scmType "jira" }}
+            - name: BROKER_TOKEN
+              value: {{ .Values.brokerToken }}
+            - name: JIRA_USERNAME
+              value: {{ .Values.jiraUsername }}
+            - name: JIRA_PASSWORD
+              value: {{ .Values.jiraPassword }}
+            - name: JIRA_HOSTNAME
+              value: {{ .Values.jiraHostname }}        
+            - name: PORT
+              value: {{ .Values.deployment.container.containerPort | squote }}
+            - name: BROKER_CLIENT_URL
+              value: {{ .Values.brokerClientUrl }}
+          {{ end }}
+          # Container Registry Agent
+          {{ if eq .Values.scmType "container-registry-agent" }}
+            - name: BROKER_TOKEN
+              value: {{ .Values.brokerToken }}
+            - name: CR_AGENT_URL
+              value: {{ .Values.AgentUrl }}
+            - name: CR_CREDENTIALS
+              value: {{ .Values.crCredentials }}       
+            - name: PORT
+              value: {{ .Values.deployment.container.containerPort | squote }}
+            - name: BROKER_CLIENT_URL
+              value: {{ .Values.brokerClientUrl }}
+          {{ end }}
