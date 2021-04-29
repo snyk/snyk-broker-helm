@@ -51,7 +51,6 @@ logEnableBody: "false"
 # Advanced
 advanced: "false"
 
-
 image:
   repository: snyk/broker
   pullPolicy: IfNotPresent
