@@ -41,8 +41,11 @@ jiraPassword: ""
 jiraHostname: ""
 
 # Container Registry Agent
+
+crEnabled: ""
 crAgentUrl: ""
 crCredentials: ""
+crImage: "container-registry-agent"
 
 # Logging
 logLevel: "info"
@@ -64,7 +67,7 @@ image:
 deployment:
    container: 
      containerPort: 8000
-
+     crContainerPort: 7341
 nameOverride: ""
 fullnameOverride: ""
 
@@ -91,9 +94,12 @@ securityContext: {}
   # runAsUser: 1000
 
 service:
-  type: ClusterIP
+  type: LoadBalancer
   #This is the front end port for Snyk Broker
   port: 8000
+  crAgent:
+    type: LoadBalancer
+    port: 7341
 
 ingress:
   enabled: false

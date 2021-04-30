@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "snyk-broker.fullname" . }}
+  name: {{ include "snyk-broker.fullname" . }}-broker
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "snyk-broker.labels" . | nindent 4 }}
@@ -129,19 +129,6 @@ spec:
             - name: BROKER_CLIENT_URL
               value: {{ .Values.brokerClientUrl }}
           {{- end }}
-          {{- if eq .Values.scmType "container-registry-agent" }}
-          # Container Registry Agent
-            - name: BROKER_TOKEN
-              value: {{ .Values.brokerToken }}
-            - name: CR_AGENT_URL
-              value: {{ .Values.AgentUrl }}
-            - name: CR_CREDENTIALS
-              value: {{ .Values.crCredentials }}       
-            - name: PORT
-              value: {{ .Values.deployment.container.containerPort | squote }}
-            - name: BROKER_CLIENT_URL
-              value: {{ .Values.brokerClientUrl }}
-          {{- end }}
           #Logging
             - name: LOG_LEVEL
               value: {{ .Values.logLevel }}
@@ -163,3 +150,4 @@ spec:
             - name: ACCEPT
               value: {{ .Values.accept }}
          {{- end }}
+
