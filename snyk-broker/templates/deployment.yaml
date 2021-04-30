@@ -151,15 +151,15 @@ spec:
             - name: CA_CERT
               value: {{ .Values.caCert }}
          {{- end }}
-        {{- if .Values.httpsCert }}
+         {{- if .Values.httpsCert }}
             - name: HTTPS_CERT
               value: {{ .Values.httpsCert }}
-        {{- end }}
-        {{- if .Values.httpsKey }}
+         {{- end }}
+         {{- if .Values.httpsKey }}
             - name: HTTPS_KEY
               value: {{ .Values.httpsKey }}
-        {{- end }}
-        {{- if .Values.accept }}
+         {{- end }}
+         {{- if .Values.accept }}
             - name: ACCEPT
               value: {{ .Values.accept }}
-        {{- end }}
+         {{- end }}
