@@ -49,7 +49,10 @@ logLevel: "info"
 logEnableBody: "false"
 
 # Advanced
-advanced: "false"
+httpsCert: ""
+httpsKey: ""
+caCert: ""
+accept: ""
 
 image:
   repository: snyk/broker

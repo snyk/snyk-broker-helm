@@ -34,8 +34,8 @@ spec:
             - name: http
               containerPort: {{ .Values.deployment.container.containerPort }}
           env:
-          # Github
-          {{ if eq .Values.scmType "github-com" }}
+          {{- if eq .Values.scmType "github-com" }}
+       # Github
             - name: BROKER_TOKEN
               value: {{ .Values.brokerToken }}
             - name: GITHUB_TOKEN
@@ -44,9 +44,9 @@ spec:
               value: {{ .Values.deployment.container.containerPort | squote }}
             - name: BROKER_CLIENT_URL
               value: {{ .Values.brokerClientUrl }}
-          {{ end }}
-          # Github Enterprise
-          {{ if eq .Values.scmType "github-enterprise" }}
+          {{- end }}
+          {{- if eq .Values.scmType "github-enterprise" }}
+        # Github Enterprise
             - name: BROKER_TOKEN
               value: {{ .Values.brokerToken }}
             - name: GITHUB_TOKEN
@@ -61,9 +61,9 @@ spec:
               value: {{ .Values.deployment.container.containerPort | squote }}
             - name: BROKER_CLIENT_URL
               value: {{ .Values.brokerClientUrl }}
-          {{ end }}
-          # Bitbucket
-          {{ if eq .Values.scmType "bitbucket-server" }}
+          {{- end }}
+          {{- if eq .Values.scmType "bitbucket-server" }}
+        # Bitbucket
             - name: BROKER_TOKEN
               value: {{ .Values.brokerToken }}
             - name: BITBUCKET_USERNAME
@@ -78,9 +78,9 @@ spec:
               value: {{ .Values.deployment.container.containerPort | squote }}
             - name: BROKER_CLIENT_URL
               value: {{ .Values.brokerClientUrl }}
-          {{ end }}
-          # Gitlab
-          {{ if eq .Values.scmType "gitlab" }}
+          {{- end }}
+          {{- if eq .Values.scmType "gitlab" }}
+         # Gitlab
             - name: BROKER_TOKEN
               value: {{ .Values.brokerToken }}
             - name: GITLAB_TOKEN
@@ -91,9 +91,9 @@ spec:
               value: {{ .Values.deployment.container.containerPort | squote }}
             - name: BROKER_CLIENT_URL
               value: {{ .Values.brokerClientUrl }}
-          {{ end }}
+          {{- end }}
+          {{- if eq .Values.scmType "azure-repos" }}
           # Azure Repos
-          {{ if eq .Values.scmType "azure-repos" }}
             - name: BROKER_TOKEN
               value: {{ .Values.brokerToken }}
             - name: AZURE_REPOS_TOKEN
@@ -106,16 +106,16 @@ spec:
               value: {{ .Values.deployment.container.containerPort | squote }}
             - name: BROKER_CLIENT_URL
               value: {{ .Values.brokerClientUrl }}
-          {{ end }}
+          {{- end }}
+          {{- if eq .Values.scmType "artifactory" }}
           # Artifactory
-          {{ if eq .Values.scmType "artifactory" }}
             - name: BROKER_TOKEN
               value: {{ .Values.brokerToken }}
             - name: ARTIFACTORY_URL
               value: {{ .Values.artifactoryUrl }}
-          {{ end }}
+          {{- end }}
+          {{- if eq .Values.scmType "jira" }}
           # Jira
-          {{ if eq .Values.scmType "jira" }}
             - name: BROKER_TOKEN
               value: {{ .Values.brokerToken }}
             - name: JIRA_USERNAME
@@ -128,9 +128,9 @@ spec:
               value: {{ .Values.deployment.container.containerPort | squote }}
             - name: BROKER_CLIENT_URL
               value: {{ .Values.brokerClientUrl }}
-          {{ end }}
+          {{- end }}
+          {{- if eq .Values.scmType "container-registry-agent" }}
           # Container Registry Agent
-          {{ if eq .Values.scmType "container-registry-agent" }}
             - name: BROKER_TOKEN
               value: {{ .Values.brokerToken }}
             - name: CR_AGENT_URL
@@ -141,12 +141,25 @@ spec:
               value: {{ .Values.deployment.container.containerPort | squote }}
             - name: BROKER_CLIENT_URL
               value: {{ .Values.brokerClientUrl }}
-          {{ end }}
-          # Advanced
-          ## To Add Here
-
+          {{- end }}
           #Logging
             - name: LOG_LEVEL
-              value:  {{ .Values.logLevel }}
+              value: {{ .Values.logLevel }}
             - name: LOG_ENABLE_BODY
-              value:  {{ .Values.logEnableBody | squote }}
+              value: {{ .Values.logEnableBody | squote }}
+         {{- if .Values.caCert }}
+            - name: CA_CERT
+              value: {{ .Values.caCert }}
+         {{- end }}
+        {{- if .Values.httpsCert }}
+            - name: HTTPS_CERT
+              value: {{ .Values.httpsCert }}
+        {{- end }}
+        {{- if .Values.httpsKey }}
+            - name: HTTPS_KEY
+              value: {{ .Values.httpsKey }}
+        {{- end }}
+        {{- if .Values.accept }}
+            - name: ACCEPT
+              value: {{ .Values.accept }}
+        {{- end }}
