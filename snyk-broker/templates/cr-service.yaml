@@ -9,6 +9,6 @@ spec:
   type: {{ .Values.service.crAgent.type }}
   ports:
     - port: {{ .Values.service.crAgent.port }}
-      targetPort: {{ .Values.deployment.container.crContainerPort }}
+      targetPort: {{ .Values.deployment.container.crSnykPort }}
   selector:
     {{- include "snyk-broker.selectorLabels" . | nindent 4 }}

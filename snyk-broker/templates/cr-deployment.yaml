@@ -30,20 +30,12 @@ spec:
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
          # Container Registry Agent
-          image: "{{ .Values.image.repository }}:{{ .Values.crImage}}"
+          image: "{{ .Values.image.crRepository }}:{{ .Values.crImage}}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
-              containerPort: {{ .Values.deployment.container.crContainerPort }}
+              containerPort: {{ .Values.deployment.container.crSnykPort }}
           env:
-            - name: BROKER_TOKEN
-              value: {{ .Values.brokerToken }}
-            - name: CR_AGENT_URL
-              value: {{ .Values.crAgentUrl }}
-            - name: CR_CREDENTIALS
-              value: {{ .Values.crCredentials }}       
-            - name: PORT
-              value: {{ .Values.deployment.container.containerPort | squote }}
-            - name: BROKER_CLIENT_URL
-              value: {{ .Values.brokerClientUrl }}
+            - name: SNYK_PORT
+              value: {{ .Values.snykPort | squote}}
           {{- end }}

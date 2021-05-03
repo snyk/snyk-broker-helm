@@ -40,12 +40,15 @@ jiraUsername: ""
 jiraPassword: ""
 jiraHostname: ""
 
-# Container Registry Agent
+# Container Registry Broker
 
 crEnabled: ""
 crAgentUrl: ""
 crCredentials: ""
-crImage: "container-registry-agent"
+crImage: "latest"
+
+# Container REgistry Agent
+snykPort: "8081" 
 
 # Logging
 logLevel: "info"
@@ -59,6 +62,7 @@ accept: ""
 
 image:
   repository: snyk/broker
+  crRepository: snyk/container-registry-agent
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
@@ -67,7 +71,7 @@ image:
 deployment:
    container: 
      containerPort: 8000
-     crContainerPort: 7341
+     crSnykPort: 8081
 nameOverride: ""
 fullnameOverride: ""
 
@@ -94,12 +98,13 @@ securityContext: {}
   # runAsUser: 1000
 
 service:
+  #Snyk Broker
   type: LoadBalancer
-  #This is the front end port for Snyk Broker
   port: 8000
+  #Synk Container
   crAgent:
     type: LoadBalancer
-    port: 7341
+    port: 8081
 
 ingress:
   enabled: false
