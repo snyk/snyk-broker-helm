@@ -25,7 +25,7 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
-        - name: {{ .Chart.Name }}
+        - name: {{ .Chart.Name }}-broker
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.scmType}}"
@@ -141,6 +141,9 @@ spec:
               value: {{ .Values.deployment.container.containerPort | squote }}
             - name: BROKER_CLIENT_URL
               value: {{ .Values.brokerClientUrl }}
+            - name: BROKER_CLIENT_VALIDATION_URL
+              value: {{ .Values.crAgentUrl }}/systemcheck
+              
           {{- end }}
           #Logging
             - name: LOG_LEVEL
@@ -163,4 +166,16 @@ spec:
             - name: ACCEPT
               value: {{ .Values.accept }}
          {{- end }}
-
+{{- if .Values.crEnabled }}
+         # Container Registry Agent
+        - name: {{ .Chart.Name }}-cr
+          image: "{{ .Values.image.crRepository }}:{{ .Values.crImage}}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.deployment.container.crSnykPort }}
+          env:
+            - name: SNYK_PORT
+              value: {{ .Values.snykPort | squote}}
+          
+       {{- end }}

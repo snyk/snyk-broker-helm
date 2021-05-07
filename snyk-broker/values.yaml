@@ -20,7 +20,7 @@ githubGraphQl: ""
 # Bitbucket Server 
 bitbucketUsername: ""
 bitbucketPassword: ""
-bitbucker: ""
+bitbucket: ""
 bitbucketApi: ""
 
 # GitLab
@@ -70,7 +70,7 @@ image:
 #Container port for Snyk Broker
 deployment:
    container: 
-     containerPort: 8000
+     containerPort: 8080
      crSnykPort: 8081
 nameOverride: ""
 fullnameOverride: ""
@@ -101,10 +101,6 @@ service:
   #Snyk Broker
   type: LoadBalancer
   port: 8000
-  #Synk Container
-  crAgent:
-    type: LoadBalancer
-    port: 8081
 
 ingress:
   enabled: false
