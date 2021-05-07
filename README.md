@@ -15,7 +15,7 @@ helm package /snyk-broker
 
 Then run the following commands based on the repository type.
 
-<b> Allowed values for </b> ```scmType```:<br><br>
+<b> Allowed values for </b> ```scmType```:
 
 Github.com: ```github-com``` <br>
 Github Enterprise: ```github-enterprise```<br>
