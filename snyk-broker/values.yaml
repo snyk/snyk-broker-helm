@@ -20,7 +20,7 @@ githubGraphQl: ""
 # Bitbucket Server 
 bitbucketUsername: ""
 bitbucketPassword: ""
-bitbucker: ""
+bitbucket: ""
 bitbucketApi: ""
 
 # GitLab
