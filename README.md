@@ -15,15 +15,15 @@ helm package /snyk-broker
 
 Then run the following commands based on the repository type.
 
-<b> Allowed values for </b> ```scmType```
+<b> Allowed values for </b> ```scmType```:<br><br>
 
-Github.com: ```github-com```
-Github Enterprise: ```github-enterprise```
-Bitbucket: ```bitbucket-server```
-Gitlab: ```gitlab```
-Azure Repos: ```azure-repos```
-Artifactory: ```artifactory```
-Jira: ```jira```
+Github.com: ```github-com``` <br>
+Github Enterprise: ```github-enterprise```<br>
+Bitbucket: ```bitbucket-server```<br>
+Gitlab: ```gitlab```<br>
+Azure Repos: ```azure-repos```<br>
+Artifactory: ```artifactory```<br>
+Jira: ```jira```<br>
 
 
 ### Github.com
