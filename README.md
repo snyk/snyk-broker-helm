@@ -125,11 +125,15 @@ helm install snyk-broker-chart . --dry-run\
 ```
 For the credentials, they must be in the following format (this is for DockerHub):
 
-```{"username":"<ENTER_USERNAME>","password":"<ENTER_PASSWORD>","type":"DockerHub","registryBase":"index.docker.io:443"}```
+```
+{"username":"<ENTER_USERNAME>","password":"<ENTER_PASSWORD>","type":"DockerHub","registryBase":"index.docker.io:443"}
+```
 
 Run this to convert to Base64 (on MacOS)
 
-```echo '{"username":"<ENTER_USERNAME>","password":"<ENTER_PASSWORD>","type":"DockerHub","registryBase":"index.docker.io:443"}` | base64```
+```
+echo '{"username":"<ENTER_USERNAME>","password":"<ENTER_PASSWORD>","type":"DockerHub","registryBase":"index.docker.io:443"}` | base64
+```
 
 ## Configuration
 
