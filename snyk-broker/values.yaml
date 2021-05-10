@@ -24,11 +24,9 @@ bitbucket: ""
 bitbucketApi: ""
 
 # GitLab
-gitlabToken: ""
 gitlab: ""
 
 # Azure Repos
-azureReposToken : ""
 azureReposOrg: ""
 azureReposHost: ""
 
@@ -47,7 +45,7 @@ crAgentUrl: ""
 crCredentials: ""
 crImage: "latest"
 
-# Container REgistry Agent
+# Container Registry Agent
 snykPort: "8081" 
 
 # Logging

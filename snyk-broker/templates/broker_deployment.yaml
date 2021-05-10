@@ -84,7 +84,7 @@ spec:
             - name: BROKER_TOKEN
               value: {{ .Values.brokerToken }}
             - name: GITLAB_TOKEN
-              value: {{ .Values.gitlabToken }}
+              value: {{ .Values.scmToken }}
             - name: GITLAB
               value: {{ .Values.gitlab }}              
             - name: PORT
@@ -97,7 +97,7 @@ spec:
             - name: BROKER_TOKEN
               value: {{ .Values.brokerToken }}
             - name: AZURE_REPOS_TOKEN
-              value: {{ .Values.azureReposToken }}
+              value: {{ .Values.scmToken }}
             - name: AZURE_REPOS_ORG
               value: {{ .Values.azureReposOrg }}
             - name: AZURE_REPOS_HOST
