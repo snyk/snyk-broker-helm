@@ -39,14 +39,8 @@ jiraPassword: ""
 jiraHostname: ""
 
 # Container Registry Broker
-
-crEnabled: ""
-crAgentUrl: ""
 crCredentials: ""
 crImage: "latest"
-
-# Container Registry Agent
-snykPort: "8081" 
 
 # Logging
 logLevel: "info"
