@@ -24,7 +24,9 @@ Gitlab: ```gitlab```<br>
 Azure Repos: ```azure-repos```<br>
 Artifactory: ```artifactory```<br>
 Jira: ```jira```<br>
+Container Registry Agent: ```container-registry-agent```<br>
 
+## SCM Instructions
 
 ### Github.com
 
@@ -33,7 +35,7 @@ helm install snyk-broker-chart snyk-broker=0.1.0.tgz \
              --set scmType=github-com \
              --set brokerToken=<ENTER_BROKER_TOKEN> \
              --set scmToken=<ENTER_REPO_TOKEN> \
-             --set brokerClientUrl=<ENTER_BROKER_CLIENT_URL> \
+             --set brokerClientUrl=<ENTER_BROKER_CLIENT_URL>:<ENTER_BROKER_CLIENT_PORT> \
              -n snyk-broker --create-namespace
 ```
 ### Github Enterprise
@@ -46,7 +48,7 @@ helm install snyk-broker-chart snyk-broker=0.1.0.tgz \
              --set github=<ENTER_GHE_ADDRESS> \
              --set githubApi=<ENTER_GHE_API_ADDRESS> \
              --set githubGraphQl=<ENTER_GRAPHQL_ADDRESS> \
-             --set brokerClientUrl=<ENTER_BROKER_CLIENT_URL> \
+             --set brokerClientUrl=<ENTER_BROKER_CLIENT_URL>:<ENTER_BROKER_CLIENT_PORT> \
              -n snyk-broker --create-namespace
 ```
 
@@ -60,7 +62,7 @@ helm install snyk-broker-chart snyk-broker=0.1.0.tgz \
              --set bitbucketPassword=<ENTER_PASSWORD> \
              --set bitbucket=<ENTER_BITBUCKET_URL> \
              --set bitbucketApi=<ENTER_BITBUCKET_API_URL> \
-             --set brokerClientUrl=<ENTER_BROKER_CLIENT_URL> \
+             --set brokerClientUrl=<ENTER_BROKER_CLIENT_URL>:<ENTER_BROKER_CLIENT_PORT> \
              -n snyk-broker --create-namespace
 ```
 
@@ -72,7 +74,7 @@ helm install snyk-broker-chart snyk-broker=0.1.0.tgz \
              --set brokerToken=<ENTER_BROKER_TOKEN> \
              --set gitlab=<ENTER_GITLAB_URL> \
              --set gitlabToken=<ENTER_GITLAB_TOKEN> \
-             --set brokerClientUrl=<ENTER_BROKER_CLIENT_URL> \
+             --set brokerClientUrl=<ENTER_BROKER_CLIENT_URL>:<ENTER_BROKER_CLIENT_PORT> \
              -n snyk-broker --create-namespace
 ```
 
@@ -85,7 +87,7 @@ helm install snyk-broker-chart snyk-broker=0.1.0.tgz \
              --set azureReposToken=<ENTER_REPO_TOKEN> \
              --set azureReposOrg=<ENTER_REPO_ORG> \
              --set azureReposHost<ENTER_REPO_HOST> \
-             --set brokerClientUrl=<ENTER_BROKER_CLIENT_URL> \
+             --set brokerClientUrl=<ENTER_BROKER_CLIENT_URL>:<ENTER_BROKER_CLIENT_PORT> \
              -n snyk-broker --create-namespace
 ```
 
@@ -108,9 +110,26 @@ helm install snyk-broker-chart snyk-broker=0.1.0.tgz \
              --set jiraUsername=<ENTER_JIRA_USERNAME> \
              --set jiraPassword=<ENTER_JIRA_PASSWORD>  \
              --set jiraHostname<ENTER_JIRA_HOSTNAME>  \
-             --set brokerClientUrl=<ENTER_BROKER_CLIENT_URL> \
+             --set brokerClientUrl=<ENTER_BROKER_CLIENT_URL>:<ENTER_BROKER_CLIENT_PORT> \
              -n snyk-broker --create-namespace
 ```
+## Container Registry
+Note: This chart will deploy two containers in a pod. While the documentation for the [Snyk Broker](https://github.com/snyk/broker) requires the parameter CR_AGENT_URL, it is not required in this case.
+```
+helm install snyk-broker-chart . --dry-run\
+             --set scmType=container-registry-agent \
+             --set brokerToken=<ENTER_BROKER_TOKEN>  \
+             --set brokerClientUrl=<ENTER_BROKER_CLIENT_URL>:<ENTER_BROKER_CLIENT_PORT>\
+             --set crCredentials=<ENTER_BASE64_CREDENTIALS> \
+             -n snyk-broker --create-namespace
+```
+For the credentials, they must be in the following format (this is for DockerHub):
+
+```{"username":"<ENTER_USERNAME>","password":"<ENTER_PASSWORD>","type":"DockerHub","registryBase":"index.docker.io:443"}```
+
+Run this to convert to Base64 (on MacOS)
+
+```echo '{"username":"<ENTER_USERNAME>","password":"<ENTER_PASSWORD>","type":"DockerHub","registryBase":"index.docker.io:443"}` | base64```
 
 ## Configuration
 
@@ -139,5 +158,6 @@ helm install snyk-broker-chart snyk-broker=0.1.0.tgz \
 | `image.repository`                    | Broker Image                                                                | `snyk/broker`                                                                 |
 | `deployment.container.containerPort`  | Container Port (Back End)                                                   | `8080`                                                                        |
 | `serviceAccount.name`                 | Name of service account to be created                                       | `snyk-broker`                                                                 |
-| `service.port`                        | Front End Port for broker clien                                             | `8000`                                                                        |
-
+| `service.port`                        | Front End Port for broker client                                            | `8000`                                                                        |
+| `crCredentials`                       | Base 64 Encoded Credentials                                                 | ` `                                                                           |
+| `crImage`                             | Image Tag                                                                   | `latest`                                                                      |

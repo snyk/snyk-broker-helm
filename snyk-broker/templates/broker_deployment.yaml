@@ -134,7 +134,7 @@ spec:
             - name: BROKER_TOKEN
               value: {{ .Values.brokerToken }}
             - name: CR_AGENT_URL
-              value: {{ .Values.crAgentUrl }}
+              value: http://127.0.0.1:{{ .Values.deployment.container.crSnykPort | toString }}
             - name: CR_CREDENTIALS
               value: {{ .Values.crCredentials }}       
             - name: PORT
@@ -142,8 +142,7 @@ spec:
             - name: BROKER_CLIENT_URL
               value: {{ .Values.brokerClientUrl }}
             - name: BROKER_CLIENT_VALIDATION_URL
-              value: {{ .Values.crAgentUrl }}/systemcheck
-              
+              value: {{ .Values.crAgentUrl }}/systemcheck  
           {{- end }}
           #Logging
             - name: LOG_LEVEL
@@ -166,16 +165,12 @@ spec:
             - name: ACCEPT
               value: {{ .Values.accept }}
          {{- end }}
-{{- if .Values.crEnabled }}
+        {{- if eq .Values.scmType "container-registry-agent" }}
          # Container Registry Agent
         - name: {{ .Chart.Name }}-cr
           image: "{{ .Values.image.crRepository }}:{{ .Values.crImage}}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          ports:
-            - name: http
-              containerPort: {{ .Values.deployment.container.crSnykPort }}
           env:
             - name: SNYK_PORT
-              value: {{ .Values.snykPort | squote}}
-          
-       {{- end }}
+              value: {{ .Values.deployment.container.crSnykPort | squote }}    
+        {{- end }}
