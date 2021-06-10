@@ -68,6 +68,8 @@ helm install snyk-broker-chart snyk-broker=0.1.0.tgz \
 
 ### Gitlab
 
+<b>Note: for ```gitlab``` value do not include ```https://``` </b>
+
 ```
 helm install snyk-broker-chart snyk-broker=0.1.0.tgz \
              --set scmType=gitlab \
