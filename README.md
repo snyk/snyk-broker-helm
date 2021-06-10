@@ -10,7 +10,7 @@ This is a Helm Chart to deploy the [Snyk Broker](https://github.com/snyk/broker)
 Clone this repository and build the chart.
 
 ```
-helm package /snyk-broker
+helm package ./snyk-broker
 ```
 
 Then run the following commands based on the repository type.
@@ -31,7 +31,7 @@ Container Registry Agent: ```container-registry-agent```<br>
 ### Github.com
 
 ```
-helm install snyk-broker-chart snyk-broker=0.1.0.tgz \
+helm install snyk-broker-chart snyk-broker-0.1.0.tgz \
              --set scmType=github-com \
              --set brokerToken=<ENTER_BROKER_TOKEN> \
              --set scmToken=<ENTER_REPO_TOKEN> \
@@ -73,7 +73,7 @@ helm install snyk-broker-chart snyk-broker=0.1.0.tgz \
              --set scmType=gitlab \
              --set brokerToken=<ENTER_BROKER_TOKEN> \
              --set gitlab=<ENTER_GITLAB_URL> \
-             --set gitlabToken=<ENTER_GITLAB_TOKEN> \
+             --set scmToken=<ENTER_GITLAB_TOKEN> \
              --set brokerClientUrl=<ENTER_BROKER_CLIENT_URL>:<ENTER_BROKER_CLIENT_PORT> \
              -n snyk-broker --create-namespace
 ```
