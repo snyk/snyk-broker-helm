@@ -179,7 +179,7 @@ spec:
             - name: NODE_TLS_REJECT_UNAUTHORIZED
               value: {{ .Values.tlsRejectUnauthorized }}
          {{- end }}
-
+         # Mounting Accept.json
          {{- if .Values.accept }}
             - name: ACCEPT
               value: {{ .Values.accept }}

@@ -115,7 +115,7 @@ helm install snyk-broker-chart snyk-broker=0.1.0.tgz \
              --set brokerClientUrl=<ENTER_BROKER_CLIENT_URL>:<ENTER_BROKER_CLIENT_PORT> \
              -n snyk-broker --create-namespace
 ```
-## Container Registry
+## Container Registry - NOT FINISHED YET
 Note: This chart will deploy two containers in a pod. While the documentation for the [Snyk Broker](https://github.com/snyk/broker) requires the parameter CR_AGENT_URL, it is not required in this case.
 ```
 helm install snyk-broker-chart . --dry-run\
