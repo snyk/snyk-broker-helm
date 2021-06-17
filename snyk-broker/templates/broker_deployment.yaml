@@ -40,6 +40,12 @@ spec:
           ports:
             - name: http
               containerPort: {{ .Values.deployment.container.containerPort }}
+          {{- if .Values.acceptJsonFile }}
+          volumeMounts:
+              - name: {{ include "snyk-broker.fullname" . }}-accept-volume
+                mountPath: {{ .Values.accept | default "/home/node/private/" | replace "accept.json" "" }}
+                readOnly: true
+          {{- end }}
           env:
           {{- if eq .Values.scmType "github-com" }}
        # Github
@@ -194,3 +200,9 @@ spec:
             - name: SNYK_PORT
               value: {{ .Values.deployment.container.crSnykPort | squote }}    
         {{- end }}
+      {{- if .Values.acceptJsonFile }}
+      volumes:
+        - name: {{ include "snyk-broker.fullname" . }}-accept-volume
+          configMap:
+            name: {{ include "snyk-broker.fullname" . }}-accept-configmap
+      {{- end }}

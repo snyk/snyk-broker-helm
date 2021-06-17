@@ -51,7 +51,10 @@ httpsCert: ""
 httpsKey: ""
 caCert: ""
 tlsRejectUnauthorized: "" 
+# Specify an accept.json file already present on the container image.
 accept: ""
+# Specify a local accept.json file (relative to snyk-broker folder) to inject with a ConfigMap, e.g. "files/accept.json"
+acceptJsonFile: ""
 
 image:
   repository: snyk/broker
