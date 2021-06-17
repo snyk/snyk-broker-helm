@@ -50,6 +50,7 @@ logEnableBody: "false"
 httpsCert: ""
 httpsKey: ""
 caCert: ""
+tlsRejectUnauthorized: "" 
 accept: ""
 
 image:
@@ -91,7 +92,7 @@ securityContext: {}
 
 service:
   #Snyk Broker
-  type: LoadBalancer
+  type: ClusterIP
   port: 8000
 
 ingress:

@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "snyk-broker.fullname" . }}-broker
+  name: "{{ .Values.scmType}}-broker"
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "snyk-broker.labels" . | nindent 4 }}
@@ -25,7 +25,14 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
-        - name: {{ .Chart.Name }}-broker
+        - name: "{{ .Values.scmType}}-broker"
+          resources:
+            limits:
+              cpu: 1
+              memory: "256Mi"
+            requests:
+              cpu: 1
+              memory: "256Mi"
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.scmType}}"
@@ -161,13 +168,26 @@ spec:
             - name: HTTPS_KEY
               value: {{ .Values.httpsKey }}
          {{- end }}
+         #Troubleshooting
+        {{- if .Values.tlsRejectUnauthorized  }}
+            - name: NODE_TLS_REJECT_UNAUTHORIZED
+              value: {{ .Values.tlsRejectUnauthorized }}
+         {{- end }}
+
          {{- if .Values.accept }}
             - name: ACCEPT
               value: {{ .Values.accept }}
          {{- end }}
         {{- if eq .Values.scmType "container-registry-agent" }}
          # Container Registry Agent
-        - name: {{ .Chart.Name }}-cr
+        - name: container-registry-agent
+          resources:
+            limits:
+              cpu: 1
+              memory: "2Gi"
+            requests:
+              cpu: 1
+              memory: "2Gi"
           image: "{{ .Values.image.crRepository }}:{{ .Values.crImage}}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
