@@ -21,7 +21,7 @@ githubGraphQl: ""
 bitbucketUsername: ""
 bitbucketPassword: ""
 bitbucket: ""
-bitbucketApi: ""
+bitbucketApi: "" 
 
 # GitLab
 gitlab: ""
@@ -39,7 +39,10 @@ jiraPassword: ""
 jiraHostname: ""
 
 # Container Registry Broker
-crCredentials: ""
+crType: ""
+crBase: ""
+crUsername: ""
+crPassword: ""
 crImage: "latest"
 
 # Logging
@@ -64,6 +67,22 @@ image:
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
+
+brokerResources:
+   limits:
+     cpu: 1
+     memory: "256Mi"
+   requests:
+     cpu: 1
+     memory: "256Mi"
+
+crResources:
+   limits:
+     cpu: 1
+     memory: "2Gi"
+   requests:
+     cpu: 1
+     memory: "2Gi"
 
 #Container port for Snyk Broker
 deployment:
