@@ -31,7 +31,7 @@ Container Registry Agent: ```container-registry-agent```<br>
 ### Github.com
 
 ```
-helm install snyk-broker-chart snyk-broker-0.1.0.tgz \
+helm install snyk-broker-chart snyk-broker-1.0.0.tgz \
              --set scmType=github-com \
              --set brokerToken=<ENTER_BROKER_TOKEN> \
              --set scmToken=<ENTER_REPO_TOKEN> \
@@ -41,7 +41,7 @@ helm install snyk-broker-chart snyk-broker-0.1.0.tgz \
 ### Github Enterprise
 
 ```
-helm install snyk-broker-chart snyk-broker=0.1.0.tgz \
+helm install snyk-broker-chart snyk-broker-1.0.0.tgz \
              --set scmType=github-enterprise \
              --set brokerToken=<ENTER_BROKER_TOKEN> \
              --set scmToken=<ENTER_REPO_TOKEN> \
@@ -55,7 +55,7 @@ helm install snyk-broker-chart snyk-broker=0.1.0.tgz \
 ### Bitbucket
 
 ```
-helm install snyk-broker-chart snyk-broker=0.1.0.tgz \
+helm install snyk-broker-chart snyk-broker-1.0.0.tgz \
              --set scmType=bitbucket-server \
              --set brokerToken=<ENTER_BROKER_TOKEN> \
              --set bitbucketUsername=<ENTER_USERNAME> \
@@ -71,7 +71,7 @@ helm install snyk-broker-chart snyk-broker=0.1.0.tgz \
 <b>Note: for ```gitlab``` value do not include ```https://``` </b>
 
 ```
-helm install snyk-broker-chart snyk-broker=0.1.0.tgz \
+helm install snyk-broker-chart snyk-broker-1.0.0.tgz \
              --set scmType=gitlab \
              --set brokerToken=<ENTER_BROKER_TOKEN> \
              --set gitlab=<ENTER_GITLAB_URL> \
@@ -83,7 +83,7 @@ helm install snyk-broker-chart snyk-broker=0.1.0.tgz \
 ### Azure Repos
 
 ```
-helm install snyk-broker-chart snyk-broker=0.1.0.tgz \
+helm install snyk-broker-chart snyk-broker-1.0.0.tgz \
              --set scmType=azure-repos \
              --set brokerToken=<ENTER_BROKER_TOKEN> \
              --set azureReposToken=<ENTER_REPO_TOKEN> \
@@ -96,7 +96,7 @@ helm install snyk-broker-chart snyk-broker=0.1.0.tgz \
 ### Artifactory
 
 ```
-helm install snyk-broker-chart snyk-broker=0.1.0.tgz \
+helm install snyk-broker-chart snyk-broker-1.0.0.tgz \
              --set scmType=artifactory \
              --set brokerToken=<ENTER_BROKER_TOKEN> \
              --set artifactoryUrl=<ENTER_ARTIFACTORY_URL> \
@@ -106,7 +106,7 @@ helm install snyk-broker-chart snyk-broker=0.1.0.tgz \
 ### Jira
 
 ```
-helm install snyk-broker-chart snyk-broker=0.1.0.tgz \
+helm install snyk-broker-chart snyk-broker-1.0.0.tgz \
              --set scmType=jira \
              --set brokerToken=<ENTER_BROKER_TOKEN> \
              --set jiraUsername=<ENTER_JIRA_USERNAME> \
