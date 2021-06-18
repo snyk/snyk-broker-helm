@@ -8,9 +8,10 @@ metadata:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
-  - http:
+  - host: {{ .Values.ingressHostname }}
+    http:
       paths:
-      - path: /testpath
+      - path: /
         pathType: Prefix
         backend:
           service:

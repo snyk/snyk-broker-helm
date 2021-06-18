@@ -87,7 +87,7 @@ crResources:
 #Container port for Snyk Broker
 deployment:
    container: 
-     containerPort: 8080
+     containerPort: 8000
      crSnykPort: 8081
 nameOverride: ""
 fullnameOverride: ""
@@ -116,6 +116,7 @@ securityContext: {}
 
 # Enable Ingress
 enableIngress: false
+ingressHostname: ""
 
 service:
   #Snyk Broker
