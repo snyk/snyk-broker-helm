@@ -26,7 +26,7 @@ Artifactory: ```artifactory```<br>
 Jira: ```jira```<br>
 Container Registry Agent: ```container-registry-agent```<br>
 
-## SCM Instructions
+The following examples will create a namespace called ```snyk-broker```. To deploy into an existing namespace, adjust the ```-n``` parameter and delete the ```--create-namespace``` parameter.
 
 ### Github.com
 
@@ -118,23 +118,159 @@ helm install snyk-broker-chart snyk-broker-1.0.0.tgz \
 ## Container Registry - NOT FINISHED YET
 Note: This chart will deploy two containers in a pod. While the documentation for the [Snyk Broker](https://github.com/snyk/broker) requires the parameter CR_AGENT_URL, it is not required in this case.
 ```
-helm install snyk-broker-chart . --dry-run\
+helm install snyk-broker-chart snyk-broker-1.0.0.tgz \
              --set scmType=container-registry-agent \
-             --set brokerToken=<ENTER_BROKER_TOKEN>  \
-             --set brokerClientUrl=<ENTER_BROKER_CLIENT_URL>:<ENTER_BROKER_CLIENT_PORT>\
-             --set crCredentials=<ENTER_BASE64_CREDENTIALS> \
+             --set brokerClientUrl=<ENTER_BROKER_URL> \
+             --set crType=<ENTER_CR_TYPE>\
+             --set crBase=<ENTER_CR_BASE_URL> \
+             --set crUsername=<ENTER_CR_URSERNAME> \
+             --set crPassword=<ENTER_CR_PASSWORD> \
+             -n snyk-broker --create-namespace
+```            
+<b> Allowed values for </b> ```crType```:
+
+```ArtifactoryCR```<br>
+```HarborCR```<br>
+```AzureCR```<br>
+```GoogleCR```<br>
+```DockerHub```<br>
+```QuayCR```<br>
+```nexus-cr```<br>
+```github-cr```<br>
+
+
+
+## Ingress Options
+There are two options available for ingress traffic. By default, the pods are not accessible from outside the cluster.
+
+### Load Balancer
+To enable a load balancer, add the ```--set service.type=LoadBalancer```
+
+Example for Github:
+
+```
+helm install snyk-broker-chart snyk-broker-1.0.0.tgz \
+             --set scmType=github-com \
+             --set brokerToken=<ENTER_BROKER_TOKEN> \
+             --set scmToken=<ENTER_REPO_TOKEN> \
+             --set brokerClientUrl=<ENTER_BROKER_CLIENT_URL>:<ENTER_BROKER_CLIENT_PORT> \
+             --set service.type=LoadBalancer \
              -n snyk-broker --create-namespace
 ```
-For the credentials, they must be in the following format (this is for DockerHub):
+### Ingress Controller
+This chart can be used with an existing ingress controller. Add the ```--set enableIngress=true``` parameter to enable the feature and ```--set ingressHostname=<ENTER_INGRESS_HOSTNAME>``` to configure the host name.
+
+Example command:
+```
+helm install snyk-broker-chart snyk-broker-1.0.0.tgz \
+             --set scmType=github-com \
+             --set brokerToken=<ENTER_BROKER_TOKEN> \
+             --set scmToken=<ENTER_REPO_TOKEN> \
+             --set brokerClientUrl=<ENTER_BROKER_CLIENT_URL>:<ENTER_BROKER_CLIENT_PORT> \
+             --set enableIngress=true \
+             --set ingressHostname=<ENTER_INGRESS_HOSTNAME>
+             -n snyk-broker --create-namespace
+```
+
+## Secrets
+API Tokens and or Passwords use Kubernetes Secrets. Existing secrets can be used, they just need to be created in the following formats.
+
+### Broker Tokens
+```
+apiVersion: v1
+kind: Secret
+metadata:
+  name: <ENTER_SCM_TYPE>-broker-token
+  labels:
+    app: <ENTER_SCM_TYPE>-broker-token
+type: Opaque
+data:
+  <ENTER_SCM_TYPE>-broker-token-key: <BASE64_ENCODED_SECRET>
+```
+
+### SCM Token
 
 ```
-{"username":"<ENTER_USERNAME>","password":"<ENTER_PASSWORD>","type":"DockerHub","registryBase":"index.docker.io:443"}
+apiVersion: v1
+kind: Secret
+metadata:
+  name: <ENTER_SCM_TYPE>-token
+type: Opaque
+data:
+  <ENTER_SCM_TYPE>-token-key: <BASE64_ENCODED_SECRET>
 ```
 
-Run this to convert to Base64 (on MacOS)
+### Bitbucket Password
 
 ```
-echo '{"username":"<ENTER_USERNAME>","password":"<ENTER_PASSWORD>","type":"DockerHub","registryBase":"index.docker.io:443"}` | base64
+apiVersion: v1
+kind: Secret
+metadata:
+  name: bitbucketpassword
+type: Opaque
+data:
+  "bitbucketPassword": <BASE64_ENCODED_SECRET>
+```
+
+### Jira Password 
+
+```
+apiVersion: v1
+kind: Secret
+metadata:
+  name: jirapassword
+type: Opaque
+data:
+  "jiraPassword": <BASE64_ENCODED_SECRET>
+```
+
+### Container Registry Secret 
+
+```
+apiVersion: v1
+kind: Secret
+metadata:
+  name: crpassword
+type: Opaque
+data:
+  "crPassword": <BASE64_ENCODED_SECRET> 
+ ``` 
+
+## Service Accounts
+
+To use an existing service account, add the following parameters to the install command:
+
+```
+--set serviceAccount.create=false \
+--set serviceAccount.name=<ENTER_EXISTING_SERVICE_ACCOUNT> \
+```
+
+## Deploying Multiple Brokers In The Same Namespace
+
+To deploy an additional broker into the same namespace as an existing broker, see the following example.
+
+### Existing Service Account
+```
+helm install <ENTER_UNIQUE_CHART_NAME> snyk-broker-1.0.0.tgz \
+             --set scmType=github-com \
+             --set brokerToken=<ENTER_BROKER_TOKEN> \
+             --set scmToken=<ENTER_REPO_TOKEN> \
+             --set brokerClientUrl=<ENTER_BROKER_CLIENT_URL>:<ENTER_BROKER_CLIENT_PORT> \
+             --set serviceAccount.create=false \
+             --set serviceAccount.name=<EXISTING_SERVICE_ACCOUNT> \
+             -n <EXISTING_NAMESPACE>
+```
+
+### New Service Account 
+
+```
+helm install <ENTER_UNIQUE_CHART_NAME> snyk-broker-1.0.0.tgz \
+             --set scmType=github-com \
+             --set brokerToken=<ENTER_BROKER_TOKEN> \
+             --set scmToken=<ENTER_REPO_TOKEN> \
+             --set brokerClientUrl=<ENTER_BROKER_CLIENT_URL>:<ENTER_BROKER_CLIENT_PORT> \
+             --set serviceAccount.name=<NEW_SERVICE_ACCOUNT_TO_BE_CREATED> \
+             -n <EXISTING_NAMESPACE>
 ```
 
 ## Configuration
@@ -165,5 +301,4 @@ echo '{"username":"<ENTER_USERNAME>","password":"<ENTER_PASSWORD>","type":"Docke
 | `deployment.container.containerPort`  | Container Port (Back End)                                                   | `8080`                                                                        |
 | `serviceAccount.name`                 | Name of service account to be created                                       | `snyk-broker`                                                                 |
 | `service.port`                        | Front End Port for broker client                                            | `8000`                                                                        |
-| `crCredentials`                       | Base 64 Encoded Credentials                                                 | ` `                                                                           |
 | `crImage`                             | Image Tag                                                                   | `latest`                                                                      |
