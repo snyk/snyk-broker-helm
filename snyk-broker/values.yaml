@@ -113,7 +113,7 @@ securityContext:
    readOnlyRootFilesystem: true
    allowPrivilegeEscalation: false
    runAsNonRoot: true
-   runAsUser: 5000
+   runAsUser: 500010
 
 # Enable Ingress
 enableIngress: false
