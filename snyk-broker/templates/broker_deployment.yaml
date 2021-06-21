@@ -43,7 +43,7 @@ spec:
           {{- if .Values.acceptJsonFile }}
           volumeMounts:
               - name: {{ include "snyk-broker.fullname" . }}-accept-volume
-                mountPath: {{ .Values.accept | default "/home/node/private/" | replace "accept.json" "" }}
+                mountPath: /home/node/private
                 readOnly: true
           {{- end }}
           env:
@@ -236,10 +236,12 @@ spec:
               value: {{ .Values.accept }}
          {{- end }}
          {{- if .Values.acceptJsonFile }}
-        volumes:
-        - name: {{ include "snyk-broker.fullname" . }}-accept-volume
-          configMap:
-            name: {{ include "snyk-broker.fullname" . }}-accept-configmap
+            - name: ACCEPT
+              value: /home/node/private/accept.json
+      volumes:
+      - name: {{ include "snyk-broker.fullname" . }}-accept-volume
+        configMap:
+          name: {{ include "snyk-broker.fullname" . }}-accept-configmap
         {{- end }}
         {{- if eq .Values.scmType "container-registry-agent" }}
          # Container Registry Agent

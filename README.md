@@ -7,11 +7,7 @@ This is a Helm Chart to deploy the [Snyk Broker](https://github.com/snyk/broker)
 
 ## Usage
 
-Clone this repository and build the chart.
-
-```
-helm package ./snyk-broker
-```
+Clone this repository and navigate to the ```snyk-broker``` directory.
 
 Then run the following commands based on the repository type.
 
@@ -31,7 +27,7 @@ The following examples will create a namespace called ```snyk-broker```. To depl
 ### Github.com
 
 ```
-helm install snyk-broker-chart snyk-broker-1.0.0.tgz \
+helm install snyk-broker-chart . \
              --set scmType=github-com \
              --set brokerToken=<ENTER_BROKER_TOKEN> \
              --set scmToken=<ENTER_REPO_TOKEN> \
@@ -41,7 +37,7 @@ helm install snyk-broker-chart snyk-broker-1.0.0.tgz \
 ### Github Enterprise
 
 ```
-helm install snyk-broker-chart snyk-broker-1.0.0.tgz \
+helm install snyk-broker-chart . \
              --set scmType=github-enterprise \
              --set brokerToken=<ENTER_BROKER_TOKEN> \
              --set scmToken=<ENTER_REPO_TOKEN> \
@@ -55,7 +51,7 @@ helm install snyk-broker-chart snyk-broker-1.0.0.tgz \
 ### Bitbucket
 
 ```
-helm install snyk-broker-chart snyk-broker-1.0.0.tgz \
+helm install snyk-broker-chart . \
              --set scmType=bitbucket-server \
              --set brokerToken=<ENTER_BROKER_TOKEN> \
              --set bitbucketUsername=<ENTER_USERNAME> \
@@ -71,7 +67,7 @@ helm install snyk-broker-chart snyk-broker-1.0.0.tgz \
 <b>Note: for ```gitlab``` value do not include ```https://``` </b>
 
 ```
-helm install snyk-broker-chart snyk-broker-1.0.0.tgz \
+helm install snyk-broker-chart . \
              --set scmType=gitlab \
              --set brokerToken=<ENTER_BROKER_TOKEN> \
              --set gitlab=<ENTER_GITLAB_URL> \
@@ -83,7 +79,7 @@ helm install snyk-broker-chart snyk-broker-1.0.0.tgz \
 ### Azure Repos
 
 ```
-helm install snyk-broker-chart snyk-broker-1.0.0.tgz \
+helm install snyk-broker-chart . \
              --set scmType=azure-repos \
              --set brokerToken=<ENTER_BROKER_TOKEN> \
              --set azureReposToken=<ENTER_REPO_TOKEN> \
@@ -96,7 +92,7 @@ helm install snyk-broker-chart snyk-broker-1.0.0.tgz \
 ### Artifactory
 
 ```
-helm install snyk-broker-chart snyk-broker-1.0.0.tgz \
+helm install snyk-broker-chart . \
              --set scmType=artifactory \
              --set brokerToken=<ENTER_BROKER_TOKEN> \
              --set artifactoryUrl=<ENTER_ARTIFACTORY_URL> \
@@ -106,7 +102,7 @@ helm install snyk-broker-chart snyk-broker-1.0.0.tgz \
 ### Jira
 
 ```
-helm install snyk-broker-chart snyk-broker-1.0.0.tgz \
+helm install snyk-broker-chart . \
              --set scmType=jira \
              --set brokerToken=<ENTER_BROKER_TOKEN> \
              --set jiraUsername=<ENTER_JIRA_USERNAME> \
@@ -118,7 +114,7 @@ helm install snyk-broker-chart snyk-broker-1.0.0.tgz \
 ## Container Registry - NOT FINISHED YET
 Note: This chart will deploy two containers in a pod. While the documentation for the [Snyk Broker](https://github.com/snyk/broker) requires the parameter CR_AGENT_URL, it is not required in this case.
 ```
-helm install snyk-broker-chart snyk-broker-1.0.0.tgz \
+helm install snyk-broker-chart . \
              --set scmType=container-registry-agent \
              --set brokerClientUrl=<ENTER_BROKER_URL> \
              --set crType=<ENTER_CR_TYPE>\
@@ -138,8 +134,20 @@ helm install snyk-broker-chart snyk-broker-1.0.0.tgz \
 ```nexus-cr```<br>
 ```github-cr```<br>
 
+## Adding accept.json
+To add a custom accept.json, <b>you must copy the new accept.json to the /snyk-broker folder</b>
 
+Here is an example command:
 
+```
+helm install snyk-broker-chart . \
+             --set scmType=github-com \
+             --set brokerToken=<ENTER_BROKER_TOKEN> \
+             --set scmToken=<ENTER_REPO_TOKEN> \
+             --set brokerClientUrl=<ENTER_BROKER_CLIENT_URL>:<ENTER_BROKER_CLIENT_PORT> \
+             --set acceptJsonFile=accept.json \
+             -n snyk-broker --create-namespace
+```
 ## Ingress Options
 There are two options available for ingress traffic. By default, the pods are not accessible from outside the cluster.
 
@@ -149,7 +157,7 @@ To enable a load balancer, add the ```--set service.type=LoadBalancer```
 Example for Github:
 
 ```
-helm install snyk-broker-chart snyk-broker-1.0.0.tgz \
+helm install snyk-broker-chart . \
              --set scmType=github-com \
              --set brokerToken=<ENTER_BROKER_TOKEN> \
              --set scmToken=<ENTER_REPO_TOKEN> \
@@ -162,7 +170,7 @@ This chart can be used with an existing ingress controller. Add the ```--set ena
 
 Example command:
 ```
-helm install snyk-broker-chart snyk-broker-1.0.0.tgz \
+helm install snyk-broker-chart . \
              --set scmType=github-com \
              --set brokerToken=<ENTER_BROKER_TOKEN> \
              --set scmToken=<ENTER_REPO_TOKEN> \
@@ -251,7 +259,7 @@ To deploy an additional broker into the same namespace as an existing broker, se
 
 ### Existing Service Account
 ```
-helm install <ENTER_UNIQUE_CHART_NAME> snyk-broker-1.0.0.tgz \
+helm install <ENTER_UNIQUE_CHART_NAME> . \
              --set scmType=github-com \
              --set brokerToken=<ENTER_BROKER_TOKEN> \
              --set scmToken=<ENTER_REPO_TOKEN> \
@@ -264,7 +272,7 @@ helm install <ENTER_UNIQUE_CHART_NAME> snyk-broker-1.0.0.tgz \
 ### New Service Account 
 
 ```
-helm install <ENTER_UNIQUE_CHART_NAME> snyk-broker-1.0.0.tgz \
+helm install <ENTER_UNIQUE_CHART_NAME> . \
              --set scmType=github-com \
              --set brokerToken=<ENTER_BROKER_TOKEN> \
              --set scmToken=<ENTER_REPO_TOKEN> \
