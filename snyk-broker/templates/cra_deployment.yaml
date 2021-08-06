@@ -1,0 +1,61 @@
+{{- if eq .Values.scmType "container-registry-agent" }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "{{ .Values.scmType}}-cra"
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "snyk-broker.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "snyk-broker.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "snyk-broker.selectorLabels" . | nindent 8 }}
+    spec:
+      serviceAccountName: {{ include "snyk-broker.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: container-registry-agent
+          resources:
+            limits:
+              cpu: {{ .Values.crResources.limits.cpu }}
+              memory: {{ .Values.crResources.limits.memory }}
+            requests:
+              cpu: {{ .Values.crResources.requests.cpu }}
+              memory: {{ .Values.crResources.requests.memory}}
+          image: "{{ .Values.image.crRepository }}:{{ .Values.crImage}}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.deployment.container.crSnykPort }}
+          env:
+            - name: SNYK_PORT
+              value: {{ .Values.deployment.container.crSnykPort | squote }}    
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: "cra-service"
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "snyk-broker.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.deployment.container.crSnykPort }}
+      targetPort: {{ .Values.deployment.container.crSnykPort}}
+  selector:
+    {{- include "snyk-broker.selectorLabels" . | nindent 4 }}
+{{- end }}
