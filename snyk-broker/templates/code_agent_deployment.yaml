@@ -1,8 +1,8 @@
-{{- if eq .Values.scmType "container-registry-agent" }}
+{{- if .Values.enableCodeAgent }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: "{{ .Values.scmType}}-cra"
+  name: "{{ .Values.scmType}}-code-agent"
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "snyk-broker.labels" . | nindent 4 }}
@@ -26,36 +26,40 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
-        - name: container-registry-agent
+        - name: code-agent
           resources:
             limits:
-              cpu: {{ .Values.crResources.limits.cpu }}
-              memory: {{ .Values.crResources.limits.memory }}
+              cpu: {{ .Values.caResources.limits.cpu }}
+              memory: {{ .Values.caResources.limits.memory }}
             requests:
-              cpu: {{ .Values.crResources.requests.cpu }}
-              memory: {{ .Values.crResources.requests.memory}}
-          image: "{{ .Values.image.crRepository }}:{{ .Values.crImage}}"
+              cpu: {{ .Values.caResources.requests.cpu }}
+              memory: {{ .Values.caResources.requests.memory}}
+          image: "{{ .Values.image.caRepository }}:{{ .Values.caImage}}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
-              containerPort: {{ .Values.deployment.container.crSnykPort }}
+              containerPort: {{ .Values.deployment.container.caSnykPort }}
           env:
-            - name: SNYK_PORT
-              value: {{ .Values.deployment.container.crSnykPort | squote }}    
-
----
+            - name: PORT
+              value: {{ .Values.deployment.container.caSnykPort | squote }}
+            - name: SNYK_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: snyk-token
+                  key: snyk-token-key  
+---                     
 apiVersion: v1
 kind: Service
 metadata:
-  name: "cra-service"
+  name: "code-agent-service"
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "snyk-broker.labels" . | nindent 4 }}
 spec:
-  type: {{ .Values.service.crType }}
+  type: {{ .Values.service.caType }}
   ports:
-    - port: {{ .Values.deployment.container.crSnykPort }}
-      targetPort: {{ .Values.deployment.container.crSnykPort}}
+    - port: {{ .Values.deployment.container.caSnykPort }}
+      targetPort: {{ .Values.deployment.container.caSnykPort}}
   selector:
     {{- include "snyk-broker.selectorLabels" . | nindent 4 }}
 {{- end }}

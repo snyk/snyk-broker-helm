@@ -6,7 +6,7 @@ metadata:
   labels:
     {{- include "snyk-broker.labels" . | nindent 4 }}
 spec:
-  type: {{ .Values.service.type }}
+  type: {{ .Values.service.brokerType }}
   ports:
     - port: {{ .Values.service.port }}
       targetPort: {{ .Values.deployment.container.containerPort }}
