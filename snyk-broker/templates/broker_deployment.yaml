@@ -206,7 +206,7 @@ spec:
             - name: BROKER_CLIENT_URL
               value: {{ .Values.brokerClientUrl }}
             - name: BROKER_CLIENT_VALIDATION_URL
-              value: http://cra-servicee:{{ .Values.deployment.container.crSnykPort | toString }}/healthcheck
+              value: http://cra-service:{{ .Values.deployment.container.crSnykPort | toString }}/healthcheck
           {{- end }}
           #Logging
             - name: LOG_LEVEL

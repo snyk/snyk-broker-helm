@@ -3,27 +3,27 @@
   {
     "//": "image scan (discover) callback (v1)",
     "method": "POST",
-    "path": "//api/v1/import/app"
+    "path": "/api/v1/import/app"
   },
   {
     "//": "image scan result callback (v1)",
     "method": "POST",
-    "path": "//api/v1/import/scan-result"
+    "path": "/api/v1/import/scan-result"
   },
   {
     "//": "image scan done callback (v1)",
     "method": "POST",
-    "path": "//api/v1/import/scan-done"
+    "path": "/api/v1/import/scan-done"
   },
   {
     "//": "image scan done callback (v2)",
     "method": "POST",
-    "path": "//api/v2/import/done"
+    "path": "/api/v2/import/done"
   },
   {
     "//": "image scan result callback (v2)",
     "method": "POST",
-    "path": "//api/v2/import/result"
+    "path": "/api/v2/import/result"
   }
   ],
   "private": [
