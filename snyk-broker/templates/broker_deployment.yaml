@@ -189,7 +189,7 @@ spec:
                   name: {{ .Values.scmType}}-broker-token
                   key: "{{ .Values.scmType}}-broker-token-key"
             - name: CR_AGENT_URL
-              value: http://127.0.0.1:{{ .Values.deployment.container.crSnykPort | toString }}
+              value: http://cra-service:{{ .Values.deployment.container.crSnykPort | toString }}
             - name: CR_TYPE
               value: {{ .Values.crType }}
             - name: CR_BASE
@@ -206,7 +206,7 @@ spec:
             - name: BROKER_CLIENT_URL
               value: {{ .Values.brokerClientUrl }}
             - name: BROKER_CLIENT_VALIDATION_URL
-              value: {{ .Values.crAgentUrl }}/systemcheck  
+              value: http://cra-service:{{ .Values.deployment.container.crSnykPort | toString }}/healthcheck
           {{- end }}
           #Logging
             - name: LOG_LEVEL
@@ -237,26 +237,10 @@ spec:
          {{- end }}
          {{- if .Values.acceptJsonFile }}
             - name: ACCEPT
-              value: /home/node/private/accept.json
+              value: /home/node/accept.json
       volumes:
       - name: {{ include "snyk-broker.fullname" . }}-accept-volume
         configMap:
           name: {{ include "snyk-broker.fullname" . }}-accept-configmap
-        {{- end }}
-        {{- if eq .Values.scmType "container-registry-agent" }}
-         # Container Registry Agent
-        - name: container-registry-agent
-          resources:
-            limits:
-              cpu: {{ .Values.crResources.limits.cpu }}
-              memory: {{ .Values.crResources.limits.memory }}
-            requests:
-              cpu: {{ .Values.crResources.requests.cpu }}
-              memory: {{ .Values.crResources.requests.memory}}
-          image: "{{ .Values.image.crRepository }}:{{ .Values.crImage}}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          env:
-            - name: SNYK_PORT
-              value: {{ .Values.deployment.container.crSnykPort | squote }}    
         {{- end }}
 

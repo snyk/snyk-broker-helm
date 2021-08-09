@@ -111,8 +111,11 @@ helm install snyk-broker-chart . \
              --set brokerClientUrl=<ENTER_BROKER_CLIENT_URL>:<ENTER_BROKER_CLIENT_PORT> \
              -n snyk-broker --create-namespace
 ```
-## Container Registry - NOT FINISHED YET
-Note: This chart will deploy two containers in a pod. While the documentation for the [Snyk Broker](https://github.com/snyk/broker) requires the parameter CR_AGENT_URL, it is not required in this case.
+## Container Registry
+Note: This chart will deploy two containers in a pod. While the documentation for the [Snyk Broker](https://github.com/snyk/broker) requires the parameter CR_AGENT_URL, it is not required in this case. You must also ensure that the brokerClientUrl value does NOT have a ```\``` 
+
+Finally, you must include an ```accept.json``` file for this deployment.
+
 ```
 helm install snyk-broker-chart . \
              --set scmType=container-registry-agent \
@@ -135,7 +138,7 @@ helm install snyk-broker-chart . \
 ```github-cr```<br>
 
 ## Adding accept.json
-To add a custom accept.json, <b>you must copy the new accept.json to the /snyk-broker folder</b>
+To add a custom ```accept.json```, <b>you must copy the new accept.json to the /snyk-broker folder</b> See example files [HERE](https://github.com/snyk/broker/tree/master/client-templates)
 
 Here is an example command:
 
