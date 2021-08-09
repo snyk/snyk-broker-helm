@@ -112,7 +112,7 @@ helm install snyk-broker-chart . \
              -n snyk-broker --create-namespace
 ```
 ## Container Registry
-Note: This chart will deploy two containers in a pod. While the documentation for the [Snyk Broker](https://github.com/snyk/broker) requires the parameter CR_AGENT_URL, it is not required in this case. You must also ensure that the brokerClientUrl value does NOT have a ```\``` 
+Note: This chart will deploy two containers in a pod. While the documentation for the [Snyk Broker](https://github.com/snyk/broker) requires the parameter ```CR_AGENT_URL```, it is not required in this case. You must also ensure that the ```brokerClientUrl``` value does NOT have a ```\``` 
 
 Finally, you must include an ```accept.json``` file for this deployment.
 
@@ -310,7 +310,7 @@ helm install <ENTER_UNIQUE_CHART_NAME> . \
 | `logLevel`                            | Log Verbosity                                                               | `info`                                                                        |
 | `logEnableBody`                       | Enable Log Body                                                             | `false`                                                                       |
 | `image.repository`                    | Broker Image                                                                | `snyk/broker`                                                                 |
-| `deployment.container.containerPort`  | Container Port (Back End)                                                   | `8080`                                                                        |
+| `deployment.container.containerPort`  | Container Port (Back End)                                                   | `8000`                                                                        |
 | `serviceAccount.name`                 | Name of service account to be created                                       | `snyk-broker`                                                                 |
 | `service.port`                        | Front End Port for broker client                                            | `8000`                                                                        |
 | `crImage`                             | Image Tag                                                                   | `latest`                                                                      |
