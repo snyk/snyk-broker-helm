@@ -64,7 +64,7 @@ acceptJsonFile: ""
 image:
   repository: snyk/broker
   crRepository: snyk/container-registry-agent
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
 

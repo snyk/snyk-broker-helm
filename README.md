@@ -138,7 +138,8 @@ helm install snyk-broker-chart . \
 ```github-cr```<br>
 
 ## Adding accept.json
-To add a custom ```accept.json```, <b>you must copy the new accept.json to the /snyk-broker folder.</b><br><br> See example files [HERE](https://github.com/snyk/broker/tree/master/client-templates)
+
+To add a custom ```accept.json```, <b>you must copy the new accept.json to the /snyk-broker folder</b> <br><br>See example files [HERE](https://github.com/snyk/broker/tree/master/client-templates)
 
 Here is an example command:
 
