@@ -45,6 +45,12 @@ crUsername: ""
 crPassword: ""
 crImage: "latest"
 
+# Code Agent
+enableCodeAgent: ""
+snykToken: ""
+caImage: "latest"
+gitClientUrl: ""
+
 # Logging
 logLevel: "info"
 logEnableBody: "false"
@@ -64,6 +70,7 @@ acceptJsonFile: ""
 image:
   repository: snyk/broker
   crRepository: snyk/container-registry-agent
+  caRepository: snyk/code-agent
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
@@ -84,11 +91,20 @@ crResources:
      cpu: 1
      memory: "2Gi"
 
+caResources:
+   limits:
+     cpu: 1
+     memory: "2Gi"
+   requests:
+     cpu: 1
+     memory: "2Gi"
+
 #Container port for Snyk Broker
 deployment:
    container: 
      containerPort: 8000
      crSnykPort: 8081
+     caSnykPort: 3000
 nameOverride: ""
 fullnameOverride: ""
 
@@ -121,7 +137,9 @@ ingressHostname: ""
 
 service:
   #Snyk Broker
-  type: ClusterIP
+  brokerType: ClusterIP
+  crType: ClusterIP
+  caType: ClusterIP
   port: 8000
 
 

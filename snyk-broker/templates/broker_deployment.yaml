@@ -86,6 +86,8 @@ spec:
               value: {{ .Values.deployment.container.containerPort | squote }}
             - name: BROKER_CLIENT_URL
               value: {{ .Values.brokerClientUrl }}
+            - name: GIT_CLIENT_URL
+              value: {{ .Values.gitClientUrl}}
           {{- end }}
           {{- if eq .Values.scmType "bitbucket-server" }}
         # Bitbucket
@@ -128,6 +130,8 @@ spec:
               value: {{ .Values.deployment.container.containerPort | squote }}
             - name: BROKER_CLIENT_URL
               value: {{ .Values.brokerClientUrl }}
+            - name: GIT_CLIENT_URL
+              value: {{ .Values.gitClientUrl}}
           {{- end }}
           {{- if eq .Values.scmType "azure-repos" }}
           # Azure Repos
@@ -237,7 +241,7 @@ spec:
          {{- end }}
          {{- if .Values.acceptJsonFile }}
             - name: ACCEPT
-              value: /home/node/accept.json
+              value: /home/node/private/accept.json
       volumes:
       - name: {{ include "snyk-broker.fullname" . }}-accept-volume
         configMap:
