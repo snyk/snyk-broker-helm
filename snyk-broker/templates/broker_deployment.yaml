@@ -240,6 +240,8 @@ spec:
               value: {{ .Values.accept }}
          {{- end }}
          {{- if .Values.acceptJsonFile }}
+            - name: ACCEPT
+              value: /home/node/private/accept.json
       volumes:
       - name: {{ include "snyk-broker.fullname" . }}-accept-volume
         configMap:
