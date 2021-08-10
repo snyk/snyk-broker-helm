@@ -111,10 +111,10 @@ helm install snyk-broker-chart . \
              --set brokerClientUrl=<ENTER_BROKER_CLIENT_URL>:<ENTER_BROKER_CLIENT_PORT> \
              -n snyk-broker --create-namespace
 ```
-## Container Registry
-Note: This chart will deploy two containers in a pod. While the documentation for the [Snyk Broker](https://github.com/snyk/broker) requires the parameter ```CR_AGENT_URL```, it is not required in this case. You must also ensure that the ```brokerClientUrl``` value does NOT have a ```\``` 
+## Container Registry Agent
+ While the documentation for the [Snyk Broker](https://github.com/snyk/broker) requires the parameter ```CR_AGENT_URL```, it is not required in this case. You must also ensure that the ```brokerClientUrl``` value does NOT have a ```\```. 
 
-Finally, you must include an ```accept.json``` file for this deployment.
+Finally, you must include an ```accept.json``` file for this deployment. <b>You must copy the new accept.json to the /snyk-broker folder</b>
 
 ```
 helm install snyk-broker-chart . \
@@ -124,6 +124,7 @@ helm install snyk-broker-chart . \
              --set crBase=<ENTER_CR_BASE_URL> \
              --set crUsername=<ENTER_CR_URSERNAME> \
              --set crPassword=<ENTER_CR_PASSWORD> \
+             --set acceptJsonFile=accept.json \
              -n snyk-broker --create-namespace
 ```            
 <b> Allowed values for </b> ```crType```:
@@ -136,6 +137,26 @@ helm install snyk-broker-chart . \
 ```QuayCR```<br>
 ```nexus-cr```<br>
 ```github-cr```<br>
+
+## Snyk Code Agent
+To deploy the Snyk Code Agent, you must set the ```enableCodeAgent``` flag to ```true```. See more information about the [Snyk Code Agent](https://support.snyk.io/hc/en-us/articles/4404137655569-Snyk-Code-local-git-support). Ensure you have the proper entries in the accept.json file. Grab the example file for the appropriate SCM [HERE](https://github.com/snyk/broker/tree/master/client-templates). Ensure you have the additional entries as specified by the Snyk Code Agent documentation.
+
+Here is an example command for GitLab:
+
+```
+helm install snyk-broker-chart . \
+             --set scmType=gitlab  \
+             --set brokerToken=<ENTER_BROKER_TOKEN> \ 
+             --set scmToken=<ENTER_SCM_TOKEN> \
+             --set gitlab=<ENTER_GITLAB_URL>  \
+            --set acceptJsonFile=accept.json \
+            --set brokerClientUrl=http://<ENTER_SCM_TYPE>-broker-service:8000 \ 
+            --set enableCodeAgent=true \ 
+            --set snykToken=<ENTER_SNYK_TOKEN> \
+            --set=gitClientUrl=http://code-agent-service:3000 \ 
+            -n snyk-broker --create-namespace
+```
+<b>Note: Leave the ```brokerClientUrl``` and ```gitClientUrl``` values as they are. Also, the accept.json must be in the same directory as the helm chart</b>
 
 ## Adding accept.json
 
