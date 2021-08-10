@@ -49,6 +49,7 @@ crImage: "latest"
 enableCodeAgent: ""
 snykToken: ""
 caImage: "latest"
+gitClientUrl: ""
 
 # Logging
 logLevel: "info"

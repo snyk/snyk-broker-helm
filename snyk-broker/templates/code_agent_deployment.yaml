@@ -5,14 +5,16 @@ metadata:
   name: "{{ .Values.scmType}}-code-agent"
   namespace: {{ .Release.Namespace }}
   labels:
-    {{- include "snyk-broker.labels" . | nindent 4 }}
+    app.kubernetes.io/name: {{ .Release.Name }}-ca
+    app.kubernetes.io/instance: {{ .Release.Name }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "snyk-broker.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/name: {{ .Release.Name }}-ca
+      app.kubernetes.io/instance: {{ .Release.Name }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -20,7 +22,8 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "snyk-broker.selectorLabels" . | nindent 8 }}
+        app.kubernetes.io/name: {{ .Release.Name }}-ca
+        app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
       serviceAccountName: {{ include "snyk-broker.serviceAccountName" . }}
       securityContext:
@@ -61,5 +64,6 @@ spec:
     - port: {{ .Values.deployment.container.caSnykPort }}
       targetPort: {{ .Values.deployment.container.caSnykPort}}
   selector:
-    {{- include "snyk-broker.selectorLabels" . | nindent 4 }}
+    app.kubernetes.io/name: {{ .Release.Name }}-ca
+    app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
