@@ -37,6 +37,8 @@ spec:
             requests:
               cpu: {{ .Values.caResources.requests.cpu }}
               memory: {{ .Values.caResources.requests.memory}}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.caRepository }}:{{ .Values.caImage}}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
