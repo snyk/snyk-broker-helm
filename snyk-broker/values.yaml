@@ -131,6 +131,15 @@ securityContext:
    runAsNonRoot: true
    runAsUser: 1000
 
+securityContextCr: 
+   capabilities:
+     drop:
+     - ALL
+   allowPrivilegeEscalation: false
+   runAsNonRoot: true
+   runAsUser: 1000
+
+
 # Enable Ingress
 enableIngress: false
 ingressHostname: ""
