@@ -1,0 +1,11 @@
+{{- if .Values.httpsKey }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "snyk-broker.fullname" . }}-httpskey-configmap
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "snyk-broker.labels" . | nindent 4 }}
+data:
+{{ (.Files.Glob .Values.httpsKey).AsConfig | nindent 2 }}
+{{- end }}

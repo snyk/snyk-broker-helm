@@ -40,11 +40,28 @@ spec:
           ports:
             - name: http
               containerPort: {{ .Values.deployment.container.containerPort }}
-          {{- if .Values.acceptJsonFile }}
+          {{- if or .Values.acceptJsonFile .Values.caCert .Values.httpsCert .Values.httpsKey  }}   
           volumeMounts:
+              {{- if .Values.acceptJsonFile }}
               - name: {{ include "snyk-broker.fullname" . }}-accept-volume
                 mountPath: /home/node/private
                 readOnly: true
+              {{- end }}
+              {{- if .Values.caCert }}
+              - name: {{ include "snyk-broker.fullname" . }}-cacert-volume
+                mountPath: /home/node/cacert
+                readOnly: true
+              {{- end }}
+              {{- if .Values.httpsCert }}
+              - name: {{ include "snyk-broker.fullname" . }}-httpscert-volume
+                mountPath: /home/node/httpscert
+                readOnly: true
+              {{- end }}
+              {{- if .Values.httpsKey }}
+              - name: {{ include "snyk-broker.fullname" . }}-httpskey-volume
+                mountPath: /home/node/httpskey
+                readOnly: true
+              {{- end }}              
           {{- end }}
           env:
           {{- if eq .Values.scmType "github-com" }}
@@ -217,34 +234,58 @@ spec:
               value: {{ .Values.logLevel }}
             - name: LOG_ENABLE_BODY
               value: {{ .Values.logEnableBody | squote }}
+         # Certs     
          {{- if .Values.caCert }}
             - name: CA_CERT
-              value: {{ .Values.caCert }}
+              value: /home/node/cacert/{{ .Values.caCert }}
          {{- end }}
          {{- if .Values.httpsCert }}
             - name: HTTPS_CERT
-              value: {{ .Values.httpsCert }}
+              value: /home/node/httpscert/{{ .Values.httpsCert }}
          {{- end }}
          {{- if .Values.httpsKey }}
             - name: HTTPS_KEY
-              value: {{ .Values.httpsKey }}
+              value: /home/node/httpskey/{{ .Values.httpsKey }}
          {{- end }}
-         #Troubleshooting
+         
         {{- if .Values.tlsRejectUnauthorized  }}
+      #Troubleshooting - Set to 0 for SSL inspection testing
             - name: NODE_TLS_REJECT_UNAUTHORIZED
               value: {{ .Values.tlsRejectUnauthorized }}
          {{- end }}
-         # Mounting Accept.json
-         {{- if .Values.accept }}
-            - name: ACCEPT
-              value: {{ .Values.accept }}
-         {{- end }}
+         # Accept.json Environment Variables
          {{- if .Values.acceptJsonFile }}
             - name: ACCEPT
               value: /home/node/private/accept.json
+        {{ else }}
+            - name: ACCEPT
+              value: /home/node/accept.json
+         {{- end }}
+
+         # Mount Accept.json and Certs       
+
+      {{- if or .Values.acceptJsonFile .Values.caCert .Values.httpsCert .Values.httpsKey  }}   
       volumes:
+      {{- if .Values.acceptJsonFile }}
       - name: {{ include "snyk-broker.fullname" . }}-accept-volume
         configMap:
           name: {{ include "snyk-broker.fullname" . }}-accept-configmap
-        {{- end }}
+      {{- end }}
+      {{- if .Values.caCert }}
+      - name: {{ include "snyk-broker.fullname" . }}-cacert-volume
+        configMap:
+          name: {{ include "snyk-broker.fullname" . }}-cacert-configmap
+      {{- end }}
+      {{- if .Values.httpsCert }}
+      - name: {{ include "snyk-broker.fullname" . }}-httpscert-volume
+        configMap:
+          name: {{ include "snyk-broker.fullname" . }}-httpscert-configmap
+      {{- end }}
+      {{- if .Values.httpsKey }}
+      - name: {{ include "snyk-broker.fullname" . }}-httpskey-volume
+        configMap:
+          name: {{ include "snyk-broker.fullname" . }}-httpskey-configmap
+      {{- end }}
+      
+      {{- end }}
 
