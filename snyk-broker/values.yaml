@@ -61,8 +61,19 @@ httpsKey: ""
 caCert: ""
 tlsRejectUnauthorized: "" 
 
-# Specify an accept.json file already present on the container image.
-accept: ""
+#For Custom Storage Options - If allowing RootFileSystem Write Access is not desired (FOR FUTURE USE)
+advancedStorage: ""
+customStorage: #|-
+  #apiVersion: storage.k8s.io/v1
+  #kind: StorageClass
+  #metadata:
+    #namespace: mikenamespace
+    #name: mikeappstorageclass
+  #provisioner: kubernetes.io/gce-pd
+  #parameters:
+    #type: pd-standard
+    #fstype: ext4
+    #replication-type: none
 
 # Specify a local accept.json file (relative to snyk-broker folder) to inject with a ConfigMap, e.g. "files/accept.json"
 acceptJsonFile: ""
@@ -98,6 +109,7 @@ caResources:
    requests:
      cpu: 1
      memory: "2Gi"
+   storage: "2Gi"
 
 #Container port for Snyk Broker
 deployment:
@@ -165,17 +177,6 @@ service:
   #    hosts:
   #      - chart-example.local
 
-resources: {}
-  # We usually recommend not to specify default resources and to leave this as a conscious
-  # choice for the user. This also increases chances charts run on environments with little
-  # resources, such as Minikube. If you do want to specify resources, uncomment the following
-  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
 
 autoscaling:
   enabled: false

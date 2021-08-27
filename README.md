@@ -305,6 +305,13 @@ helm install <ENTER_UNIQUE_CHART_NAME> . \
              --set serviceAccount.name=<NEW_SERVICE_ACCOUNT_TO_BE_CREATED> \
              -n <EXISTING_NAMESPACE>
 ```
+## Advanced Options
+
+There is also the ability to set more advanced parameters. For troubleshooting SSL inspection issues, you can set the ```tlsRejectUnauthorized``` parameter to ```0```.<br><br>
+
+To provide your own certificate (signed by your own CA) - you can pass the file name (<b>it needs to reside within the helm chart directory</b>) to the ```caCert``` parameter. <br><br>
+
+If you would like your broker to run as an HTTPS server, you can pass the files (<b>they need to reside within the helm chart directory</b>) to the ```httpsCert``` and ```httpsKey``` paramters<br><br>
 
 ## Configuration
 
