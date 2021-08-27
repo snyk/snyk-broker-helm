@@ -307,7 +307,7 @@ helm install <ENTER_UNIQUE_CHART_NAME> . \
 ```
 ## Advanced Options
 
-There is also the ability to set more advanced parameters. For troubleshooting SSL inspection issues, you can set the ```tlsRejectUnauthorized``` paramter to ```0```.<br><br>
+There is also the ability to set more advanced parameters. For troubleshooting SSL inspection issues, you can set the ```tlsRejectUnauthorized``` parameter to ```0```.<br><br>
 
 To provide your own certificate (signed by your own CA) - you can pass the file name (<b>it needs to reside within the helm chart directory</b>) to the ```caCert``` parameter. <br><br>
 
