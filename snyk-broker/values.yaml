@@ -55,25 +55,20 @@ gitClientUrl: ""
 logLevel: "info"
 logEnableBody: "false"
 
-# Advanced
+## Advanced
+#Enable HTTPS
 httpsCert: ""
 httpsKey: ""
+
+#HTTPS Inspection 
 caCert: ""
+
+#Troubleshooting HTTPS Inspection
 tlsRejectUnauthorized: "" 
 
-#For Custom Storage Options - If allowing RootFileSystem Write Access is not desired (FOR FUTURE USE)
-advancedStorage: ""
-customStorage: #|-
-  #apiVersion: storage.k8s.io/v1
-  #kind: StorageClass
-  #metadata:
-    #namespace: mikenamespace
-    #name: mikeappstorageclass
-  #provisioner: kubernetes.io/gce-pd
-  #parameters:
-    #type: pd-standard
-    #fstype: ext4
-    #replication-type: none
+#Use behind proxy
+httpProxy: ""
+httpsProxy: ""
 
 # Specify a local accept.json file (relative to snyk-broker folder) to inject with a ConfigMap, e.g. "files/accept.json"
 acceptJsonFile: ""
@@ -148,6 +143,7 @@ securityContextCr:
      drop:
      - ALL
    allowPrivilegeEscalation: false
+   readOnlyRootFilesystem: false
    runAsNonRoot: true
    runAsUser: 1000
 
@@ -156,6 +152,7 @@ securityContextCa:
      drop:
      - ALL
    allowPrivilegeEscalation: false
+   readOnlyRootFilesystem: false
    runAsNonRoot: true
    runAsUser: 1000
 
@@ -184,5 +181,3 @@ autoscaling:
   maxReplicas: 100
   targetCPUUtilizationPercentage: 80
   # targetMemoryUtilizationPercentage: 80
-
-

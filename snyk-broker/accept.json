@@ -1532,6 +1532,6 @@
         "method": "GET",
         "path": "/api/v4/projects/:project/repository/files*%2F*.tpl",
         "origin": "https://${GITLAB}"
-      }      
+      }     
   ]
 }
