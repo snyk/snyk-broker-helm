@@ -103,8 +103,7 @@ spec:
               value: {{ .Values.deployment.container.containerPort | squote }}
             - name: BROKER_CLIENT_URL
               value: {{ .Values.brokerClientUrl }}
-            - name: GIT_CLIENT_URL
-              value: {{ .Values.gitClientUrl}}
+
           {{- end }}
           {{- if eq .Values.scmType "bitbucket-server" }}
         # Bitbucket
@@ -229,17 +228,26 @@ spec:
             - name: BROKER_CLIENT_VALIDATION_URL
               value: http://cra-service:{{ .Values.deployment.container.crSnykPort | toString }}/healthcheck
           {{- end }}
-          #Logging
+         
+         # Code Agent
+         {{- if .Values.enableCodeAgent }}
+            - name: GIT_CLIENT_URL
+              value: {{ .Values.gitClientUrl}} 
+         {{- end }}     
+         # Logging
             - name: LOG_LEVEL
               value: {{ .Values.logLevel }}
             - name: LOG_ENABLE_BODY
               value: {{ .Values.logEnableBody | squote }}
-         # Certs     
+             
          {{- if .Values.caCert }}
+         # HTTPS Inspection 
             - name: CA_CERT
               value: /home/node/cacert/{{ .Values.caCert }}
          {{- end }}
+         
          {{- if .Values.httpsCert }}
+         # HTTPS Config
             - name: HTTPS_CERT
               value: /home/node/httpscert/{{ .Values.httpsCert }}
          {{- end }}
@@ -248,13 +256,26 @@ spec:
               value: /home/node/httpskey/{{ .Values.httpsKey }}
          {{- end }}
          
-        {{- if .Values.tlsRejectUnauthorized  }}
-      #Troubleshooting - Set to 0 for SSL inspection testing
+         {{- if .Values.tlsRejectUnauthorized  }}
+         # Troubleshooting - Set to 0 for SSL inspection testing
             - name: NODE_TLS_REJECT_UNAUTHORIZED
               value: {{ .Values.tlsRejectUnauthorized }}
          {{- end }}
-         # Accept.json Environment Variables
+
+         {{- if .Values.httpProxy }}
+         # HTTP Proxy Settings
+            - name: HTTP_PROXY
+              value: {{ .Values.httpProxy }}
+         {{- end }}
+
+         {{- if .Values.httpsProxy }}
+         # HTTPS Proxy Settings
+            - name: HTTPS_PROXY
+              value: {{ .Values.httpsProxy }}
+         {{- end }}
+
          {{- if .Values.acceptJsonFile }}
+         # Accept.json Environment Variables
             - name: ACCEPT
               value: /home/node/private/accept.json
         {{ else }}

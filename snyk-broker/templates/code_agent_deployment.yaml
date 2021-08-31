@@ -52,30 +52,6 @@ spec:
                 secretKeyRef:
                   name: snyk-token
                   key: snyk-token-key
-{{- if .Values.advancedStorage }}                    
-          volumeMounts:
-            - name: ca-storage
-              mountPath: /tmp
-      volumes:
-        - name: storage
-          persistentVolumeClaim:
-            claimName: ca-pvc
----
-{{- if .Values.customStorage }}
-{{ .Values.customStorage }}
-{{- end }}
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: ca-pvc
-spec:
-  accessModes:
-    - ReadWriteMany
-  resources:
-    requests:
-      storage: {{ .Values.caResources.storage }}
-{{- end }}
 ---                     
 apiVersion: v1
 kind: Service
@@ -92,9 +68,5 @@ spec:
   selector:
     app.kubernetes.io/name: {{ .Release.Name }}-ca
     app.kubernetes.io/instance: {{ .Release.Name }}
-
-
-
-
 
 {{- end }}

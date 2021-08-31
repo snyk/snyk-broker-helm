@@ -307,11 +307,31 @@ helm install <ENTER_UNIQUE_CHART_NAME> . \
 ```
 ## Advanced Options
 
-There is also the ability to set more advanced parameters. For troubleshooting SSL inspection issues, you can set the ```tlsRejectUnauthorized``` parameter to ```0```.<br><br>
+There is also the ability to set more advanced parameters. For troubleshooting SSL inspection issues, you can set the 
+```tlsRejectUnauthorized``` parameter to ```0```.<br><br>
+
+```
+--set tlsRejectUnauthorized=0
+```
 
 To provide your own certificate (signed by your own CA) - you can pass the file name (<b>it needs to reside within the helm chart directory</b>) to the ```caCert``` parameter. <br><br>
 
+```
+--set caCert=<CERT_NAME)>
+```
+
 If you would like your broker to run as an HTTPS server, you can pass the files (<b>they need to reside within the helm chart directory</b>) to the ```httpsCert``` and ```httpsKey``` paramters<br><br>
+
+```
+--set httpsCert=<CERT_NAME> --set httpsKey=<CERT_KEY>
+```
+
+### Proxy Settings
+To use this chart behind a proxy, set the ```httpProxy``` and ```httpsProxy``` values.
+
+```
+--set httpsProxy=<PROXY_URL>
+```
 
 ## Configuration
 
