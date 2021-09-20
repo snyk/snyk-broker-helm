@@ -64,6 +64,8 @@ spec:
               {{- end }}              
           {{- end }}
           env:
+            - name: BROKER_SERVER_URL
+              value: {{ .Values.brokerServerUrl }}
           {{- if eq .Values.scmType "github-com" }}
        # Github
             - name: BROKER_TOKEN
