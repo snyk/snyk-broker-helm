@@ -129,12 +129,12 @@ helm install snyk-broker-chart . \
 ```            
 <b> Allowed values for </b> ```crType```:
 
-```ArtifactoryCR```<br>
-```HarborCR```<br>
-```AzureCR```<br>
-```GoogleCR```<br>
-```DockerHub```<br>
-```QuayCR```<br>
+```artifactory-cr```<br>
+```harbor-cr```<br>
+```acr```<br>
+```gcr```<br>
+```docker-hub```<br>
+```quay-cr```<br>
 ```nexus-cr```<br>
 ```github-cr```<br>
 
