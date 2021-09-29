@@ -112,7 +112,7 @@ helm install snyk-broker-chart . \
              -n snyk-broker --create-namespace
 ```
 ## Container Registry Agent
- While the documentation for the [Snyk Broker](https://github.com/snyk/broker) requires the parameter ```CR_AGENT_URL```, it is not required in this case. You must also ensure that the ```brokerClientUrl``` value does NOT have a ```\```. 
+ While the documentation for the [Snyk Broker](https://github.com/snyk/broker) requires the parameter ```CR_AGENT_URL```, it is not required in this case. 
 
 Finally, you must include an ```accept.json``` file for this deployment. <b>You must copy the new accept.json to the /snyk-broker folder</b>
 
@@ -124,6 +124,7 @@ helm install snyk-broker-chart . \
              --set crBase=<ENTER_CR_BASE_URL> \
              --set crUsername=<ENTER_CR_URSERNAME> \
              --set crPassword=<ENTER_CR_PASSWORD> \
+             --set brokerClientUrl=http://container-registry-agent-broker-service:8000
              --set acceptJsonFile=accept.json \
              -n snyk-broker --create-namespace
 ```            

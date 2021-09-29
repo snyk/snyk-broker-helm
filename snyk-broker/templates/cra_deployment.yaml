@@ -46,7 +46,12 @@ spec:
               containerPort: {{ .Values.deployment.container.crSnykPort }}
           env:
             - name: SNYK_PORT
-              value: {{ .Values.deployment.container.crSnykPort | squote }}    
+              value: {{ .Values.deployment.container.crSnykPort | squote }} 
+         {{- if .Values.tlsRejectUnauthorized  }}
+         # Troubleshooting - Set to 0 for SSL inspection testing
+            - name: NODE_TLS_REJECT_UNAUTHORIZED
+              value: {{ .Values.tlsRejectUnauthorized }}
+         {{- end }}   
 
 ---
 apiVersion: v1

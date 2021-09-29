@@ -52,6 +52,11 @@ spec:
                 secretKeyRef:
                   name: snyk-token
                   key: snyk-token-key
+         {{- if .Values.tlsRejectUnauthorized  }}
+         # Troubleshooting - Set to 0 for SSL inspection testing
+            - name: NODE_TLS_REJECT_UNAUTHORIZED
+              value: {{ .Values.tlsRejectUnauthorized }}
+         {{- end }}
 ---                     
 apiVersion: v1
 kind: Service
