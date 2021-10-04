@@ -148,8 +148,6 @@ spec:
               value: {{ .Values.deployment.container.containerPort | squote }}
             - name: BROKER_CLIENT_URL
               value: {{ .Values.brokerClientUrl }}
-            - name: GIT_CLIENT_URL
-              value: {{ .Values.gitClientUrl}}
           {{- end }}
           {{- if eq .Values.scmType "azure-repos" }}
           # Azure Repos
