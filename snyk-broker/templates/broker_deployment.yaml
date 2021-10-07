@@ -259,7 +259,7 @@ spec:
          {{- if .Values.tlsRejectUnauthorized  }}
          # Troubleshooting - Set to 0 for SSL inspection testing
             - name: NODE_TLS_REJECT_UNAUTHORIZED
-              value: {{ .Values.tlsRejectUnauthorized }}
+              value: "0"
          {{- end }}
 
          {{- if .Values.httpProxy }}

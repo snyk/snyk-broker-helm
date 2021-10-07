@@ -309,7 +309,7 @@ helm install <ENTER_UNIQUE_CHART_NAME> . \
 ## Advanced Options
 
 There is also the ability to set more advanced parameters. For troubleshooting SSL inspection issues, you can set the 
-```tlsRejectUnauthorized``` parameter to ```0```.<br><br>
+```tlsRejectUnauthorized``` parameter to ```true```.<br><br>
 
 ```
 --set tlsRejectUnauthorized=0
