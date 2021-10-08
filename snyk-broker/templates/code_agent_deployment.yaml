@@ -44,24 +44,6 @@ spec:
           ports:
             - name: http
               containerPort: {{ .Values.deployment.container.caSnykPort }}
-          {{- if or  .Values.caCert .Values.httpsCert .Values.httpsKey  }}   
-          volumeMounts:
-              {{- if .Values.caCert }}
-              - name: {{ include "snyk-broker.fullname" . }}-cacert-volume
-                mountPath: /home/node/cacert
-                readOnly: true
-              {{- end }}
-              {{- if .Values.httpsCert }}
-              - name: {{ include "snyk-broker.fullname" . }}-httpscert-volume
-                mountPath: /home/node/httpscert
-                readOnly: true
-              {{- end }}
-              {{- if .Values.httpsKey }}
-              - name: {{ include "snyk-broker.fullname" . }}-httpskey-volume
-                mountPath: /home/node/httpskey
-                readOnly: true
-              {{- end }}              
-          {{- end }}
           env:
             - name: PORT
               value: {{ .Values.deployment.container.caSnykPort | squote }}
@@ -76,40 +58,6 @@ spec:
               value: "0"
          {{- end }}
 
-         {{- if .Values.caCert }}
-         # HTTPS Inspection 
-            - name: CA_CERT
-              value: /home/node/cacert/{{ .Values.caCert }}
-         {{- end }}
-         {{- if .Values.httpsCert }}
-         # HTTPS Config
-            - name: HTTPS_CERT
-              value: /home/node/httpscert/{{ .Values.httpsCert }}
-         {{- end }}
-         {{- if .Values.httpsKey }}
-            - name: HTTPS_KEY
-              value: /home/node/httpskey/{{ .Values.httpsKey }}
-         {{- end }}
-
-{{- if or .Values.caCert .Values.httpsCert .Values.httpsKey  }}   
-      volumes:
-      {{- if .Values.caCert }}
-      - name: {{ include "snyk-broker.fullname" . }}-cacert-volume
-        configMap:
-          name: {{ include "snyk-broker.fullname" . }}-cacert-configmap
-      {{- end }}
-      {{- if .Values.httpsCert }}
-      - name: {{ include "snyk-broker.fullname" . }}-httpscert-volume
-        configMap:
-          name: {{ include "snyk-broker.fullname" . }}-httpscert-configmap
-      {{- end }}
-      {{- if .Values.httpsKey }}
-      - name: {{ include "snyk-broker.fullname" . }}-httpskey-volume
-        configMap:
-          name: {{ include "snyk-broker.fullname" . }}-httpskey-configmap
-      {{- end }}
-      
-      {{- end }}
            
 ---                     
 apiVersion: v1
