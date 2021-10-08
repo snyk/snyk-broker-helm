@@ -178,7 +178,7 @@ helm install snyk-broker-chart . \
 There are two options available for ingress traffic. By default, the pods are not accessible from outside the cluster.
 
 ### Load Balancer
-To enable a load balancer, add the ```--set service.type=LoadBalancer```
+To enable a load balancer, add the ```--set service.<service-type>=LoadBalancer```. Allowed values are ```brokertype```, ```crType```, and ```caType```
 
 Example for Github:
 

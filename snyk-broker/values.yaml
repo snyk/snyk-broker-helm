@@ -39,7 +39,7 @@ jiraUsername: ""
 jiraPassword: ""
 jiraHostname: ""
 
-# Container Registry Broker
+# Container Registry Agent
 crType: ""
 crBase: ""
 crUsername: ""
