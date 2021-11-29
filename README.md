@@ -191,20 +191,6 @@ helm install snyk-broker-chart . \
              --set service.type=LoadBalancer \
              -n snyk-broker --create-namespace
 ```
-### Ingress Controller
-This chart can be used with an existing ingress controller. Add the ```--set enableIngress=true``` parameter to enable the feature and ```--set ingressHostname=<ENTER_INGRESS_HOSTNAME>``` to configure the host name.
-
-Example command:
-```
-helm install snyk-broker-chart . \
-             --set scmType=github-com \
-             --set brokerToken=<ENTER_BROKER_TOKEN> \
-             --set scmToken=<ENTER_REPO_TOKEN> \
-             --set brokerClientUrl=<ENTER_BROKER_CLIENT_URL>:<ENTER_BROKER_CLIENT_PORT> \
-             --set enableIngress=true \
-             --set ingressHostname=<ENTER_INGRESS_HOSTNAME>
-             -n snyk-broker --create-namespace
-```
 
 ## Secrets
 API Tokens and or Passwords use Kubernetes Secrets. Existing secrets can be used, they just need to be created in the following formats.
