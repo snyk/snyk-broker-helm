@@ -157,11 +157,6 @@ securityContextCa:
    runAsNonRoot: true
    runAsUser: 1000
 
-
-# Enable Ingress
-enableIngress: false
-ingressHostname: ""
-
 service:
   #Snyk Broker
   brokerType: ClusterIP
