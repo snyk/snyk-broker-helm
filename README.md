@@ -7,7 +7,12 @@ This is a Helm Chart to deploy the [Snyk Broker](https://github.com/snyk/broker)
 
 ## Usage
 
-Clone this repository and navigate to the ```snyk-broker``` directory.
+To add this chart, you can add the repo:
+```helm repo add snyk-broker https://metalstormbass.github.io/snyk-broker-helm/```
+
+In which case instead of ```helm install snyk-broker-chart .``` you would instead use ```helm install snyk-broker-chart snyk-broker``` for all the commands below. 
+
+Alternatively, clone this repository and navigate to the ```/charts/snyk-broker``` directory.
 
 Then run the following commands based on the repository type.
 
