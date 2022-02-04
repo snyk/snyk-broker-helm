@@ -40,9 +40,8 @@ spec:
           ports:
             - name: http
               containerPort: {{ .Values.deployment.container.containerPort }}
-          {{- if or .Values.acceptJsonFile .Values.caCert .Values.httpsCert .Values.httpsKey  }}   
           volumeMounts:
-              {{- if .Values.acceptJsonFile }}
+              {{- if (include "snyk-broker.acceptJson" .)}}
               - name: {{ include "snyk-broker.fullname" . }}-accept-volume
                 mountPath: /home/node/private
                 readOnly: true
@@ -62,7 +61,6 @@ spec:
                 mountPath: /home/node/httpskey
                 readOnly: true
               {{- end }}              
-          {{- end }}
           env:
             - name: BROKER_SERVER_URL
               value: {{ .Values.brokerServerUrl }}
@@ -274,7 +272,7 @@ spec:
               value: {{ .Values.httpsProxy }}
          {{- end }}
 
-         {{- if .Values.acceptJsonFile }}
+         {{- if (include "snyk-broker.acceptJson" .)}}
          # Accept.json Environment Variables
             - name: ACCEPT
               value: /home/node/private/accept.json
@@ -283,11 +281,9 @@ spec:
               value: /home/node/accept.json
          {{- end }}
 
-         # Mount Accept.json and Certs       
-
-      {{- if or .Values.acceptJsonFile .Values.caCert .Values.httpsCert .Values.httpsKey  }}   
+      # Mount Accept.json and Certs       
       volumes:
-      {{- if .Values.acceptJsonFile }}
+      {{- if (include "snyk-broker.acceptJson" .)}}
       - name: {{ include "snyk-broker.fullname" . }}-accept-volume
         configMap:
           name: {{ include "snyk-broker.fullname" . }}-accept-configmap
@@ -306,7 +302,4 @@ spec:
       - name: {{ include "snyk-broker.fullname" . }}-httpskey-volume
         configMap:
           name: {{ include "snyk-broker.fullname" . }}-httpskey-configmap
-      {{- end }}
-      
-      {{- end }}
-
+      {{- end }}      

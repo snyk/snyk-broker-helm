@@ -61,3 +61,10 @@ Create the name of the service account to use
 {{- end }}
 {{- end }}
 
+{{/*
+Content of accept.json configuration file (either provided via link to file within chart package or as literal value)
+*/}}
+{{- define "snyk-broker.acceptJson" -}}
+{{- if .Values.acceptJsonFile}}{{.Files.Get .Values.acceptJsonFile}}{{end}}
+{{- with .Values.acceptJson}}{{.}}{{end}}
+{{- end}}
