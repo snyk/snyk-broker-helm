@@ -159,10 +159,9 @@ helm install snyk-broker-chart . \
             --set brokerClientUrl=http://<ENTER_SCM_TYPE>-broker-service:8000 \ 
             --set enableCodeAgent=true \ 
             --set snykToken=<ENTER_SNYK_TOKEN> \
-            --set=gitClientUrl=http://code-agent-service:3000 \ 
             -n snyk-broker --create-namespace
 ```
-<b>Note: Leave the ```brokerClientUrl``` and ```gitClientUrl``` values as they are. Also, the accept.json must be in the same directory as the helm chart</b>
+<b>Note: Leave the ```brokerClientUrl``` value as it is. Also, the accept.json must be in the same directory as the helm chart</b>
 
 ## Adding accept.json
 
