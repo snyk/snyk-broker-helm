@@ -232,7 +232,7 @@ spec:
          # Code Agent
          {{- if .Values.enableCodeAgent }}
             - name: GIT_CLIENT_URL
-              value: {{ .Values.gitClientUrl}} 
+              value: {{ default (printf "http://code-agent-service:%s" (.Values.deployment.container.caSnykPort | toString)) .Values.gitClientUrl }}
          {{- end }}     
          # Logging
             - name: LOG_LEVEL
