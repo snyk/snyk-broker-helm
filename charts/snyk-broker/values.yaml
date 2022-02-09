@@ -73,6 +73,8 @@ httpsProxy: ""
 
 # Specify a local accept.json file (relative to snyk-broker folder) to inject with a ConfigMap, e.g. "files/accept.json"
 acceptJsonFile: ""
+# Specify the accept.json file contents verbatim
+acceptJson: ""
 
 image:
   repository: snyk/broker
