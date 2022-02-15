@@ -180,10 +180,11 @@ helm install snyk-broker-chart . \
 ```
 
 Alternatively, if you are using the built chart, you can run the command like so:
-```helm install snyk-broker-gitub-com snyk-broker/snyk-broker -f values.yaml -n snyk-broker --create-namespace
+```
+helm install snyk-broker-gitub-com snyk-broker/snyk-broker -f values.yaml -n snyk-broker --create-namespace
 ```
 
-The values.yaml fileshould be structured like this:
+The ```values.yaml``` file should be structured like this:
 ```
 scmType: github-com
 brokerToken: <ENTER_BROKER_TOKEN>
