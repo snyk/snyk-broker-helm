@@ -178,6 +178,37 @@ helm install snyk-broker-chart . \
              --set acceptJsonFile=accept.json \
              -n snyk-broker --create-namespace
 ```
+
+Alternatively, if you are using the built chart, you can run the command like so:
+```helm install snyk-broker-gitub-com snyk-broker/snyk-broker -f values.yaml -n snyk-broker --create-namespace
+```
+
+The values.yaml fileshould be structured like this:
+```
+scmType: github-com
+brokerToken: <ENTER_BROKER_TOKEN>
+scmToken: <ENTER_REPO_TOKEN>
+acceptJson: |-
+  {
+    "public": [
+      {
+        "//": "used for pushing up webhooks from github",
+        "method": "POST",
+        "path": "/webhook/github",
+        "valid": [
+          {
+            "//": "accept all pull request state changes (these don't have files in them)",
+            "path": "pull_request.state",
+            "value": "open"
+          },
+          {
+            "path": "commits.*.added.*",
+            "value": "package.json"
+          },
+  ...
+    ]
+  }
+```  
 ## Ingress Options
 There are two options available for ingress traffic. By default, the pods are not accessible from outside the cluster.
 
