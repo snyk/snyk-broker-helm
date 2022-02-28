@@ -57,8 +57,12 @@ spec:
             - name: NODE_TLS_REJECT_UNAUTHORIZED
               value: "0"
          {{- end }}
-
-           
+         {{- if .Values.httpsProxy }}
+         # HTTPS Proxy Settings
+            - name: HTTPS_PROXY
+              value: {{ .Values.httpsProxy }}
+         {{- end }}
+        
 ---                     
 apiVersion: v1
 kind: Service
