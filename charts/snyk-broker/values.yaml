@@ -50,6 +50,8 @@ crImage: "latest"
 enableCodeAgent: ""
 snykToken: ""
 caImage: "latest"
+
+# This is for very advanced cases, do not adjust under normal circumstances 
 gitClientUrl: ""
 
 # Logging
