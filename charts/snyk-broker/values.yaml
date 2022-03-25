@@ -2,81 +2,177 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+# Do not adjust this number. Multiple replicas can cause problems
 replicaCount: 1
 
-# Snyk Specific Values
+##### Snyk Specific Values #####
+
+# Broker Token is a value from Snyk. Get this from the integration settings page or your Snyk SE
 brokerToken: ""
+
+# brokerClientUrl is the address of the broker. This needs to be the address of itself. In the case of Kubernetes, you need to ensure that you are pointing to the cluster ingress you have setup.
 brokerClientUrl: ""
+
+# Do not touch unless directed by a Snyk Representative
 brokerServerUrl: "https://broker.snyk.io"
 
-# SCM Generic
+
+##### SCM Generic #####
+
+# scmType is used to define the Source Control that you are connecting to. See Documentation for allowed values
 scmType: "github-com"
+
+# scmToken is used for SCMs that require a personal Access Token: Github & Gitlab
 scmToken: ""
 
-# Github Enterprise
+
+##### Github Enterprise #####
+
+# GHE URL
 github: ""
+
+# GHE API Address
 githubApi: ""
+
+# GHE Graph QL Address
 githubGraphQl: ""
 
-# Bitbucket Server 
+
+##### Bitbucket Server #####
+
+# Bitbucket Username
 bitbucketUsername: ""
+
+# Bitbucket Password
 bitbucketPassword: ""
+
+# Bitbucket URL
 bitbucket: ""
+
+# Bitbucket API URL
 bitbucketApi: "" 
 
-# GitLab
+
+##### GitLab #####
+
+# Gitlab URL
 gitlab: ""
 
-# Azure Repos
+
+##### Azure Repos #####
+
+# Azure Repos Organization
 azureReposOrg: ""
+
+# Azure Repos Hostname
 azureReposHost: ""
 
-# Artifactory
+# Azure Repos Token
+azureReposToken: ""
+
+
+##### Artifactory #####
+
+# Artifactory URL
 artifactoryUrl: ""
 
-# Jira
+
+##### Jira #####
+
+# Jira Username
 jiraUsername: ""
+
+# Jira Password
 jiraPassword: ""
+
+# Jira Hostname
 jiraHostname: ""
 
-# Container Registry Agent
+
+##### Container Registry Agent #####
+
+# Container Registry Type. See Documentation for allowed values
 crType: ""
+
+# Container Registry Base URL
 crBase: ""
+
+# Container Registry Username
 crUsername: ""
+
+# Container Registry Password
 crPassword: ""
+
+# CRA Image tag. Do not adjust unless instructed by Snyk Representative
 crImage: "latest"
 
-# Code Agent
+
+##### Code Agent #####
+
+# Set to true to enable Code Agent
 enableCodeAgent: ""
+
+# Snyk API key. Allows Code Agent to upload source code
 snykToken: ""
+
+#CA Image Tag. Do not touch unless instructed by Snyk Representative
 caImage: "latest"
 
-# This is for very advanced cases, do not adjust under normal circumstances 
+# Used to allow communication between the code agent and the broker. The helm chart already connects everything. Only adjust this value if advised to by Snyk Representative.
 gitClientUrl: ""
 
-# Logging
+
+##### Logging #####
+
+# Default Log Level. Can be set to "debug"
 logLevel: "info"
+
+# Add additional logging by setting to true
 logEnableBody: "false"
 
-## Advanced
-#Enable HTTPS
+
+##### Enable HTTPS #####
+
+# Location of mounted cert
 httpsCert: ""
+
+# Location of mounted HTTPS key
 httpsKey: ""
 
-#HTTPS Inspection 
+
+##### HTTPS Inspection #####
+
+# Location of mounted custom certificate. To allow visibility for SSL Inspection
 caCert: ""
 
-#Troubleshooting HTTPS Inspection
+# Troubleshooting HTTPS Inspection. Setting any value here will ignore self signed certificates
 tlsRejectUnauthorized: "" 
 
-#Use behind proxy
+
+##### Use behind proxy #####
+
+# HTTP Proxy URL
 httpProxy: ""
+
+# HTTPS Proxy URL
 httpsProxy: ""
 
 # Specify a local accept.json file (relative to snyk-broker folder) to inject with a ConfigMap, e.g. "files/accept.json"
 acceptJsonFile: ""
-# Specify the accept.json file contents verbatim
+
+# Specify the accept.json file contents verbatim. Should look something like:
+# acceptJson: |-
+#   {
+#    "public": [
+#      {
+#        "//": "used for pushing up webhooks from github",
+#        "method": "POST",
+#        "path": "/webhook/github",
+
 acceptJson: ""
+
+
+##### Broker Image Parameters #####
 
 image:
   repository: snyk/broker
@@ -86,6 +182,8 @@ image:
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
 
+
+##### Broker Resource Values #####
 brokerResources:
    limits:
      cpu: 1
@@ -94,6 +192,9 @@ brokerResources:
      cpu: 1
      memory: "256Mi"
 
+
+##### Container Registry Agent Resource Values #####
+
 crResources:
    limits:
      cpu: 1
@@ -101,6 +202,8 @@ crResources:
    requests:
      cpu: 1
      memory: "2Gi"
+
+##### Code Agent Resource Values #####
 
 caResources:
    limits:
@@ -111,7 +214,8 @@ caResources:
      memory: "2Gi"
    storage: "2Gi"
 
-#Container port for Snyk Broker
+
+##### Ports for Broker, Code Agent, Container Registry Agent #####
 deployment:
    container: 
      containerPort: 8000
@@ -119,6 +223,9 @@ deployment:
      caSnykPort: 3000
 nameOverride: ""
 fullnameOverride: ""
+
+
+##### Service Account Values. Nothing to change here #####
 
 serviceAccount:
   # Specifies whether a service account should be created
@@ -132,7 +239,10 @@ serviceAccount:
 podAnnotations: {}
 
 podSecurityContext: {}
-  # fsGroup: 2000
+ 
+
+##### Security Context #####
+# These can be adjusted at your own risk. 
 
 securityContext: 
    capabilities:
@@ -161,10 +271,17 @@ securityContextCa:
    runAsNonRoot: true
    runAsUser: 1000
 
+##### Service Types #####
+# If you prefer to adjust how communication to the cluster occurs, these values can be adjusted
 service:
-  #Snyk Broker
+ 
+  # Snyk Broker
   brokerType: ClusterIP
+ 
+  # Container Registry Agent 
   crType: ClusterIP
+
+  # Code Agent
   caType: ClusterIP
   port: 8000
 
@@ -174,6 +291,8 @@ service:
   #    hosts:
   #      - chart-example.local
 
+
+##### Do not adjust these settings. The Broker is not deigned to work with multiple replicas
 
 autoscaling:
   enabled: false
