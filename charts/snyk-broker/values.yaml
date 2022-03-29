@@ -7,10 +7,11 @@ replicaCount: 1
 
 ##### Snyk Specific Values #####
 
-# Broker Token is a value from Snyk. Get this from the integration settings page or your Snyk SE
+# Broker Token is a value from Snyk. Get this from the integration settings page or your Snyk Representative
 brokerToken: ""
 
 # brokerClientUrl is the address of the broker. This needs to be the address of itself. In the case of Kubernetes, you need to ensure that you are pointing to the cluster ingress you have setup.
+# Ex: http://kubernetes-ingress.domain.com:8000/broker
 brokerClientUrl: ""
 
 # Do not touch unless directed by a Snyk Representative
@@ -19,7 +20,18 @@ brokerServerUrl: "https://broker.snyk.io"
 
 ##### SCM Generic #####
 
-# scmType is used to define the Source Control that you are connecting to. See Documentation for allowed values
+# scmType is used to define the Source Control that you are connecting to. 
+
+# Allowed values for scmType:
+#   Github.com: github-com
+#   Github Enterprise: github-enterprise
+#   Bitbucket: bitbucket-server
+#   Gitlab: gitlab
+#   Azure Repos: azure-repos
+#   Artifactory: artifactory
+#   Jira: jira
+#   Container Registry Agent: container-registry-agent
+
 scmType: "github-com"
 
 # scmToken is used for SCMs that require a personal Access Token: Github & Gitlab
@@ -28,13 +40,13 @@ scmToken: ""
 
 ##### Github Enterprise #####
 
-# GHE URL
+# GHE URL - Ex: your.ghe.domain.com (do not prepend HTTPS) - For GHE Cloud use api.github.com
 github: ""
 
-# GHE API Address
+# GHE API Address - do not prepend HTTPS
 githubApi: ""
 
-# GHE Graph QL Address
+# GHE Graph QL Address - do not prepend HTTPS
 githubGraphQl: ""
 
 
@@ -46,16 +58,16 @@ bitbucketUsername: ""
 # Bitbucket Password
 bitbucketPassword: ""
 
-# Bitbucket URL
+# Bitbucket URL - do not prepend HTTPS
 bitbucket: ""
 
-# Bitbucket API URL
+# Bitbucket API URL - do not prepend HTTPS
 bitbucketApi: "" 
 
 
 ##### GitLab #####
 
-# Gitlab URL
+# Gitlab URL - do not prepend HTTPS
 gitlab: ""
 
 
@@ -64,7 +76,7 @@ gitlab: ""
 # Azure Repos Organization
 azureReposOrg: ""
 
-# Azure Repos Hostname
+# Azure Repos Hostname - do not prepend HTTPS
 azureReposHost: ""
 
 # Azure Repos Token
@@ -73,7 +85,7 @@ azureReposToken: ""
 
 ##### Artifactory #####
 
-# Artifactory URL
+# Artifactory URL - do not prepend HTTPS
 artifactoryUrl: ""
 
 
@@ -85,7 +97,7 @@ jiraUsername: ""
 # Jira Password
 jiraPassword: ""
 
-# Jira Hostname
+# Jira Hostname - do not prepend HTTPS
 jiraHostname: ""
 
 
@@ -94,7 +106,7 @@ jiraHostname: ""
 # Container Registry Type. See Documentation for allowed values
 crType: ""
 
-# Container Registry Base URL
+# Container Registry Base URL - do not prepend HTTPS
 crBase: ""
 
 # Container Registry Username
@@ -109,22 +121,22 @@ crImage: "latest"
 
 ##### Code Agent #####
 
-# Set to true to enable Code Agent
+# Set to 'true' to enable Code Agent
 enableCodeAgent: ""
 
-# Snyk API key. Allows Code Agent to upload source code
+# Snyk API token. Allows Code Agent to upload source code. Group > Settings > Service Accounts 
 snykToken: ""
 
 #CA Image Tag. Do not touch unless instructed by Snyk Representative
 caImage: "latest"
 
-# Used to allow communication between the code agent and the broker. The helm chart already connects everything. Only adjust this value if advised to by Snyk Representative.
+# Only adjust this value if advised to by Snyk Representative. This is the URL of the Snyk Code Agent. This helm chart already connects everything. 
 gitClientUrl: ""
 
 
 ##### Logging #####
 
-# Default Log Level. Can be set to "debug"
+# Default Log Level. Can be set to "debug" for more information
 logLevel: "info"
 
 # Add additional logging by setting to true
@@ -142,22 +154,23 @@ httpsKey: ""
 
 ##### HTTPS Inspection #####
 
-# Location of mounted custom certificate. To allow visibility for SSL Inspection
+# Not supported by Snyk Container Registry Agent or Snyk Code Agent (use tlsRejectUnauthorized instead). Location of mounted custom certificate. To allow visibility for SSL Inspection. 
 caCert: ""
 
-# Troubleshooting HTTPS Inspection. Setting any value here will ignore self signed certificates
+# Set to "0" to disable trust validation when using self signed certificates. 
 tlsRejectUnauthorized: "" 
 
 
 ##### Use behind proxy #####
 
-# HTTP Proxy URL
+# Do not change unless advised by your Snyk Representative. You probably need to use HTTPS proxy setting and leave this blank. - HTTP Proxy URL 
 httpProxy: ""
 
-# HTTPS Proxy URL
+# HTTPS Proxy URL - This will apply to both Snyk Broker and Snyk Code Agent
 httpsProxy: ""
 
 # Specify a local accept.json file (relative to snyk-broker folder) to inject with a ConfigMap, e.g. "files/accept.json"
+# The accept.json file needs to be modified for use with Snyk Code. 
 acceptJsonFile: ""
 
 # Specify the accept.json file contents verbatim. Should look something like:
