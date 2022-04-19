@@ -217,8 +217,8 @@ spec:
             - name: CR_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: crpassword
-                  key: crPassword                      
+                  name: {{ .Values.scmType}}-token
+                  key: "{{ .Values.scmType}}-token-key"                   
             - name: PORT
               value: {{ .Values.deployment.container.containerPort | squote }}
             - name: BROKER_CLIENT_URL

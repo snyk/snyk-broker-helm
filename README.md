@@ -256,41 +256,6 @@ data:
   <ENTER_SCM_TYPE>-token-key: <BASE64_ENCODED_SECRET>
 ```
 
-### Bitbucket Password
-
-```
-apiVersion: v1
-kind: Secret
-metadata:
-  name: bitbucketpassword
-type: Opaque
-data:
-  "bitbucketPassword": <BASE64_ENCODED_SECRET>
-```
-
-### Jira Password 
-
-```
-apiVersion: v1
-kind: Secret
-metadata:
-  name: jirapassword
-type: Opaque
-data:
-  "jiraPassword": <BASE64_ENCODED_SECRET>
-```
-
-### Container Registry Secret 
-
-```
-apiVersion: v1
-kind: Secret
-metadata:
-  name: crpassword
-type: Opaque
-data:
-  "crPassword": <BASE64_ENCODED_SECRET> 
- ``` 
 
 ## Service Accounts
 
