@@ -8,7 +8,7 @@ This is a Helm Chart to deploy the [Snyk Broker](https://github.com/snyk/broker)
 ## Usage
 
 To add this chart, you can add the repo:
-```helm repo add snyk-broker https://metalstormbass.github.io/snyk-broker-helm/```
+```helm repo add snyk-broker https://snyk.github.io/snyk-broker-helm/```
 
 In which case instead of ```helm install snyk-broker-chart .``` you would instead use ```helm install snyk-broker-chart snyk-broker``` for all the commands below. 
 
@@ -156,12 +156,12 @@ helm install snyk-broker-chart . \
              --set scmToken=<ENTER_SCM_TOKEN> \
              --set gitlab=<ENTER_GITLAB_URL>  \
             --set acceptJsonFile=accept.json \
-            --set brokerClientUrl=http://<ENTER_SCM_TYPE>-broker-service:8000 \ 
+            --set brokerClientUrl=http://<BROKER_CLIENT_URL> \ 
             --set enableCodeAgent=true \ 
             --set snykToken=<ENTER_SNYK_TOKEN> \
             -n snyk-broker --create-namespace
 ```
-<b>Note: Leave the ```brokerClientUrl``` value as it is. Also, the accept.json must be in the same directory as the helm chart</b>
+<b>Note: The ```brokerClientUrl``` is going to be the address of the Broker Container. The default port for the broker container is ```8000```. See the values file for more information. Also, the accept.json must be in the same directory as the helm chart</b>
 
 ## Adding accept.json
 
@@ -256,41 +256,6 @@ data:
   <ENTER_SCM_TYPE>-token-key: <BASE64_ENCODED_SECRET>
 ```
 
-### Bitbucket Password
-
-```
-apiVersion: v1
-kind: Secret
-metadata:
-  name: bitbucketpassword
-type: Opaque
-data:
-  "bitbucketPassword": <BASE64_ENCODED_SECRET>
-```
-
-### Jira Password 
-
-```
-apiVersion: v1
-kind: Secret
-metadata:
-  name: jirapassword
-type: Opaque
-data:
-  "jiraPassword": <BASE64_ENCODED_SECRET>
-```
-
-### Container Registry Secret 
-
-```
-apiVersion: v1
-kind: Secret
-metadata:
-  name: crpassword
-type: Opaque
-data:
-  "crPassword": <BASE64_ENCODED_SECRET> 
- ``` 
 
 ## Service Accounts
 

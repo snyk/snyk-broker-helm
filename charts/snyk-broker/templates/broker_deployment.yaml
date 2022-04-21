@@ -117,8 +117,8 @@ spec:
             - name: BITBUCKET_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: bitbucketpassword
-                  key: bitbucketPassword
+                  name: {{ .Values.scmType}}-token
+                  key: "{{ .Values.scmType}}-token-key"
             - name: BITBUCKET
               value: {{ .Values.bitbucket }}
             - name: BITBUCKET_API
@@ -190,8 +190,8 @@ spec:
             - name: JIRA_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: jirapassword
-                  key: jiraPassword
+                  name: {{ .Values.scmType}}-token
+                  key: "{{ .Values.scmType}}-token-key"
             - name: JIRA_HOSTNAME
               value: {{ .Values.jiraHostname }}        
             - name: PORT
@@ -217,8 +217,8 @@ spec:
             - name: CR_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: crpassword
-                  key: crPassword                      
+                  name: {{ .Values.scmType}}-token
+                  key: "{{ .Values.scmType}}-token-key"                   
             - name: PORT
               value: {{ .Values.deployment.container.containerPort | squote }}
             - name: BROKER_CLIENT_URL
