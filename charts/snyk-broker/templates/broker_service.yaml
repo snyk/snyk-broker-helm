@@ -3,6 +3,10 @@ kind: Service
 metadata:
   name: "{{ .Values.scmType}}-broker-service"
   namespace: {{ .Release.Namespace }}
+  {{- with .Values.serviceAnnotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
   labels:
     {{- include "snyk-broker.labels" . | nindent 4 }}
 spec:
