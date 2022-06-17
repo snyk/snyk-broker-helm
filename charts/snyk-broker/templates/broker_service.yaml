@@ -5,8 +5,20 @@ metadata:
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "snyk-broker.labels" . | nindent 4 }}
+{{- if .Values.service.annotations }}
+  annotations:
+{{ toYaml .Values.service.annotations | indent 4 }}
+{{- end }}
 spec:
   type: {{ .Values.service.brokerType }}
+{{- if eq .Values.service.brokerType "LoadBalancer" }}
+  {{ if .Values.service.loadBalancerIP -}}
+  loadBalancerIP: {{ .Values.service.loadBalancerIP }}
+  {{ end -}}
+  {{- if .Values.service.externalTrafficPolicy }}
+  externalTrafficPolicy: {{ .Values.service.externalTrafficPolicy }}
+  {{- end }}
+{{- end }}
   ports:
     - port: {{ .Values.service.port }}
       targetPort: {{ .Values.deployment.container.containerPort }}
