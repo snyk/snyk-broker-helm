@@ -1,0 +1,79 @@
+{{- if .Values.brokerIngress.enabled -}}
+{{- $ingressApiIsStable := eq (include "snyk-broker.ingress.isStable" .) "true" -}}
+{{- $ingressSupportsIngressClassName := eq (include "snyk-broker.ingress.supportsIngressClassName" .) "true" -}}
+{{- $ingressSupportsPathType := eq (include "snyk-broker.ingress.supportsPathType" .) "true" -}}
+{{- $fullName := include "snyk-broker.fullname" . -}}
+{{- $scmType := .Values.scmType -}}
+{{- $servicePort := .Values.service.port -}}
+{{- $ingressPath := .Values.brokerIngress.path -}}
+{{- $ingressPathType := .Values.brokerIngress.pathType -}}
+{{- $extraPaths := .Values.brokerIngress.extraPaths -}}
+apiVersion: {{ include "snyk-broker.ingress.apiVersion" . }}
+kind: Ingress
+metadata:
+  name: {{ $fullName }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "snyk-broker.labels" . | nindent 4 }}
+    {{- with .Values.brokerIngress.labels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+  {{- if .Values.brokerIngress.annotations }}
+  annotations:
+    {{- range $key, $value := .Values.brokerIngress.annotations }}
+    {{ $key }}: {{ tpl $value $ | quote }}
+    {{- end }}
+  {{- end }}
+spec:
+  {{- if and $ingressSupportsIngressClassName .Values.brokerIngress.ingressClassName }}
+  ingressClassName: {{ .Values.brokerIngress.ingressClassName }}
+  {{- end -}}
+{{- if .Values.brokerIngress.tls }}
+  tls:
+{{ tpl (toYaml .Values.brokerIngress.tls) $ | indent 4 }}
+{{- end }}
+  rules:
+  {{- if .Values.brokerIngress.hosts  }}
+  {{- range .Values.brokerIngress.hosts }}
+    - host: {{ tpl . $}}
+      http:
+        paths:
+{{- if $extraPaths }}
+{{ toYaml $extraPaths | indent 10 }}
+{{- end }}
+          - path: {{ $ingressPath }}
+            {{- if $ingressSupportsPathType }}
+            pathType: {{ $ingressPathType }}
+            {{- end }}
+            backend:
+              {{- if $ingressApiIsStable }}
+              service:
+                name: {{ $scmType }}-broker-service
+                port:
+                  number: {{ $servicePort }}
+              {{- else }}
+              serviceName: {{ $scmType }}-broker-service
+              servicePort: {{ $servicePort }}
+              {{- end }}
+  {{- end }}
+  {{- else }}
+    - http:
+        paths:
+          - backend:
+              {{- if $ingressApiIsStable }}
+              service:
+                name: {{ $scmType }}-broker-service
+                port:
+                  number: {{ $servicePort }}
+              {{- else }}
+              serviceName: {{ $scmType }}-broker-service
+              servicePort: {{ $servicePort }}
+              {{- end }}
+            {{- if $ingressPath }}
+            path: {{ $ingressPath }}
+            {{- end }}
+            {{- if $ingressSupportsPathType }}
+            pathType: {{ $ingressPathType }}
+            {{- end }}
+  {{- end -}}
+{{- end }}
