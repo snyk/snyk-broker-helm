@@ -232,6 +232,11 @@ brokerReadinessProbe:
     failureThreshold: 3
 
 
+##### Broker Image Pull Secrets Parameters #####
+
+imagePullSecrets: []
+# - name: registrySecretName
+
 ##### Broker Resource Values #####
 brokerResources:
    limits:
