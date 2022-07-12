@@ -124,7 +124,7 @@ Finally, you must include an ```accept.json``` file for this deployment. <b>You 
 ```
 helm install snyk-broker-chart . \
              --set scmType=container-registry-agent \
-             --set brokerClientUrl=http://container-registry-agent-broker-service:8000\
+             --set brokerClientUrl=http://container-registry-agent-broker-service:8000 \
              --set brokerToken=<ENTER_BROKER_TOKEN> \
              --set crType=<ENTER_CR_TYPE>\
              --set crBase=<ENTER_CR_BASE_URL> \
