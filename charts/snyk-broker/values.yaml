@@ -196,6 +196,11 @@ image:
   tag: ""
 
 
+##### Broker Image Pull Secrets Parameters #####
+
+imagePullSecrets: []
+# - name: registrySecretName
+
 ##### Broker Resource Values #####
 brokerResources:
    limits:
