@@ -21,7 +21,9 @@ spec:
       labels:
         {{- include "snyk-broker.selectorLabels" . | nindent 8 }}
     spec:
+      {{- if .Values.serviceAccount.enabled }}
       serviceAccountName: {{ include "snyk-broker.serviceAccountName" . }}
+      {{- end }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:

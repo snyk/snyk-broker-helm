@@ -25,7 +25,9 @@ spec:
         app.kubernetes.io/name: {{ .Release.Name }}-ca
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
+      {{- if .Values.serviceAccount.enabled }}
       serviceAccountName: {{ include "snyk-broker.serviceAccountName" . }}
+      {{- end }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
