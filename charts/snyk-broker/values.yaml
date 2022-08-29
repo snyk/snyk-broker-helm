@@ -123,6 +123,8 @@ crImage: "latest"
 
 # Set to 'true' to enable Code Agent
 enableCodeAgent: ""
+# Only adjust this value if advised to by Snyk Representative. Used to upload content to non-standard environment. 
+upstreamUrlCodeAgent: ""
 
 # Snyk API token. Allows Code Agent to upload source code. Group > Settings > Service Accounts 
 snykToken: ""
