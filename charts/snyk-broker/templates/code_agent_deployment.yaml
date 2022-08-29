@@ -47,10 +47,10 @@ spec:
           env:
             - name: PORT
               value: {{ .Values.deployment.container.caSnykPort | squote }}
-            {{ if .Values.upstreamUrlCodeAgent }}
+            {{- if .Values.upstreamUrlCodeAgent }}
             - name: UPSTREAM_URL
               value:  {{ .Values.upstreamUrlCodeAgent | squote }}
-            {{ - end}}
+            {{- end }}
             - name: SNYK_TOKEN
               valueFrom:
                 secretKeyRef:
