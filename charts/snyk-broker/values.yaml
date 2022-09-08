@@ -171,6 +171,9 @@ httpProxy: ""
 # HTTPS Proxy URL - This will apply to both Snyk Broker and Snyk Code Agent
 httpsProxy: ""
 
+# Proxy Authentication - This should be in the following format [userID]:[userPassword]
+proxyAuth: ""
+
 # Specify a local accept.json file (relative to snyk-broker folder) to inject with a ConfigMap, e.g. "files/accept.json"
 # The accept.json file needs to be modified for use with Snyk Code. 
 acceptJsonFile: ""
