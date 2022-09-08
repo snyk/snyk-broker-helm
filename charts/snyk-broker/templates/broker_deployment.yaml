@@ -271,6 +271,12 @@ spec:
             - name: HTTPS_PROXY
               value: {{ .Values.httpsProxy }}
          {{- end }}
+         
+         {{- if .Values.proxyAuth }}
+         # Proxy Authentication Settings
+            - name: PROXY_AUTH
+              value: {{ .Values.proxyAuth }}
+         {{- end}}
 
          {{- if (include "snyk-broker.acceptJson" .)}}
          # Accept.json Environment Variables
