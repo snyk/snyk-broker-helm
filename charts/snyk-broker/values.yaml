@@ -18,6 +18,7 @@ brokerClientUrl: ""
 brokerServerUrl: "https://broker.snyk.io"
 
 
+
 ##### SCM Generic #####
 
 # scmType is used to define the Source Control that you are connecting to. 
@@ -196,6 +197,30 @@ image:
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
+
+# Health and System Check Paths for the broker
+healthCheckPath: &healthCheckPath "/healthcheck"
+systemCheckPath: &systemCheckPath "/systemcheck"
+
+# Configure K8s Liveness and Readiness Probes for broker
+brokerLivenessProbe:
+  enabled: true
+  path: *healthCheckPath
+  config:
+    initialDelaySeconds: 3
+    periodSeconds: 10
+    timeoutSeconds: 1
+    failureThreshold: 3  
+
+
+brokerReadinessProbe:
+  enabled: true
+  path: *systemCheckPath
+  config:
+    initialDelaySeconds: 3
+    periodSeconds: 10
+    timeoutSeconds: 1
+    failureThreshold: 3
 
 
 ##### Broker Resource Values #####
