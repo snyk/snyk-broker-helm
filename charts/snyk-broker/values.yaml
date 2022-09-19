@@ -215,7 +215,7 @@ brokerLivenessProbe:
 
 brokerReadinessProbe:
   enabled: true
-  path: *systemCheckPath
+  path: *healthCheckPath
   config:
     initialDelaySeconds: 3
     periodSeconds: 10
