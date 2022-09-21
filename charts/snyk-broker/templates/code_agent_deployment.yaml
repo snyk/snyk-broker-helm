@@ -31,12 +31,7 @@ spec:
       containers:
         - name: code-agent
           resources:
-            limits:
-              cpu: {{ .Values.caResources.limits.cpu }}
-              memory: {{ .Values.caResources.limits.memory }}
-            requests:
-              cpu: {{ .Values.caResources.requests.cpu }}
-              memory: {{ .Values.caResources.requests.memory}}
+            {{- toYaml .Values.caResources | nindent 12 }}
           securityContext:
             {{- toYaml .Values.securityContextCa | nindent 12 }}
           image: "{{ .Values.image.caRepository }}:{{ .Values.caImage}}"

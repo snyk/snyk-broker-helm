@@ -27,12 +27,7 @@ spec:
       containers:
         - name: "{{ .Values.scmType}}-broker"
           resources:
-            limits:
-              cpu: {{ .Values.brokerResources.limits.cpu }}
-              memory: {{ .Values.brokerResources.limits.memory }}
-            requests:
-              cpu: {{ .Values.brokerResources.requests.cpu }}
-              memory: {{ .Values.brokerResources.requests.memory}}
+            {{- toYaml .Values.brokerResources | nindent 12 }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.scmType}}"
