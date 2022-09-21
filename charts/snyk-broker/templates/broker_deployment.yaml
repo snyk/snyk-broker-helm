@@ -54,7 +54,7 @@ spec:
               path: {{ .Values.brokerReadinessProbe.path }}
             {{- toYaml .Values.brokerReadinessProbe.config | nindent 12 }}
           {{- end }}
-           {{- if .Values.brokerStartupProbe.enabled }}
+          {{- if .Values.brokerStartupProbe.enabled }}
           startupProbe:
             httpGet:
               port: {{ .Values.deployment.container.containerPort }}
