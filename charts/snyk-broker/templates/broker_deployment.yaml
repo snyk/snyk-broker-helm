@@ -40,6 +40,20 @@ spec:
           ports:
             - name: http
               containerPort: {{ .Values.deployment.container.containerPort }}
+          {{- if .Values.brokerLivenessProbe.enabled }}
+          livenessProbe:
+            httpGet:
+              port: {{ .Values.deployment.container.containerPort }}
+              path: {{ .Values.brokerLivenessProbe.path }}
+            {{- toYaml .Values.brokerLivenessProbe.config | nindent 12 }}
+          {{- end }}
+          {{- if .Values.brokerReadinessProbe.enabled }}
+          readinessProbe:
+            httpGet:
+              port: {{ .Values.deployment.container.containerPort }}
+              path: {{ .Values.brokerReadinessProbe.path }}
+            {{- toYaml .Values.brokerReadinessProbe.config | nindent 12 }}
+          {{- end }}
           volumeMounts:
               {{- if (include "snyk-broker.acceptJson" .)}}
               - name: {{ include "snyk-broker.fullname" . }}-accept-volume
@@ -64,6 +78,10 @@ spec:
           env:
             - name: BROKER_SERVER_URL
               value: {{ .Values.brokerServerUrl }}
+            - name: BROKER_HEALTHCHECK_PATH
+              value: {{ .Values.healthCheckPath }}
+            - name: BROKER_SYSTEMCHECK_PATH
+              value: {{ .Values.systemCheckPath }}
           {{- if eq .Values.scmType "github-com" }}
        # Github
             - name: BROKER_TOKEN
