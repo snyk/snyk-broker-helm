@@ -116,6 +116,15 @@ crUsername: ""
 # Container Registry Password
 crPassword: ""
 
+# Container Role ARN (Only for ECR)
+crRoleArn: ""
+
+# Container Region (Only for ECR)
+crRegion: ""
+
+# Container External ID (Only for ECR)
+crExternalId: ""
+
 # CRA Image tag. Do not adjust unless instructed by Snyk Representative
 crImage: "latest"
 
