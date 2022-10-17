@@ -237,6 +237,12 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.scmType}}-token
                   key: "{{ .Values.scmType}}-token-key"                   
+            - name: CR_ROLE_ARN
+              value: {{ .Values.crRoleArn }}
+            - name: CR_REGION
+              value: {{ .Values.crRegion }}
+            - name: CR_EXTERNAL_ID
+              value: {{ .Values.crExternalId }}
             - name: PORT
               value: {{ .Values.deployment.container.containerPort | squote }}
             - name: BROKER_CLIENT_URL
