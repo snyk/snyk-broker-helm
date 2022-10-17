@@ -237,6 +237,11 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.scmType}}-token
                   key: "{{ .Values.scmType}}-token-key"                   
+            - name: CR_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.scmType}}-token
+                  key: "{{ .Values.scmType}}-token-key"
             - name: CR_ROLE_ARN
               value: {{ .Values.crRoleArn }}
             - name: CR_REGION

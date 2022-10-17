@@ -125,6 +125,9 @@ crRegion: ""
 # Container External ID (Only for ECR)
 crExternalId: ""
 
+# Container Authentication Token (Only for DigitalOcean)
+crToken: ""
+
 # CRA Image tag. Do not adjust unless instructed by Snyk Representative
 crImage: "latest"
 
