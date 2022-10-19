@@ -143,6 +143,44 @@ helm install snyk-broker-chart . \
 ```quay-cr```<br>
 ```nexus-cr```<br>
 ```github-cr```<br>
+```ecr```<br>
+```digitalocean-cr```
+
+### Custom Container Registry Agent parameters
+The following Container Registry types (crType) require specific parameters.
+
+#### Elastic Container Registry (ecr)
+* crRoleArn
+* crRegion
+* crExternalId
+
+```
+helm install snyk-broker-chart . \
+             --set scmType=container-registry-agent \
+             --set brokerClientUrl=http://container-registry-agent-broker-service:8000 \
+             --set brokerToken=<ENTER_BROKER_TOKEN> \
+             --set crType=ecr \
+             --set crRoleArn=<ENTER_CR_ROLE_ARN> \
+             --set crRegion=<ENTER_CR_REGION> \
+             --set crExternalId=<ENTER_CR_EXTERNAL_ID> \
+             --set acceptJsonFile=accept.json \
+             -n snyk-broker --create-namespace
+```            
+
+#### DigitalOcean Container Registry (digitalocean-cr)
+* crToken
+
+```
+helm install snyk-broker-chart . \
+             --set scmType=container-registry-agent \
+             --set brokerClientUrl=http://container-registry-agent-broker-service:8000 \
+             --set brokerToken=<ENTER_BROKER_TOKEN> \
+             --set crType=digitalocean-cr \
+             --set crBase=<ENTER_CR_BASE_URL> \
+             --set crToken=<ENTER_CR_TOKEN> \
+             --set acceptJsonFile=accept.json \
+             -n snyk-broker --create-namespace
+```            
 
 ## Snyk Code Agent
 To deploy the Snyk Code Agent, you must set the ```enableCodeAgent``` flag to ```true```. See more information about the [Snyk Code Agent](https://docs.snyk.io/features/snyk-broker/snyk-broker-code-agent). Ensure you have the proper entries in the accept.json file. Grab the example file for the appropriate SCM [HERE](https://github.com/snyk/broker/tree/master/client-templates). Ensure you have the additional entries as specified by the Snyk Code Agent documentation.
