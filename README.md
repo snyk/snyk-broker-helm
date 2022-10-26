@@ -10,7 +10,7 @@ This is a Helm Chart to deploy the [Snyk Broker](https://github.com/snyk/broker)
 To add this chart, you can add the repo:
 ```helm repo add snyk-broker https://snyk.github.io/snyk-broker-helm/```
 
-In which case instead of ```helm install snyk-broker-chart .``` you would instead use ```helm install snyk-broker-chart snyk-broker``` for all the commands below. 
+In which case instead of ```helm install snyk-broker-chart .``` you would instead use ```helm install snyk-broker-chart snyk-broker/snyk-broker``` for all the commands below. 
 
 Alternatively, clone this repository and navigate to the ```/charts/snyk-broker``` directory.
 
