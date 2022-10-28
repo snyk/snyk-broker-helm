@@ -384,6 +384,7 @@ To use this chart behind a proxy, set the ```httpProxy``` and ```httpsProxy``` v
 | `logLevel`                            | Log Verbosity                                                               | `info`                                                                        |
 | `logEnableBody`                       | Enable Log Body                                                             | `false`                                                                       |
 | `image.repository`                    | Broker Image                                                                | `snyk/broker`                                                                 |
+| `image.tag`                           | Tag of image                                                                | ` `                                                                             |
 | `deployment.container.containerPort`  | Container Port (Back End)                                                   | `8000`                                                                        |
 | `serviceAccount.name`                 | Name of service account to be created                                       | `snyk-broker`                                                                 |
 | `service.port`                        | Front End Port for broker client                                            | `8000`                                                                        |
