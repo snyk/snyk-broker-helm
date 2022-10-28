@@ -207,7 +207,7 @@ image:
   crRepository: snyk/container-registry-agent
   caRepository: snyk/code-agent
   pullPolicy: Always
-  # Overrides the image tag whose default is the chart appVersion.
+  # Overrides the image tag. If left empty the latest version is used
   tag: ""
 
 # Health and System Check Paths for the broker

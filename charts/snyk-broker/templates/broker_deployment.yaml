@@ -35,7 +35,11 @@ spec:
               memory: {{ .Values.brokerResources.requests.memory}}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.scmType}}"
+          {{- if .Values.image.tag }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}-{{ .Values.scmType }}"
+          {{- else }}
+          image: "{{ .Values.image.repository }}:{{ .Values.scmType }}"
+          {{- end }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
