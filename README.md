@@ -359,12 +359,23 @@ To use this chart behind a proxy, set the ```httpProxy``` and ```httpsProxy``` v
 --set httpsProxy=<PROXY_URL>
 ```
 
+### Multi-tenant Settings
+To use this chart with different multi-tenant environments, set the ```brokerServerUrl``` to be one of the following URLs depending which environment you are using:
+
+Europe: ```https://broker.eu.snyk.io ```<br>
+Australia: ```https://broker.au.snyk.io ```<br>
+
+```
+--set brokerServerUrl=<BROKER_SERVER_URL>
+```
+
 ## Configuration
 
 | Parameter                             | Description                                                                 | Default value                                                                 |
 | :-------------------------------------| :---------------------------------------------------------------------------| :---------------------------------------------------------------------------- |
 | `brokerToken`                         | Snyk Broker Token                                                           | ` `                                                                           |
-| `brokerClientUrl`                     | URL of Broker Client                                                        | ` `                                                                           |
+| `brokerClientUrl`                     | URL of Broker Client                                                        | ` `
+| `brokerServerUrl`                     | URL of Broker Server                                                        | `https://broker.snyk.io`                                                                                  |
 | `scmType`                             | SCM Type - See above for allowed values                                     | `github-com`                                                                  |
 | `scmToken`                            | API Token for SCM Provider (unless username/password require)               | ` `                                                                           |
 | `github`                              | URL for Github Enterprise                                                   | ` `                                                                           |
