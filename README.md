@@ -362,8 +362,8 @@ To use this chart behind a proxy, set the ```httpProxy``` and ```httpsProxy``` v
 ### Multi-tenant Settings
 To use this chart with different multi-tenant environments, set the ```brokerServerUrl``` to be one of the following URLs depending which environment you are using:
 
-Europe: ```https://broker.eu.snyk.io ```<br>
-Australia: ```https://broker.au.snyk.io ```<br>
+Europe: ```https://broker.eu.snyk.io```<br>
+Australia: ```https://broker.au.snyk.io```<br>
 
 ```
 --set brokerServerUrl=<BROKER_SERVER_URL>
