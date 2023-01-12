@@ -375,7 +375,7 @@ If using Code Agent, this requires ```upstreamUrlCodeAgent``` value to be one of
 Europe: ```https://deeproxy.eu.snyk.io```<br>
 Australia: ```https://deeproxy.au.snyk.io```<br>
 ```
- --set upstreamUrlCodeAgent=<UPSTREAM_URL>
+--set upstreamUrlCodeAgent=<UPSTREAM_URL>
 ```
 ## Configuration
 
