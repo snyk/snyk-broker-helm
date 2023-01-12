@@ -280,7 +280,11 @@ fullnameOverride: ""
 ##### Service Account Values. Nothing to change here #####
 
 serviceAccount:
-  # Specifies whether a service account should be created
+  # Specifies whether to use a service account or not
+  enabled: true
+  # Specifies whether a service account should be created. 
+  # Note: Ensure you specify an existing service account in the name value
+  # if enabled == true AND create == false.
   create: true
   # Annotations to add to the service account
   annotations: {}
