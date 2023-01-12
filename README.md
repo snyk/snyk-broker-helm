@@ -360,6 +360,7 @@ To use this chart behind a proxy, set the ```httpProxy``` and ```httpsProxy``` v
 ```
 
 ### Multi-tenant Settings
+#### Broker
 To use this chart with different multi-tenant environments, set the ```brokerServerUrl``` to be one of the following URLs depending which environment you are using:
 
 Europe: ```https://broker.eu.snyk.io```<br>
@@ -368,7 +369,14 @@ Australia: ```https://broker.au.snyk.io```<br>
 ```
 --set brokerServerUrl=<BROKER_SERVER_URL>
 ```
+#### Code Agent
+If using Code Agent, this requires ```upstreamUrlCodeAgent``` value to be one of the following URLs depending which environment you are using:
 
+Europe: ```https://deeproxy.eu.snyk.io```<br>
+Australia: ```https://deeproxy.au.snyk.io```<br>
+```
+ --set upstreamUrlCodeAgent=<UPSTREAM_URL>
+```
 ## Configuration
 
 | Parameter                             | Description                                                                 | Default value                                                                 |
@@ -399,4 +407,5 @@ Australia: ```https://broker.au.snyk.io```<br>
 | `deployment.container.containerPort`  | Container Port (Back End)                                                   | `8000`                                                                        |
 | `serviceAccount.name`                 | Name of service account to be created                                       | `snyk-broker`                                                                 |
 | `service.port`                        | Front End Port for broker client                                            | `8000`                                                                        |
-| `crImage`                             | Image Tag                                                                   | `latest`                                                                      |
+| `crImage`                             | Image Tag                                                                   | `latest`
+| `upstreamUrlCodeAgent`                             | Code Agent Proxy URL                                                                   | `https://deeproxy.snyk.io`                                                                      |
