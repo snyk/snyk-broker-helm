@@ -313,6 +313,10 @@ spec:
             - name: ACCEPT
               value: /home/node/accept.json
          {{- end }}
+         # Additional Environment Variables
+         {{- if .Values.brokerAdditionalEnvironmentVariables  }}
+          {{- toYaml .Values.brokerAdditionalEnvironmentVariables | nindent 12 }}
+         {{- end }}
 
       # Mount Accept.json and Certs       
       volumes:
