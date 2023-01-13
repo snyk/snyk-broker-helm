@@ -277,6 +277,12 @@ spec:
               value: /home/node/cacert/{{ .Values.caCert }}
          {{- end }}
          
+         {{- if .Values.nodeExtraCACerts }}
+         # CA Cert Extending 
+            - name: NODE_EXTRA_CA_CERTS
+              value: {{ .Values.nodeExtraCACerts }}
+         {{- end }}
+         
          {{- if .Values.httpsCert }}
          # HTTPS Config
             - name: HTTPS_CERT
