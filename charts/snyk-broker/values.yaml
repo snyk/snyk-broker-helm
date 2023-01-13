@@ -18,6 +18,7 @@ brokerClientUrl: ""
 brokerServerUrl: "https://broker.snyk.io"
 
 
+
 ##### SCM Generic #####
 
 # scmType is used to define the Source Control that you are connecting to. 
@@ -115,6 +116,18 @@ crUsername: ""
 # Container Registry Password
 crPassword: ""
 
+# Container Role ARN (Only for ECR)
+crRoleArn: ""
+
+# Container Region (Only for ECR)
+crRegion: ""
+
+# Container External ID (Only for ECR)
+crExternalId: ""
+
+# Container Authentication Token (Only for DigitalOcean)
+crToken: ""
+
 # CRA Image tag. Do not adjust unless instructed by Snyk Representative
 crImage: "latest"
 
@@ -197,8 +210,32 @@ image:
   crRepository: snyk/container-registry-agent
   caRepository: snyk/code-agent
   pullPolicy: Always
-  # Overrides the image tag whose default is the chart appVersion.
+  # Overrides the image tag. If left empty the latest version is used
   tag: ""
+
+# Health and System Check Paths for the broker
+healthCheckPath: &healthCheckPath "/healthcheck"
+systemCheckPath: &systemCheckPath "/systemcheck"
+
+# Configure K8s Liveness and Readiness Probes for broker
+brokerLivenessProbe:
+  enabled: true
+  path: *healthCheckPath
+  config:
+    initialDelaySeconds: 3
+    periodSeconds: 10
+    timeoutSeconds: 1
+    failureThreshold: 3  
+
+
+brokerReadinessProbe:
+  enabled: true
+  path: *healthCheckPath
+  config:
+    initialDelaySeconds: 3
+    periodSeconds: 10
+    timeoutSeconds: 1
+    failureThreshold: 3
 
 
 ##### Broker Resource Values #####

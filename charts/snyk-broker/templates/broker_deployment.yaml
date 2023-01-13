@@ -35,11 +35,29 @@ spec:
               memory: {{ .Values.brokerResources.requests.memory}}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.scmType}}"
+          {{- if .Values.image.tag }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}-{{ .Values.scmType }}"
+          {{- else }}
+          image: "{{ .Values.image.repository }}:{{ .Values.scmType }}"
+          {{- end }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
               containerPort: {{ .Values.deployment.container.containerPort }}
+          {{- if .Values.brokerLivenessProbe.enabled }}
+          livenessProbe:
+            httpGet:
+              port: {{ .Values.deployment.container.containerPort }}
+              path: {{ .Values.brokerLivenessProbe.path }}
+            {{- toYaml .Values.brokerLivenessProbe.config | nindent 12 }}
+          {{- end }}
+          {{- if .Values.brokerReadinessProbe.enabled }}
+          readinessProbe:
+            httpGet:
+              port: {{ .Values.deployment.container.containerPort }}
+              path: {{ .Values.brokerReadinessProbe.path }}
+            {{- toYaml .Values.brokerReadinessProbe.config | nindent 12 }}
+          {{- end }}
           volumeMounts:
               {{- if (include "snyk-broker.acceptJson" .)}}
               - name: {{ include "snyk-broker.fullname" . }}-accept-volume
@@ -64,6 +82,10 @@ spec:
           env:
             - name: BROKER_SERVER_URL
               value: {{ .Values.brokerServerUrl }}
+            - name: BROKER_HEALTHCHECK_PATH
+              value: {{ .Values.healthCheckPath }}
+            - name: BROKER_SYSTEMCHECK_PATH
+              value: {{ .Values.systemCheckPath }}
           {{- if eq .Values.scmType "github-com" }}
        # Github
             - name: BROKER_TOKEN
@@ -219,6 +241,17 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.scmType}}-token
                   key: "{{ .Values.scmType}}-token-key"                   
+            - name: CR_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.scmType}}-token
+                  key: "{{ .Values.scmType}}-token-key"
+            - name: CR_ROLE_ARN
+              value: {{ .Values.crRoleArn }}
+            - name: CR_REGION
+              value: {{ .Values.crRegion }}
+            - name: CR_EXTERNAL_ID
+              value: {{ .Values.crExternalId }}
             - name: PORT
               value: {{ .Values.deployment.container.containerPort | squote }}
             - name: BROKER_CLIENT_URL

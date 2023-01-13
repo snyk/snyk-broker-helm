@@ -143,6 +143,44 @@ helm install snyk-broker-chart . \
 ```quay-cr```<br>
 ```nexus-cr```<br>
 ```github-cr```<br>
+```ecr```<br>
+```digitalocean-cr```
+
+### Custom Container Registry Agent parameters
+The following Container Registry types (crType) require specific parameters.
+
+#### Elastic Container Registry (ecr)
+* crRoleArn
+* crRegion
+* crExternalId
+
+```
+helm install snyk-broker-chart . \
+             --set scmType=container-registry-agent \
+             --set brokerClientUrl=http://container-registry-agent-broker-service:8000 \
+             --set brokerToken=<ENTER_BROKER_TOKEN> \
+             --set crType=ecr \
+             --set crRoleArn=<ENTER_CR_ROLE_ARN> \
+             --set crRegion=<ENTER_CR_REGION> \
+             --set crExternalId=<ENTER_CR_EXTERNAL_ID> \
+             --set acceptJsonFile=accept.json \
+             -n snyk-broker --create-namespace
+```            
+
+#### DigitalOcean Container Registry (digitalocean-cr)
+* crToken
+
+```
+helm install snyk-broker-chart . \
+             --set scmType=container-registry-agent \
+             --set brokerClientUrl=http://container-registry-agent-broker-service:8000 \
+             --set brokerToken=<ENTER_BROKER_TOKEN> \
+             --set crType=digitalocean-cr \
+             --set crBase=<ENTER_CR_BASE_URL> \
+             --set crToken=<ENTER_CR_TOKEN> \
+             --set acceptJsonFile=accept.json \
+             -n snyk-broker --create-namespace
+```            
 
 ## Snyk Code Agent
 To deploy the Snyk Code Agent, you must set the ```enableCodeAgent``` flag to ```true```. See more information about the [Snyk Code Agent](https://docs.snyk.io/features/snyk-broker/snyk-broker-code-agent). Ensure you have the proper entries in the accept.json file. Grab the example file for the appropriate SCM [HERE](https://github.com/snyk/broker/tree/master/client-templates). Ensure you have the additional entries as specified by the Snyk Code Agent documentation.
@@ -321,12 +359,31 @@ To use this chart behind a proxy, set the ```httpProxy``` and ```httpsProxy``` v
 --set httpsProxy=<PROXY_URL>
 ```
 
+### Multi-tenant Settings
+#### Broker
+To use this chart with different multi-tenant environments, set the ```brokerServerUrl``` to be one of the following URLs depending which environment you are using:
+
+Europe: ```https://broker.eu.snyk.io```<br>
+Australia: ```https://broker.au.snyk.io```<br>
+
+```
+--set brokerServerUrl=<BROKER_SERVER_URL>
+```
+#### Code Agent
+If using Code Agent, this requires ```upstreamUrlCodeAgent``` value to be one of the following URLs depending which environment you are using:
+
+Europe: ```https://deeproxy.eu.snyk.io```<br>
+Australia: ```https://deeproxy.au.snyk.io```<br>
+```
+--set upstreamUrlCodeAgent=<UPSTREAM_URL>
+```
 ## Configuration
 
 | Parameter                             | Description                                                                 | Default value                                                                 |
 | :-------------------------------------| :---------------------------------------------------------------------------| :---------------------------------------------------------------------------- |
 | `brokerToken`                         | Snyk Broker Token                                                           | ` `                                                                           |
-| `brokerClientUrl`                     | URL of Broker Client                                                        | ` `                                                                           |
+| `brokerClientUrl`                     | URL of Broker Client                                                        | ` `
+| `brokerServerUrl`                     | URL of Broker Server                                                        | `https://broker.snyk.io`                                                                                  |
 | `scmType`                             | SCM Type - See above for allowed values                                     | `github-com`                                                                  |
 | `scmToken`                            | API Token for SCM Provider (unless username/password require)               | ` `                                                                           |
 | `github`                              | URL for Github Enterprise                                                   | ` `                                                                           |
@@ -346,7 +403,9 @@ To use this chart behind a proxy, set the ```httpProxy``` and ```httpsProxy``` v
 | `logLevel`                            | Log Verbosity                                                               | `info`                                                                        |
 | `logEnableBody`                       | Enable Log Body                                                             | `false`                                                                       |
 | `image.repository`                    | Broker Image                                                                | `snyk/broker`                                                                 |
+| `image.tag`                           | Tag of image                                                                | ` `                                                                             |
 | `deployment.container.containerPort`  | Container Port (Back End)                                                   | `8000`                                                                        |
 | `serviceAccount.name`                 | Name of service account to be created                                       | `snyk-broker`                                                                 |
 | `service.port`                        | Front End Port for broker client                                            | `8000`                                                                        |
-| `crImage`                             | Image Tag                                                                   | `latest`                                                                      |
+| `crImage`                             | Image Tag                                                                   | `latest`
+| `upstreamUrlCodeAgent`                             | Code Agent Proxy URL                                                                   | `https://deeproxy.snyk.io`                                                                      |
