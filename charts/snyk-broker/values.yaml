@@ -172,6 +172,9 @@ httpsKey: ""
 # Not supported by Snyk Container Registry Agent or Snyk Code Agent (use tlsRejectUnauthorized instead). Location of mounted custom certificate. To allow visibility for SSL Inspection. 
 caCert: ""
 
+# Not supported by Snyk Container Registry Agent or Snyk Code Agent (use tlsRejectUnauthorized instead). When set, the well known "root" CAs (like VeriSign) will be extended with the extra certificates in file. The file should consist of one or more trusted certificates in PEM format. 
+nodeExtraCACert: ""
+
 # Set to "0" to disable trust validation when using self signed certificates. 
 tlsRejectUnauthorized: "" 
 
