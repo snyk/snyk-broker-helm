@@ -10,10 +10,6 @@ This is a Helm Chart to deploy the [Snyk Broker](https://github.com/snyk/broker)
 To add this chart, you can add the repo:
 ```helm repo add snyk-broker https://snyk.github.io/snyk-broker-helm/```
 
-In which case instead of ```helm install snyk-broker-chart .``` you would instead use ```helm install snyk-broker-chart snyk-broker``` for all the commands below. 
-
-Alternatively, clone this repository and navigate to the ```/charts/snyk-broker``` directory.
-
 Then run the following commands based on the repository type.
 
 <b> Allowed values for </b> ```scmType```:
@@ -32,7 +28,7 @@ The following examples will create a namespace called ```snyk-broker```. To depl
 ### Github.com
 
 ```
-helm install snyk-broker-chart . \
+helm install snyk-broker-chart snyk-broker/snyk-broker \
              --set scmType=github-com \
              --set brokerToken=<ENTER_BROKER_TOKEN> \
              --set scmToken=<ENTER_REPO_TOKEN> \
@@ -40,9 +36,9 @@ helm install snyk-broker-chart . \
              -n snyk-broker --create-namespace
 ```
 ### Github Enterprise
-
+<b>Note: for ```github```, ```githubApi``` and ```githubGraphQl``` values do not include ```https://``` </b>
 ```
-helm install snyk-broker-chart . \
+helm install snyk-broker-chart snyk-broker/snyk-broker \
              --set scmType=github-enterprise \
              --set brokerToken=<ENTER_BROKER_TOKEN> \
              --set scmToken=<ENTER_REPO_TOKEN> \
@@ -54,9 +50,10 @@ helm install snyk-broker-chart . \
 ```
 
 ### Bitbucket
+<b>Note: for ```bitbucket``` and ```bitbucketApi``` values do not include ```https://``` </b>
 
 ```
-helm install snyk-broker-chart . \
+helm install snyk-broker-chart snyk-broker/snyk-broker \
              --set scmType=bitbucket-server \
              --set brokerToken=<ENTER_BROKER_TOKEN> \
              --set bitbucketUsername=<ENTER_USERNAME> \
@@ -72,7 +69,7 @@ helm install snyk-broker-chart . \
 <b>Note: for ```gitlab``` value do not include ```https://``` </b>
 
 ```
-helm install snyk-broker-chart . \
+helm install snyk-broker-chart snyk-broker/snyk-broker \
              --set scmType=gitlab \
              --set brokerToken=<ENTER_BROKER_TOKEN> \
              --set gitlab=<ENTER_GITLAB_URL> \
@@ -82,9 +79,9 @@ helm install snyk-broker-chart . \
 ```
 
 ### Azure Repos
-
+<b>Note: for ```azureReposHost```  value do not include ```https://``` </b>
 ```
-helm install snyk-broker-chart . \
+helm install snyk-broker-chart snyk-broker/snyk-broker \
              --set scmType=azure-repos \
              --set brokerToken=<ENTER_BROKER_TOKEN> \
              --set azureReposToken=<ENTER_REPO_TOKEN> \
@@ -95,9 +92,9 @@ helm install snyk-broker-chart . \
 ```
 
 ### Artifactory
-
+<b>Note: for ```artifactoryUrl``` value do not include ```https://``` </b>
 ```
-helm install snyk-broker-chart . \
+helm install snyk-broker-chart snyk-broker/snyk-broker \
              --set scmType=artifactory \
              --set brokerToken=<ENTER_BROKER_TOKEN> \
              --set artifactoryUrl=<ENTER_ARTIFACTORY_URL> \
@@ -105,9 +102,9 @@ helm install snyk-broker-chart . \
 ```
 
 ### Jira
-
+<b>Note: for ```jiraHostname``` value do not include ```https://``` </b>
 ```
-helm install snyk-broker-chart . \
+helm install snyk-broker-chart snyk-broker/snyk-broker \
              --set scmType=jira \
              --set brokerToken=<ENTER_BROKER_TOKEN> \
              --set jiraUsername=<ENTER_JIRA_USERNAME> \
@@ -122,7 +119,7 @@ helm install snyk-broker-chart . \
 Finally, you must include an ```accept.json``` file for this deployment. <b>You must copy the new accept.json to the /snyk-broker folder</b>
 
 ```
-helm install snyk-broker-chart . \
+helm install snyk-broker-chart snyk-broker/snyk-broker \
              --set scmType=container-registry-agent \
              --set brokerClientUrl=http://container-registry-agent-broker-service:8000 \
              --set brokerToken=<ENTER_BROKER_TOKEN> \
@@ -155,7 +152,7 @@ The following Container Registry types (crType) require specific parameters.
 * crExternalId
 
 ```
-helm install snyk-broker-chart . \
+helm install snyk-broker-chart snyk-broker/snyk-broker \
              --set scmType=container-registry-agent \
              --set brokerClientUrl=http://container-registry-agent-broker-service:8000 \
              --set brokerToken=<ENTER_BROKER_TOKEN> \
@@ -171,7 +168,7 @@ helm install snyk-broker-chart . \
 * crToken
 
 ```
-helm install snyk-broker-chart . \
+helm install snyk-broker-chart snyk-broker/snyk-broker \
              --set scmType=container-registry-agent \
              --set brokerClientUrl=http://container-registry-agent-broker-service:8000 \
              --set brokerToken=<ENTER_BROKER_TOKEN> \
@@ -188,7 +185,7 @@ To deploy the Snyk Code Agent, you must set the ```enableCodeAgent``` flag to ``
 Here is an example command for GitLab:
 
 ```
-helm install snyk-broker-chart . \
+helm install snyk-broker-chart snyk-broker/snyk-broker \
              --set scmType=gitlab  \
              --set brokerToken=<ENTER_BROKER_TOKEN> \ 
              --set scmToken=<ENTER_SCM_TOKEN> \
@@ -201,26 +198,11 @@ helm install snyk-broker-chart . \
 ```
 <b>Note: The ```brokerClientUrl``` is going to be the address of the Broker Container. The default port for the broker container is ```8000```. See the values file for more information. Also, the accept.json must be in the same directory as the helm chart</b>
 
-## Adding accept.json
+## Adding custom accept.json
+To add a custom ```accept.json``` file, include it in ```values.yaml```
 
-To add a custom ```accept.json```, <b>you must copy the new accept.json to the /snyk-broker folder</b> <br><br>See example files [HERE](https://github.com/snyk/broker/tree/master/client-templates)
+See example ```accept.json``` files [HERE](https://github.com/snyk/broker/tree/master/client-templates)
 
-Here is an example command:
-
-```
-helm install snyk-broker-chart . \
-             --set scmType=github-com \
-             --set brokerToken=<ENTER_BROKER_TOKEN> \
-             --set scmToken=<ENTER_REPO_TOKEN> \
-             --set brokerClientUrl=<ENTER_BROKER_CLIENT_URL>:<ENTER_BROKER_CLIENT_PORT> \
-             --set acceptJsonFile=accept.json \
-             -n snyk-broker --create-namespace
-```
-
-Alternatively, if you are using the built chart, you can run the command like so:
-```
-helm install snyk-broker-gitub-com snyk-broker/snyk-broker -f values.yaml -n snyk-broker --create-namespace
-```
 
 The ```values.yaml``` file should be structured like this:
 ```
@@ -248,6 +230,13 @@ acceptJson: |-
     ]
   }
 ```  
+
+You can then install:
+
+```
+helm install snyk-broker-gitub-com snyk-broker/snyk-broker -f values.yaml -n snyk-broker --create-namespace
+```
+
 ## Ingress Options
 There are two options available for ingress traffic. By default, the pods are not accessible from outside the cluster.
 
@@ -257,7 +246,7 @@ To enable a load balancer, add the ```--set service.<service-type>=LoadBalancer`
 Example for Github:
 
 ```
-helm install snyk-broker-chart . \
+helm install snyk-broker-chart snyk-broker/snyk-broker \
              --set scmType=github-com \
              --set brokerToken=<ENTER_BROKER_TOKEN> \
              --set scmToken=<ENTER_REPO_TOKEN> \
@@ -310,7 +299,7 @@ To deploy an additional broker into the same namespace as an existing broker, se
 
 ### Existing Service Account
 ```
-helm install <ENTER_UNIQUE_CHART_NAME> . \
+helm install <ENTER_UNIQUE_CHART_NAME> snyk-broker/snyk-broker \
              --set scmType=github-com \
              --set brokerToken=<ENTER_BROKER_TOKEN> \
              --set scmToken=<ENTER_REPO_TOKEN> \
@@ -323,7 +312,7 @@ helm install <ENTER_UNIQUE_CHART_NAME> . \
 ### New Service Account 
 
 ```
-helm install <ENTER_UNIQUE_CHART_NAME> . \
+helm install <ENTER_UNIQUE_CHART_NAME> snyk-broker/snyk-broker \
              --set scmType=github-com \
              --set brokerToken=<ENTER_BROKER_TOKEN> \
              --set scmToken=<ENTER_REPO_TOKEN> \
@@ -334,10 +323,10 @@ helm install <ENTER_UNIQUE_CHART_NAME> . \
 ## Advanced Options
 
 There is also the ability to set more advanced parameters. For troubleshooting SSL inspection issues, you can set the 
-```tlsRejectUnauthorized``` parameter to ```"0"```.<br><br>
+```tlsRejectUnauthorized``` parameter to ```disable```.<br><br>
 
 ```
---set tlsRejectUnauthorized="0"
+--set tlsRejectUnauthorized=disable
 ```
 
 To provide your own certificate (signed by your own CA) - you can pass the file name (<b>it needs to reside within the helm chart directory</b>) to the ```caCert``` parameter. <br><br>
@@ -377,35 +366,3 @@ Australia: ```https://deeproxy.au.snyk.io```<br>
 ```
 --set upstreamUrlCodeAgent=<UPSTREAM_URL>
 ```
-## Configuration
-
-| Parameter                             | Description                                                                 | Default value                                                                 |
-| :-------------------------------------| :---------------------------------------------------------------------------| :---------------------------------------------------------------------------- |
-| `brokerToken`                         | Snyk Broker Token                                                           | ` `                                                                           |
-| `brokerClientUrl`                     | URL of Broker Client                                                        | ` `
-| `brokerServerUrl`                     | URL of Broker Server                                                        | `https://broker.snyk.io`                                                                                  |
-| `scmType`                             | SCM Type - See above for allowed values                                     | `github-com`                                                                  |
-| `scmToken`                            | API Token for SCM Provider (unless username/password require)               | ` `                                                                           |
-| `github`                              | URL for Github Enterprise                                                   | ` `                                                                           |
-| `githubApi`                           | URL for Github Enterprise API endpoint                                      | ` `                                                                           |
-| `githubGraphQl`                       | URL for Github Enterprise GraphQL                                           | ` `                                                                           |
-| `bitbucketUsername`                   | Bitbucket Username                                                          | ` `                                                                           |
-| `bitbucketPassword`                   | Bitbucket Password                                                          | ` `                                                                           |
-| `bitbucket`                           | Bitbucket URL                                                               | ` `                                                                           |
-| `bitbucketApi`                        | Bitbucket API URL                                                           | ` `                                                                           |
-| `gitlab`                              | URL for Gitlab                                                              | ` `                                                                           |
-| `azureReposOrg`                       | Azure Repos Org                                                             | ` `                                                                           |
-| `azureReposHost`                      | Azure Repos URL                                                             | ` `                                                                           |
-| `artifactoryUrl`                      | Artifactory URL                                                             | ` `                                                                           |
-| `jiraUsername`                        | Jira Username                                                               | ` `                                                                           |
-| `jiraPassword`                        | Jira Password                                                               | ` `                                                                           |
-| `jiraHostname`                        | Jira Hostname                                                               | ` `                                                                           |
-| `logLevel`                            | Log Verbosity                                                               | `info`                                                                        |
-| `logEnableBody`                       | Enable Log Body                                                             | `false`                                                                       |
-| `image.repository`                    | Broker Image                                                                | `snyk/broker`                                                                 |
-| `image.tag`                           | Tag of image                                                                | ` `                                                                             |
-| `deployment.container.containerPort`  | Container Port (Back End)                                                   | `8000`                                                                        |
-| `serviceAccount.name`                 | Name of service account to be created                                       | `snyk-broker`                                                                 |
-| `service.port`                        | Front End Port for broker client                                            | `8000`                                                                        |
-| `crImage`                             | Image Tag                                                                   | `latest`
-| `upstreamUrlCodeAgent`                             | Code Agent Proxy URL                                                                   | `https://deeproxy.snyk.io`                                                                      |
