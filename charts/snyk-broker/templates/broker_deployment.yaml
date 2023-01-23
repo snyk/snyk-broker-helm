@@ -316,6 +316,10 @@ spec:
             - name: ACCEPT_IAC
               value: "tf,yaml,yml,json,tpl"
          {{- end }}
+         # Additional Environment Variables
+         {{- if .Values.brokerAdditionalEnvironmentVariables  }}
+          {{- toYaml .Values.brokerAdditionalEnvironmentVariables | nindent 12 }}
+         {{- end }}
 
       # Mount Accept.json and Certs       
       volumes:

@@ -46,11 +46,18 @@ spec:
               containerPort: {{ .Values.deployment.container.crSnykPort }}
           env:
             - name: SNYK_PORT
-              value: {{ .Values.deployment.container.crSnykPort | squote }} 
-         {{- if .Values.tlsRejectUnauthorized  }}
+              value: {{ .Values.deployment.container.crSnykPort | squote }}
+         {{- if .Values.crSnykMaxImageSizeBytes }}
+            - name: SNYK_MAX_IMAGE_SIZE_IN_BYTES
+              value: {{ .Values.crSnykMaxImageSizeBytes | squote }}
+         {{- end }}
+         {{- if .Values.tlsRejectUnauthorized }}
          # Troubleshooting - Set to 0 for SSL inspection testing
             - name: NODE_TLS_REJECT_UNAUTHORIZED
               value: "0"
+         {{- end }}
+         {{- if .Values.crAdditionalEnvironmentVariables }}
+            {{- toYaml .Values.crAdditionalEnvironmentVariables | nindent 12 }}
          {{- end }}
 
 

@@ -131,6 +131,11 @@ crToken: ""
 # CRA Image tag. Do not adjust unless instructed by Snyk Representative
 crImage: "latest"
 
+##### Container Registry Additional Environment Variables #####
+# crAdditionalEnvironmentVariables:
+#   - name: foo
+#     value: bar
+
 
 ##### Code Agent #####
 
@@ -240,6 +245,11 @@ brokerResources:
    requests:
      cpu: 1
      memory: "256Mi"
+
+##### Broker Additional Environment Variables #####
+# brokerAdditionalEnvironmentVariables:
+#   - name: foo
+#     value: bar
 
 
 ##### Container Registry Agent Resource Values #####
