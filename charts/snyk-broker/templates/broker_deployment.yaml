@@ -316,7 +316,11 @@ spec:
             - name: ACCEPT_IAC
               value: "tf,yaml,yml,json,tpl"
          {{- end }}
-
+        {{- range .Values.env }}
+         # custom env var in override.yaml
+            - name: {{ .name }}
+              value: {{ .value }} 
+        {{- end}}
       # Mount Accept.json and Certs       
       volumes:
       {{- if (include "snyk-broker.acceptJson" .)}}

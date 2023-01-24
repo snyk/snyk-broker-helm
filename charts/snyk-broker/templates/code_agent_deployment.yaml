@@ -66,6 +66,11 @@ spec:
             - name: HTTPS_PROXY
               value: {{ .Values.httpsProxy }}
          {{- end }}
+         {{- range .Values.env }}
+         # custom env var in override.yaml
+            - name: {{ .name }}
+              value: {{ .value }} 
+        {{- end}}
         
 ---                     
 apiVersion: v1

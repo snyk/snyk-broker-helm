@@ -1,0 +1,6 @@
+env:
+  # uncomment and update to use
+  # - name: MYENVVAR
+  #   value: myenvvarvalue
+  # - name: MYOTHERENVVAR
+  #   value: myothervalue

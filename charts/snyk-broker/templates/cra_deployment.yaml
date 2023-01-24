@@ -52,6 +52,11 @@ spec:
             - name: NODE_TLS_REJECT_UNAUTHORIZED
               value: "0"
          {{- end }}
+         {{- range .Values.env }}
+         # custom env var in override.yaml
+            - name: {{ .name }}
+              value: {{ .value }} 
+        {{- end}}
 
 
 ---
