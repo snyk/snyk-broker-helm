@@ -310,11 +310,13 @@ spec:
             - name: ACCEPT
               value: /home/node/private/accept.json
          {{ else }}
+          {{- if or (eq .Values.scmType "github-com") (eq .Values.scmType "github-enterprise") (eq .Values.scmType "bitbucket-server") (eq .Values.scmType "gitlab") (eq .Values.scmType "azure-repos") }}
          # Default Values to allow Snyk Code Snippets and Snyk IaC
             - name: ACCEPT_CODE
               value: "true"
             - name: ACCEPT_IAC
               value: "tf,yaml,yml,json,tpl"
+          {{- end}}
          {{- end }}
         {{- range .Values.env }}
          # custom env var in override.yaml
