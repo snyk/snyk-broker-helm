@@ -162,7 +162,6 @@ logLevel: "info"
 # Add additional logging by setting to true
 logEnableBody: "false"
 
-
 ##### Enable HTTPS #####
 
 # Location of mounted cert
@@ -170,7 +169,6 @@ httpsCert: ""
 
 # Location of mounted HTTPS key
 httpsKey: ""
-
 
 ##### HTTPS Inspection #####
 
