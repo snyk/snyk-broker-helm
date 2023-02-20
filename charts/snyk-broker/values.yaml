@@ -178,7 +178,6 @@ caCert: ""
 # Set to "0" to disable trust validation when using self signed certificates. 
 tlsRejectUnauthorized: "" 
 
-
 ##### Use behind proxy #####
 
 # Do not change unless advised by your Snyk Representative. You probably need to use HTTPS proxy setting and leave this blank. - HTTP Proxy URL 
@@ -198,7 +197,6 @@ httpsProxy: ""
 #        "path": "/webhook/github",
 
 acceptJson: ""
-
 
 ##### Broker Image Parameters #####
 
