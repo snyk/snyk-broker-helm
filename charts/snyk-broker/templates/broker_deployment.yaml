@@ -259,12 +259,15 @@ spec:
             - name: BROKER_CLIENT_VALIDATION_URL
               value: http://cra-service:{{ .Values.deployment.container.crSnykPort | toString }}/healthcheck
           {{- end }}
-         
-         # Code Agent
          {{- if .Values.enableCodeAgent }}
+         # Code Agent
             - name: GIT_CLIENT_URL
               value: {{ default (printf "http://code-agent-service:%s" (.Values.deployment.container.caSnykPort | toString)) .Values.gitClientUrl }}
-         {{- end }}     
+         {{- else if .Values.enableSnykCodeLocalEngine }}
+          # Snyk Code Local Engine
+            - name: GIT_CLIENT_URL
+              value: {{ tpl .Values.gitClientUrl . }}
+         {{- end }}        
          # Logging
             - name: LOG_LEVEL
               value: {{ .Values.logLevel }}
@@ -312,8 +315,10 @@ spec:
          {{ else }}
           {{- if or (eq .Values.scmType "github-com") (eq .Values.scmType "github-enterprise") (eq .Values.scmType "bitbucket-server") (eq .Values.scmType "gitlab") (eq .Values.scmType "azure-repos") }}
          # Default Values to allow Snyk Code Snippets and Snyk IaC
+            {{- if not .Values.enableSnykCodeLocalEngine}}
             - name: ACCEPT_CODE
               value: "true"
+            {{- end}}
             - name: ACCEPT_IAC
               value: "tf,yaml,yml,json,tpl"
           {{- end}}
