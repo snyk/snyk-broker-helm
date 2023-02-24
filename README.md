@@ -1,5 +1,5 @@
 
-[![Snyk logo](https://snyk.io/style/asset/logo/snyk-print.svg)](https://snyk.io) 
+[![Snyk logo](https://snyk.io/style/asset/logo/snyk-print.svg)](https://snyk.io)
 
 # Helm Chart for Snyk Broker
 
@@ -114,7 +114,7 @@ helm install snyk-broker-chart snyk-broker/snyk-broker \
              -n snyk-broker --create-namespace
 ```
 ## Container Registry Agent
- While the documentation for the [Snyk Broker](https://github.com/snyk/broker) requires the parameter ```CR_AGENT_URL```, it is not required in this case. 
+ While the documentation for the [Snyk Broker](https://github.com/snyk/broker) requires the parameter ```CR_AGENT_URL```, it is not required in this case.
 
 Finally, you must include an ```accept.json``` file for this deployment. <b>You must copy the new accept.json to the /snyk-broker folder</b>
 
@@ -129,7 +129,7 @@ helm install snyk-broker-chart snyk-broker/snyk-broker \
              --set crPassword=<ENTER_CR_PASSWORD> \
              --set acceptJsonFile=accept.json \
              -n snyk-broker --create-namespace
-```            
+```
 <b> Allowed values for </b> ```crType```:
 
 ```artifactory-cr```<br>
@@ -140,6 +140,7 @@ helm install snyk-broker-chart snyk-broker/snyk-broker \
 ```quay-cr```<br>
 ```nexus-cr```<br>
 ```github-cr```<br>
+```gitlab-cr```<br>
 ```ecr```<br>
 ```digitalocean-cr```
 
@@ -162,7 +163,7 @@ helm install snyk-broker-chart snyk-broker/snyk-broker \
              --set crExternalId=<ENTER_CR_EXTERNAL_ID> \
              --set acceptJsonFile=accept.json \
              -n snyk-broker --create-namespace
-```            
+```
 
 #### DigitalOcean Container Registry (digitalocean-cr)
 * crToken
@@ -177,7 +178,7 @@ helm install snyk-broker-chart snyk-broker/snyk-broker \
              --set crToken=<ENTER_CR_TOKEN> \
              --set acceptJsonFile=accept.json \
              -n snyk-broker --create-namespace
-```            
+```
 
 ## Snyk Code Agent
 To deploy the Snyk Code Agent, you must set the ```enableCodeAgent``` flag to ```true```. See more information about the [Snyk Code Agent](https://docs.snyk.io/features/snyk-broker/snyk-broker-code-agent). Ensure you have the proper entries in the accept.json file. Grab the example file for the appropriate SCM [HERE](https://github.com/snyk/broker/tree/master/client-templates). Ensure you have the additional entries as specified by the Snyk Code Agent documentation.
@@ -187,12 +188,12 @@ Here is an example command for GitLab:
 ```
 helm install snyk-broker-chart snyk-broker/snyk-broker \
              --set scmType=gitlab  \
-             --set brokerToken=<ENTER_BROKER_TOKEN> \ 
+             --set brokerToken=<ENTER_BROKER_TOKEN> \
              --set scmToken=<ENTER_SCM_TOKEN> \
              --set gitlab=<ENTER_GITLAB_URL>  \
             --set acceptJsonFile=accept.json \
-            --set brokerClientUrl=http://<BROKER_CLIENT_URL> \ 
-            --set enableCodeAgent=true \ 
+            --set brokerClientUrl=http://<BROKER_CLIENT_URL> \
+            --set enableCodeAgent=true \
             --set snykToken=<ENTER_SNYK_TOKEN> \
             -n snyk-broker --create-namespace
 ```
@@ -229,7 +230,7 @@ acceptJson: |-
   ...
     ]
   }
-```  
+```
 
 You can then install:
 
@@ -309,7 +310,7 @@ helm install <ENTER_UNIQUE_CHART_NAME> snyk-broker/snyk-broker \
              -n <EXISTING_NAMESPACE>
 ```
 
-### New Service Account 
+### New Service Account
 
 ```
 helm install <ENTER_UNIQUE_CHART_NAME> snyk-broker/snyk-broker \
@@ -322,7 +323,7 @@ helm install <ENTER_UNIQUE_CHART_NAME> snyk-broker/snyk-broker \
 ```
 ## Advanced Options
 
-There is also the ability to set more advanced parameters. For troubleshooting SSL inspection issues, you can set the 
+There is also the ability to set more advanced parameters. For troubleshooting SSL inspection issues, you can set the
 ```tlsRejectUnauthorized``` parameter to ```disable```.<br><br>
 
 ```
