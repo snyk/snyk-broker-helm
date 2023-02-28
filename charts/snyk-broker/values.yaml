@@ -136,6 +136,7 @@ crImage: "latest"
 
 # Set to 'true' to enable Code Agent
 enableCodeAgent: ""
+
 # Only adjust this value if advised to by Snyk Representative. Used to upload content to non-standard environment. 
 upstreamUrlCodeAgent: ""
 
@@ -148,6 +149,10 @@ caImage: "latest"
 # Only adjust this value if advised to by Snyk Representative. This is the URL of the Snyk Code Agent. This helm chart already connects everything. 
 gitClientUrl: ""
 
+##### Snyk Code Local Engine #####
+
+# Set to 'true' to enable Snyk Code Local Engine
+enableSnykCodeLocalEngine: ""
 
 ##### Logging #####
 
@@ -157,7 +162,6 @@ logLevel: "info"
 # Add additional logging by setting to true
 logEnableBody: "false"
 
-
 ##### Enable HTTPS #####
 
 # Location of mounted cert
@@ -166,7 +170,6 @@ httpsCert: ""
 # Location of mounted HTTPS key
 httpsKey: ""
 
-
 ##### HTTPS Inspection #####
 
 # Not supported by Snyk Container Registry Agent or Snyk Code Agent (use tlsRejectUnauthorized instead). Location of mounted custom certificate. To allow visibility for SSL Inspection. 
@@ -174,7 +177,6 @@ caCert: ""
 
 # Set to "0" to disable trust validation when using self signed certificates. 
 tlsRejectUnauthorized: "" 
-
 
 ##### Use behind proxy #####
 
@@ -195,7 +197,6 @@ httpsProxy: ""
 #        "path": "/webhook/github",
 
 acceptJson: ""
-
 
 ##### Broker Image Parameters #####
 
