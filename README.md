@@ -86,7 +86,7 @@ helm install snyk-broker-chart snyk-broker/snyk-broker \
              --set brokerToken=<ENTER_BROKER_TOKEN> \
              --set azureReposToken=<ENTER_REPO_TOKEN> \
              --set azureReposOrg=<ENTER_REPO_ORG> \
-             --set azureReposHost<ENTER_REPO_HOST> \
+             --set azureReposHost=<ENTER_REPO_HOST> \
              --set brokerClientUrl=<ENTER_BROKER_CLIENT_URL>:<ENTER_BROKER_CLIENT_PORT> \
              -n snyk-broker --create-namespace
 ```
@@ -109,7 +109,7 @@ helm install snyk-broker-chart snyk-broker/snyk-broker \
              --set brokerToken=<ENTER_BROKER_TOKEN> \
              --set jiraUsername=<ENTER_JIRA_USERNAME> \
              --set jiraPassword=<ENTER_JIRA_PASSWORD>  \
-             --set jiraHostname<ENTER_JIRA_HOSTNAME>  \
+             --set jiraHostname=<ENTER_JIRA_HOSTNAME>  \
              --set brokerClientUrl=<ENTER_BROKER_CLIENT_URL>:<ENTER_BROKER_CLIENT_PORT> \
              -n snyk-broker --create-namespace
 ```
