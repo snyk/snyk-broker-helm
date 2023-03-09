@@ -243,6 +243,8 @@ There are two options available for ingress traffic. By default, the pods are no
 ### Load Balancer
 To enable a load balancer, add the ```--set service.<service-type>=LoadBalancer```. Allowed values are ```brokertype```, ```crType```, and ```caType```
 
+Static IPs can be applied by doing ```--set service.loadBalancerIP=IPADDRESS``` as well as apply control ```--set service.externalTrafficPolicy=<value>``` if required along with  the ability to set ```--set service.annotations=<values>``` for any required annotations.
+
 Example for Github:
 
 ```
