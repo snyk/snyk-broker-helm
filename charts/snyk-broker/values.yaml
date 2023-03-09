@@ -342,6 +342,16 @@ service:
   #      - chart-example.local
 
 
+##### Extra K8s resources, Volumes and VolumeMounts
+# These are useful when there is a need to introduce additional K8s resources (Drivers, Volumes, etc.) into the mix.
+# Secrets Store CSI Driver is one perfect example that can utilize these
+extraObjects: []
+
+extraVolumes: []
+
+extraVolumeMounts: []
+
+
 ##### Do not adjust these settings. The Broker is not deigned to work with multiple replicas
 
 autoscaling:

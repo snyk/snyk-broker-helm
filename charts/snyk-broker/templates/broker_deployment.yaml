@@ -79,6 +79,9 @@ spec:
                 mountPath: /home/node/httpskey
                 readOnly: true
               {{- end }}              
+{{- if .Values.extraVolumeMounts }}
+{{ tpl (toYaml .Values.extraVolumeMounts | indent 14) . }}
+{{- end }}
           env:
             - name: BROKER_SERVER_URL
               value: {{ .Values.brokerServerUrl }}
@@ -350,3 +353,6 @@ spec:
         configMap:
           name: {{ include "snyk-broker.fullname" . }}-httpskey-configmap
       {{- end }}      
+{{- if .Values.extraVolumes }}
+{{ tpl (toYaml .Values.extraVolumes | indent 6) . }}
+{{- end }}
