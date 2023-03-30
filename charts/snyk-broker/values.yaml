@@ -30,6 +30,8 @@ brokerServerUrl: "https://broker.snyk.io"
 #   GitLab: gitlab
 #   Azure Repos: azure-repos
 #   Artifactory: artifactory
+#   Nexus: nexus
+#   Nexus2: nexus2
 #   Jira: jira
 #   Container Registry Agent: container-registry-agent
 
@@ -90,7 +92,7 @@ azureReposToken: ""
 artifactoryUrl: ""
 
 
-##### Nexus #####
+##### Nexus 2 & 3 #####
 
 # Nexus Base URL - include HTTPS
 baseNexusUrl: ""

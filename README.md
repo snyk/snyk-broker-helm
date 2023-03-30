@@ -21,6 +21,7 @@ Gitlab: ```gitlab```<br>
 Azure Repos: ```azure-repos```<br>
 Artifactory: ```artifactory```<br>
 Nexus: `nexus` <br>
+Nexus2: `nexus2` <br>
 Jira: ```jira```<br>
 Container Registry Agent: ```container-registry-agent```<br>
 
@@ -114,6 +115,18 @@ helm install snyk-broker-chart snyk-broker/snyk-broker \
              -n snyk-broker --create-namespace
 ```
 
+### Nexus 2
+<b>Note: for `baseNexusUrl` and `nexusUrl` values include `https://`</b>
+```
+helm install snyk-broker-chart snyk-broker/snyk-broker \
+             --set scmType=nexus2 \
+             --set brokerToken=<ENTER_BROKER_TOKEN> \
+             --set baseNexusUrl=<ENTER_BASE_NEXUS_URL> \
+             --set nexusUrl=<ENTER_NEXUS_URL>
+             --set brokerClientValidationUrl=<ENTER_BROKER_CLIENT_VALIDATION_URL> \
+             -n snyk-broker --create-namespace
+```
+
 ### Jira
 <b>Note: for ```jiraHostname``` value do not include ```https://``` </b>
 ```
@@ -143,7 +156,7 @@ helm install snyk-broker-chart snyk-broker/snyk-broker \
              --set crPassword=<ENTER_CR_PASSWORD> \
              --set acceptJsonFile=accept.json \
              -n snyk-broker --create-namespace
-```            
+```
 <b> Allowed values for </b> ```crType```:
 
 ```artifactory-cr```<br>
@@ -176,7 +189,7 @@ helm install snyk-broker-chart snyk-broker/snyk-broker \
              --set crExternalId=<ENTER_CR_EXTERNAL_ID> \
              --set acceptJsonFile=accept.json \
              -n snyk-broker --create-namespace
-```            
+```
 
 #### DigitalOcean Container Registry (digitalocean-cr)
 * crToken
@@ -191,7 +204,7 @@ helm install snyk-broker-chart snyk-broker/snyk-broker \
              --set crToken=<ENTER_CR_TOKEN> \
              --set acceptJsonFile=accept.json \
              -n snyk-broker --create-namespace
-```            
+```
 
 ## Snyk Code Agent
 To deploy the Snyk Code Agent, you must set the ```enableCodeAgent``` flag to ```true```. See more information about the [Snyk Code Agent](https://docs.snyk.io/features/snyk-broker/snyk-broker-code-agent). Ensure you have the proper entries in the accept.json file. Grab the example file for the appropriate SCM [HERE](https://github.com/snyk/broker/tree/master/client-templates). Ensure you have the additional entries as specified by the Snyk Code Agent documentation.
@@ -257,7 +270,7 @@ There are two options available for ingress traffic. By default, the pods are no
 ### Load Balancer
 To enable a load balancer, add the ```--set service.<service-type>=LoadBalancer```. Allowed values are ```brokertype```, ```crType```, and ```caType```
 
-Example for Github:
+Example for GitHub:
 
 ```
 helm install snyk-broker-chart snyk-broker/snyk-broker \

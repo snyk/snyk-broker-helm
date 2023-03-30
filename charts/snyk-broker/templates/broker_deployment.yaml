@@ -200,8 +200,8 @@ spec:
             - name: ARTIFACTORY_URL
               value: {{ .Values.artifactoryUrl }}
           {{- end }}
-          {{- if eq .Values.scmType "nexus" }}
-          # Nexus
+          {{- if or (eq .Values.scmType "nexus") (eq .Values.scmType "nexus2") }}
+          # Nexus (3 or 2)
             - name: BROKER_TOKEN
               valueFrom:
                 secretKeyRef:
