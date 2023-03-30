@@ -78,7 +78,7 @@ spec:
               - name: {{ include "snyk-broker.fullname" . }}-httpskey-volume
                 mountPath: /home/node/httpskey
                 readOnly: true
-              {{- end }}              
+              {{- end }}
           env:
             - name: BROKER_SERVER_URL
               value: {{ .Values.brokerServerUrl }}
@@ -87,7 +87,7 @@ spec:
             - name: BROKER_SYSTEMCHECK_PATH
               value: {{ .Values.systemCheckPath }}
           {{- if eq .Values.scmType "github-com" }}
-       # Github
+          # GitHub
             - name: BROKER_TOKEN
               valueFrom:
                 secretKeyRef:
@@ -104,7 +104,7 @@ spec:
               value: {{ .Values.brokerClientUrl }}
           {{- end }}
           {{- if eq .Values.scmType "github-enterprise" }}
-        # Github Enterprise
+          # GitHub Enterprise
             - name: BROKER_TOKEN
               valueFrom:
                 secretKeyRef:
@@ -120,7 +120,7 @@ spec:
             - name: GITHUB_API
               value: {{ .Values.githubApi }}
             - name: GITHUB_GRAPHQL
-              value: {{ .Values.githubGraphQl}}              
+              value: {{ .Values.githubGraphQl}}
             - name: PORT
               value: {{ .Values.deployment.container.containerPort | squote }}
             - name: BROKER_CLIENT_URL
@@ -128,7 +128,7 @@ spec:
 
           {{- end }}
           {{- if eq .Values.scmType "bitbucket-server" }}
-        # Bitbucket
+          # Bitbucket
             - name: BROKER_TOKEN
               valueFrom:
                 secretKeyRef:
@@ -144,14 +144,14 @@ spec:
             - name: BITBUCKET
               value: {{ .Values.bitbucket }}
             - name: BITBUCKET_API
-              value: {{ .Values.bitbucketApi }}              
+              value: {{ .Values.bitbucketApi }}
             - name: PORT
               value: {{ .Values.deployment.container.containerPort | squote }}
             - name: BROKER_CLIENT_URL
               value: {{ .Values.brokerClientUrl }}
           {{- end }}
           {{- if eq .Values.scmType "gitlab" }}
-         # Gitlab
+          # GitLab
             - name: BROKER_TOKEN
               valueFrom:
                 secretKeyRef:
@@ -163,7 +163,7 @@ spec:
                   name: {{ .Values.scmType}}-token
                   key: "{{ .Values.scmType}}-token-key"
             - name: GITLAB
-              value: {{ .Values.gitlab }}              
+              value: {{ .Values.gitlab }}
             - name: PORT
               value: {{ .Values.deployment.container.containerPort | squote }}
             - name: BROKER_CLIENT_URL
@@ -184,7 +184,7 @@ spec:
             - name: AZURE_REPOS_ORG
               value: {{ .Values.azureReposOrg }}
             - name: AZURE_REPOS_HOST
-              value: {{ .Values.azureReposHost }}        
+              value: {{ .Values.azureReposHost }}
             - name: PORT
               value: {{ .Values.deployment.container.containerPort | squote }}
             - name: BROKER_CLIENT_URL
@@ -199,6 +199,20 @@ spec:
                   key: "{{ .Values.scmType}}-broker-token-key"
             - name: ARTIFACTORY_URL
               value: {{ .Values.artifactoryUrl }}
+          {{- end }}
+          {{- if or (eq .Values.scmType "nexus") (eq .Values.scmType "nexus2") }}
+          # Nexus (3 or 2)
+            - name: BROKER_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: { { .Values.scmType } }-broker-token
+                  key: "{{ .Values.scmType}}-broker-token-key"
+            - name: BASE_NEXUS_URL
+              value: {{ .Values.baseNexusUrl }}
+            - name: NEXUS_URL
+              value: {{ .Values.nexusUrl }}
+            - name: BROKER_CLIENT_VALIDATION_URL
+              value: {{ .Values.brokerClientValidationUrl }}
           {{- end }}
           {{- if eq .Values.scmType "jira" }}
           # Jira
@@ -215,7 +229,7 @@ spec:
                   name: {{ .Values.scmType}}-token
                   key: "{{ .Values.scmType}}-token-key"
             - name: JIRA_HOSTNAME
-              value: {{ .Values.jiraHostname }}        
+              value: {{ .Values.jiraHostname }}
             - name: PORT
               value: {{ .Values.deployment.container.containerPort | squote }}
             - name: BROKER_CLIENT_URL
@@ -233,14 +247,14 @@ spec:
             - name: CR_TYPE
               value: {{ .Values.crType }}
             - name: CR_BASE
-              value: {{ .Values.crBase }} 
+              value: {{ .Values.crBase }}
             - name: CR_USERNAME
-              value: {{ .Values.crUsername }}  
+              value: {{ .Values.crUsername }}
             - name: CR_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.scmType}}-token
-                  key: "{{ .Values.scmType}}-token-key"                   
+                  key: "{{ .Values.scmType}}-token-key"
             - name: CR_TOKEN
               valueFrom:
                 secretKeyRef:
@@ -328,7 +342,7 @@ spec:
             - name: {{ .name }}
               value: {{ .value }} 
         {{- end}}
-      # Mount Accept.json and Certs       
+      # Mount Accept.json and Certs
       volumes:
       {{- if (include "snyk-broker.acceptJson" .)}}
       - name: {{ include "snyk-broker.fullname" . }}-accept-volume

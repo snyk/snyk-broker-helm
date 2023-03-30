@@ -24,12 +24,14 @@ brokerServerUrl: "https://broker.snyk.io"
 # scmType is used to define the Source Control that you are connecting to. 
 
 # Allowed values for scmType:
-#   Github.com: github-com
-#   Github Enterprise: github-enterprise
+#   GitHub.com: github-com
+#   GitHub Enterprise: github-enterprise
 #   Bitbucket: bitbucket-server
-#   Gitlab: gitlab
+#   GitLab: gitlab
 #   Azure Repos: azure-repos
 #   Artifactory: artifactory
+#   Nexus: nexus
+#   Nexus2: nexus2
 #   Jira: jira
 #   Container Registry Agent: container-registry-agent
 
@@ -88,6 +90,18 @@ azureReposToken: ""
 
 # Artifactory URL - do not prepend HTTPS
 artifactoryUrl: ""
+
+
+##### Nexus 2 & 3 #####
+
+# Nexus Base URL - include HTTPS
+baseNexusUrl: ""
+
+# Nexus URL - include HTTPS
+nexusUrl: ""
+
+# Nexus Validation URL, checked by broker client systemcheck endpoint.
+brokerClientValidationUrl: ""
 
 
 ##### Jira #####
