@@ -200,6 +200,20 @@ spec:
             - name: ARTIFACTORY_URL
               value: {{ .Values.artifactoryUrl }}
           {{- end }}
+          {{- if eq .Values.scmType "nexus" }}
+          # Nexus
+            - name: BROKER_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: { { .Values.scmType } }-broker-token
+                  key: "{{ .Values.scmType}}-broker-token-key"
+            - name: BASE_NEXUS_URL
+              value: {{ .Values.baseNexusUrl }}
+            - name: NEXUS_URL
+              value: {{ .Values.nexusUrl }}
+            - name: BROKER_CLIENT_VALIDATION_URL
+              value: {{ .Values.brokerClientValidationUrl }}
+          {{- end }}
           {{- if eq .Values.scmType "jira" }}
           # Jira
             - name: BROKER_TOKEN

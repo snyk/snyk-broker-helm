@@ -90,6 +90,18 @@ azureReposToken: ""
 artifactoryUrl: ""
 
 
+##### Nexus #####
+
+# Nexus Base URL - include HTTPS
+baseNexusUrl: ""
+
+# Nexus URL - include HTTPS
+nexusUrl: ""
+
+# Nexus Validation URL, checked by broker client systemcheck endpoint.
+brokerClientValidationUrl: ""
+
+
 ##### Jira #####
 
 # Jira Username

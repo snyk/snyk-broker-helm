@@ -20,6 +20,7 @@ Bitbucket: ```bitbucket-server```<br>
 Gitlab: ```gitlab```<br>
 Azure Repos: ```azure-repos```<br>
 Artifactory: ```artifactory```<br>
+Nexus: `nexus` <br>
 Jira: ```jira```<br>
 Container Registry Agent: ```container-registry-agent```<br>
 
@@ -98,6 +99,18 @@ helm install snyk-broker-chart snyk-broker/snyk-broker \
              --set scmType=artifactory \
              --set brokerToken=<ENTER_BROKER_TOKEN> \
              --set artifactoryUrl=<ENTER_ARTIFACTORY_URL> \
+             -n snyk-broker --create-namespace
+```
+
+### Nexus
+<b>Note: for `baseNexusUrl` and `nexusUrl` values include `https://`</b>
+```
+helm install snyk-broker-chart snyk-broker/snyk-broker \
+             --set scmType=nexus \
+             --set brokerToken=<ENTER_BROKER_TOKEN> \
+             --set baseNexusUrl=<ENTER_BASE_NEXUS_URL> \
+             --set nexusUrl=<ENTER_NEXUS_URL>
+             --set brokerClientValidationUrl=<ENTER_BROKER_CLIENT_VALIDATION_URL> \
              -n snyk-broker --create-namespace
 ```
 
