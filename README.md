@@ -25,7 +25,7 @@ Container Registry Agent: ```container-registry-agent```<br>
 
 The following examples will create a namespace called ```snyk-broker```. To deploy into an existing namespace, adjust the ```-n``` parameter and delete the ```--create-namespace``` parameter.
 
-### Github.com
+### GitHub.com
 
 ```
 helm install snyk-broker-chart snyk-broker/snyk-broker \
@@ -35,7 +35,7 @@ helm install snyk-broker-chart snyk-broker/snyk-broker \
              --set brokerClientUrl=<ENTER_BROKER_CLIENT_URL>:<ENTER_BROKER_CLIENT_PORT> \
              -n snyk-broker --create-namespace
 ```
-### Github Enterprise
+### GitHub Enterprise
 <b>Note: for ```github```, ```githubApi``` and ```githubGraphQl``` values do not include ```https://``` </b>
 ```
 helm install snyk-broker-chart snyk-broker/snyk-broker \
@@ -64,7 +64,7 @@ helm install snyk-broker-chart snyk-broker/snyk-broker \
              -n snyk-broker --create-namespace
 ```
 
-### Gitlab
+### GitLab
 
 <b>Note: for ```gitlab``` value do not include ```https://``` </b>
 
@@ -113,6 +113,7 @@ helm install snyk-broker-chart snyk-broker/snyk-broker \
              --set brokerClientUrl=<ENTER_BROKER_CLIENT_URL>:<ENTER_BROKER_CLIENT_PORT> \
              -n snyk-broker --create-namespace
 ```
+
 ## Container Registry Agent
  While the documentation for the [Snyk Broker](https://github.com/snyk/broker) requires the parameter ```CR_AGENT_URL```, it is not required in this case. 
 

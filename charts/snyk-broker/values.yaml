@@ -24,10 +24,10 @@ brokerServerUrl: "https://broker.snyk.io"
 # scmType is used to define the Source Control that you are connecting to. 
 
 # Allowed values for scmType:
-#   Github.com: github-com
-#   Github Enterprise: github-enterprise
+#   GitHub.com: github-com
+#   GitHub Enterprise: github-enterprise
 #   Bitbucket: bitbucket-server
-#   Gitlab: gitlab
+#   GitLab: gitlab
 #   Azure Repos: azure-repos
 #   Artifactory: artifactory
 #   Jira: jira
