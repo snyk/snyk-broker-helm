@@ -20,7 +20,7 @@ Bitbucket: ```bitbucket-server```<br>
 Gitlab: ```gitlab```<br>
 Azure Repos: ```azure-repos```<br>
 Artifactory: ```artifactory```<br>
-Nexus: `nexus` <br>
+Nexus3: `nexus` <br>
 Nexus2: `nexus2` <br>
 Jira: ```jira```<br>
 Container Registry Agent: ```container-registry-agent```<br>
@@ -103,7 +103,7 @@ helm install snyk-broker-chart snyk-broker/snyk-broker \
              -n snyk-broker --create-namespace
 ```
 
-### Nexus
+### Nexus 3
 <b>Note: for `baseNexusUrl` and `nexusUrl` values include `https://`</b>
 ```
 helm install snyk-broker-chart snyk-broker/snyk-broker \
