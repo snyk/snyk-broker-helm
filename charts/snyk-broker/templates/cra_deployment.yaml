@@ -59,7 +59,7 @@ spec:
          {{- range .Values.env }}
          # custom env var in override.yaml
             - name: {{ .name }}
-              value: {{ .value }} 
+              value: {{ .value | squote }} 
         {{- end}}
 
 
