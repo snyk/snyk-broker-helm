@@ -222,6 +222,10 @@ image:
   # Overrides the image tag. If left empty the latest version is used
   tag: ""
 
+##### Broker Image Pull Secrets Parameters #####
+imagePullSecrets: []
+# - name: registrySecretName
+
 # Health and System Check Paths for the broker
 healthCheckPath: &healthCheckPath "/healthcheck"
 systemCheckPath: &systemCheckPath "/systemcheck"
@@ -245,7 +249,6 @@ brokerReadinessProbe:
     periodSeconds: 10
     timeoutSeconds: 1
     failureThreshold: 3
-
 
 ##### Broker Resource Values #####
 brokerResources:
