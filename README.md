@@ -291,6 +291,11 @@ Pre-requisite: Your cluster must have an ingress controller configured properly.
 ## Secrets
 API Tokens and or Passwords use Kubernetes Secrets. Existing secrets can be used, they just need to be created in the following formats.
 
+## Image repository, tag and Image Pull Secret
+You can choose to use your own container registry and tag instead of the public images by customizing the values.yaml file to specify your container registry uri and tag.
+
+If your container registry require an image pull secret, you can specify an image secret. Note that the Image Pull Secret is NOT created by the chart but rather expected to be present on your cluster.
+
 ### Broker Tokens
 ```
 apiVersion: v1
