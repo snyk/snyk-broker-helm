@@ -268,7 +268,8 @@ helm install snyk-broker-gitub-com snyk-broker/snyk-broker -f values.yaml -n sny
 There are two options available for ingress traffic. By default, the pods are not accessible from outside the cluster.
 
 ### Load Balancer
-To enable a load balancer, add the ```--set service.<service-type>=LoadBalancer```. Allowed values are ```brokertype```, ```crType```, and ```caType```
+To enable a load balancer, add the ```--set service.<service-type>=LoadBalancer```. Allowed values are ```brokerType```, ```crType```, and ```caType```.
+Service type refers to the type of broker you are running.
 
 Example for GitHub:
 
@@ -278,9 +279,14 @@ helm install snyk-broker-chart snyk-broker/snyk-broker \
              --set brokerToken=<ENTER_BROKER_TOKEN> \
              --set scmToken=<ENTER_REPO_TOKEN> \
              --set brokerClientUrl=<ENTER_BROKER_CLIENT_URL>:<ENTER_BROKER_CLIENT_PORT> \
-             --set service.type=LoadBalancer \
+             --set service.brokerType=LoadBalancer \
              -n snyk-broker --create-namespace
 ```
+
+### Ingress
+To add an ingress, enable it in the values.yaml and add the relevant configuration parameters, following the example values in the values file.
+
+Pre-requisite: Your cluster must have an ingress controller configured properly.
 
 ## Secrets
 API Tokens and or Passwords use Kubernetes Secrets. Existing secrets can be used, they just need to be created in the following formats.
