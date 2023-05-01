@@ -2,6 +2,15 @@ apiVersion: v1
 entries:
   snyk-broker:
   - apiVersion: v2
+    created: "2023-05-01T08:08:35.823990272Z"
+    description: A Helm chart for Kubernetes
+    digest: 012d8884ec28f1986633859ad808637367bea28e4f449535d163eeaccfb962dd
+    name: snyk-broker
+    type: application
+    urls:
+    - https://github.com/snyk/snyk-broker-helm/releases/download/snyk-broker-1.2.0/snyk-broker-1.2.0.tgz
+    version: 1.2.0
+  - apiVersion: v2
     created: "2023-04-04T13:06:52.621760871Z"
     description: A Helm chart for Kubernetes
     digest: 49e1e70a3720905bff9685d3e9890d67943710cc30a395c66efb8d3778161a7f
@@ -127,4 +136,4 @@ entries:
     urls:
     - https://github.com/snyk/snyk-broker-helm/releases/download/snyk-broker-1.1.2/snyk-broker-1.1.2.tgz
     version: 1.1.2
-generated: "2023-04-04T13:06:52.621844774Z"
+generated: "2023-05-01T08:08:35.824169775Z"
