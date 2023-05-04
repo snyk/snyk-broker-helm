@@ -205,6 +205,9 @@ helm install snyk-broker-chart snyk-broker/snyk-broker \
              --set acceptJsonFile=accept.json \
              -n snyk-broker --create-namespace
 ```
+## Snyk Code
+To use Snyk code, specific Broker rules are required. The Broker allows easy injection of these rules via the `ACCEPT_CODE=true` environment variable.
+This helm chart sets `ACCEPT_CODE=true` by default so no further action is needed for the rules pertaining to Snyk Code.
 
 ## Snyk Code Agent
 To deploy the Snyk Code Agent, you must set the ```enableCodeAgent``` flag to ```true```. See more information about the [Snyk Code Agent](https://docs.snyk.io/features/snyk-broker/snyk-broker-code-agent). Ensure you have the proper entries in the accept.json file. Grab the example file for the appropriate SCM [HERE](https://github.com/snyk/broker/tree/master/client-templates). Ensure you have the additional entries as specified by the Snyk Code Agent documentation.
