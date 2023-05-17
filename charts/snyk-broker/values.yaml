@@ -402,7 +402,14 @@ extraVolumes: []
 
 extraVolumeMounts: []
 
-##### Do not adjust these settings. The Broker is not deigned to work with multiple replicas
+extraPodSpecs: 
+  # tolerations:
+  # - key: "networking/something"
+  #   operator: "Equal"
+  #   value: "internal-pods"
+  #   effect: "NoSchedule"
+
+##### Do not adjust these settings. The Broker is not designed to work with multiple replicas
 
 autoscaling:
   enabled: false
