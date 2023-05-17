@@ -21,6 +21,9 @@ spec:
       labels:
         {{- include "snyk-broker.selectorLabels" . | nindent 8 }}
     spec:
+      {{- if .Values.extraPodSpecs }}
+          {{- toYaml .Values.extraPodSpecs | nindent 6 }}
+      {{- end }}
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
@@ -62,8 +65,8 @@ spec:
               path: {{ .Values.brokerReadinessProbe.path }}
             {{- toYaml .Values.brokerReadinessProbe.config | nindent 12 }}
           {{- end }}
-          {{- if .Values.extraPodSpecs }}
-          {{- toYaml .Values.extraPodSpecs | nindent 10 }}
+          {{- if .Values.extraContainerSpecs }}
+          {{- toYaml .Values.extraContainerSpecs | nindent 10 }}
           {{- end }}
           volumeMounts:
               {{- if (include "snyk-broker.acceptJson" .)}}

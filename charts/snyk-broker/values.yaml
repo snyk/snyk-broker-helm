@@ -401,6 +401,7 @@ extraObjects: []
 extraVolumes: []
 
 extraVolumeMounts: []
+extraContainerSpecs:
 
 extraPodSpecs: 
   # tolerations:
@@ -408,6 +409,8 @@ extraPodSpecs:
   #   operator: "Equal"
   #   value: "internal-pods"
   #   effect: "NoSchedule"
+  # nodeSelector:
+  #   networking.company.com/network-segment: internal-pods
 
 ##### Do not adjust these settings. The Broker is not designed to work with multiple replicas
 
