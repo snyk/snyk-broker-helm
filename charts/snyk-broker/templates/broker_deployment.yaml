@@ -62,6 +62,9 @@ spec:
               path: {{ .Values.brokerReadinessProbe.path }}
             {{- toYaml .Values.brokerReadinessProbe.config | nindent 12 }}
           {{- end }}
+          {{- if .Values.extraPodSpecs }}
+          {{- toYaml .Values.extraPodSpecs | nindent 10 }}
+          {{- end }}
           volumeMounts:
               {{- if (include "snyk-broker.acceptJson" .)}}
               - name: {{ include "snyk-broker.fullname" . }}-accept-volume
