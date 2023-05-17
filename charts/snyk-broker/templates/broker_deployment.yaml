@@ -215,12 +215,19 @@ spec:
             - name: BROKER_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: { { .Values.scmType } }-broker-token
+                  name: {{ .Values.scmType }}-broker-token
                   key: "{{ .Values.scmType}}-broker-token-key"
             - name: BASE_NEXUS_URL
-              value: {{ .Values.baseNexusUrl }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.scmType }}-base-nexus-url
+                  key: "{{ .Values.scmType}}-base-nexus-url"
             - name: NEXUS_URL
-              value: {{ .Values.nexusUrl }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.scmType }}-nexus-url
+                  key: "{{ .Values.scmType}}-nexus-url"
+              
             - name: BROKER_CLIENT_VALIDATION_URL
               value: {{ .Values.brokerClientValidationUrl }}
           {{- end }}
