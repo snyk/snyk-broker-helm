@@ -1,5 +1,5 @@
 apiVersion: v2
 name: snyk-broker
-version: 1.5.1
+version: 1.6.0
 description: A Helm chart for Kubernetes
 type: application
