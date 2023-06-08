@@ -2,9 +2,6 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-# Do not adjust this number. Multiple replicas can cause problems
-replicaCount: 1
-
 ##### Snyk Specific Values #####
 
 # Broker Token is a value from Snyk. Get this from the integration settings page or your Snyk Representative
@@ -16,6 +13,16 @@ brokerClientUrl: ""
 
 # Do not touch unless directed by a Snyk Representative
 brokerServerUrl: "https://broker.snyk.io"
+
+preflightChecks:
+  enabled: true
+
+highAvailabilityMode:
+  enabled: false
+brokerDispatcherUrl: "https://api.snyk.io"
+
+# This number if only used if enableHighAvailabilityMode is true
+replicaCount: 2
 
 
 

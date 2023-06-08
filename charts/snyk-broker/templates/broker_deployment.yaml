@@ -6,8 +6,10 @@ metadata:
   labels:
     {{- include "snyk-broker.labels" . | nindent 4 }}
 spec:
-  {{- if not .Values.autoscaling.enabled }}
+  {{- if and (not .Values.autoscaling.enabled) (.Values.highAvailabilityMode.enabled) }}
   replicas: {{ .Values.replicaCount }}
+  {{ else }}
+  replicas: 1
   {{- end }}
   selector:
     matchLabels:
@@ -357,11 +359,22 @@ spec:
               value: "tf,yaml,yml,json,tpl"
           {{- end}}
          {{- end }}
+         # Broker Configuration
+        {{- if not .Values.preflightChecks.enabled }}
+            - name: PREFLIGHT_CHECKS_ENABLED
+              value: "false"
+        {{- end}}
+        {{- if .Values.highAvailabilityMode.enabled }}
+            - name: BROKER_HA_MODE_ENABLED
+              value: "true"
+        {{- end}}
         {{- range .Values.env }}
          # custom env var in override.yaml
             - name: {{ .name }}
               value: {{ .value | squote }} 
         {{- end}}
+            - name: BROKER_DISPATCHER_BASE_URL
+              value: {{ .Values.brokerDispatcherUrl }} 
       # Mount Accept.json and Certs
       volumes:
       {{- if (include "snyk-broker.acceptJson" .)}}

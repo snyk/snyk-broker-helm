@@ -1,0 +1,546 @@
+HA mode on:
+  1: |
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      labels:
+        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: snyk-broker
+        helm.sh/chart: snyk-broker-1.7.0
+      name: github-com-broker
+      namespace: NAMESPACE
+    spec:
+      replicas: 2
+      selector:
+        matchLabels:
+          app.kubernetes.io/instance: RELEASE-NAME
+          app.kubernetes.io/name: snyk-broker
+      template:
+        metadata:
+          labels:
+            app.kubernetes.io/instance: RELEASE-NAME
+            app.kubernetes.io/name: snyk-broker
+        spec:
+          containers:
+            - env:
+                - name: BROKER_SERVER_URL
+                  value: https://broker.test.snyk.io
+                - name: BROKER_HEALTHCHECK_PATH
+                  value: /healthcheck
+                - name: BROKER_SYSTEMCHECK_PATH
+                  value: /systemcheck
+                - name: BROKER_TOKEN
+                  valueFrom:
+                    secretKeyRef:
+                      key: github-com-broker-token-key
+                      name: github-com-broker-token
+                - name: GITHUB_TOKEN
+                  valueFrom:
+                    secretKeyRef:
+                      key: github-com-token-key
+                      name: github-com-token
+                - name: PORT
+                  value: "8000"
+                - name: BROKER_CLIENT_URL
+                  value: http://brokerclient
+                - name: LOG_LEVEL
+                  value: info
+                - name: LOG_ENABLE_BODY
+                  value: "false"
+                - name: ACCEPT_CODE
+                  value: "true"
+                - name: ACCEPT_IAC
+                  value: tf,yaml,yml,json,tpl
+                - name: BROKER_HA_MODE_ENABLED
+                  value: "true"
+                - name: BROKER_DISPATCHER_BASE_URL
+                  value: https://api.test.snyk.io
+              image: snyk/broker:github-com
+              imagePullPolicy: Always
+              livenessProbe:
+                failureThreshold: 3
+                httpGet:
+                  path: /healthcheck
+                  port: 8000
+                initialDelaySeconds: 3
+                periodSeconds: 10
+                timeoutSeconds: 1
+              name: github-com-broker
+              ports:
+                - containerPort: 8000
+                  name: http
+              readinessProbe:
+                failureThreshold: 3
+                httpGet:
+                  path: /healthcheck
+                  port: 8000
+                initialDelaySeconds: 3
+                periodSeconds: 10
+                timeoutSeconds: 1
+              resources:
+                limits:
+                  cpu: 1
+                  memory: 256Mi
+                requests:
+                  cpu: 1
+                  memory: 256Mi
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities:
+                  drop:
+                    - ALL
+                readOnlyRootFilesystem: true
+                runAsNonRoot: true
+                runAsUser: 1000
+              volumeMounts: null
+          securityContext: {}
+          serviceAccountName: snyk-broker
+          volumes: null
+  2: |
+    apiVersion: v1
+    kind: Service
+    metadata:
+      labels:
+        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: snyk-broker
+        helm.sh/chart: snyk-broker-1.7.0
+      name: github-com-broker-service
+      namespace: NAMESPACE
+    spec:
+      ports:
+        - port: 8000
+          targetPort: 8000
+      selector:
+        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/name: snyk-broker
+      type: ClusterIP
+  3: |
+    apiVersion: v1
+    data:
+      github-com-broker-token-key: MTIz
+    kind: Secret
+    metadata:
+      name: github-com-broker-token
+    type: Opaque
+  4: |
+    apiVersion: v1
+    kind: ServiceAccount
+    metadata:
+      labels:
+        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: snyk-broker
+        helm.sh/chart: snyk-broker-1.7.0
+      name: snyk-broker
+      namespace: NAMESPACE
+HA mode on with 4 replicas:
+  1: |
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      labels:
+        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: snyk-broker
+        helm.sh/chart: snyk-broker-1.7.0
+      name: github-com-broker
+      namespace: NAMESPACE
+    spec:
+      replicas: 4
+      selector:
+        matchLabels:
+          app.kubernetes.io/instance: RELEASE-NAME
+          app.kubernetes.io/name: snyk-broker
+      template:
+        metadata:
+          labels:
+            app.kubernetes.io/instance: RELEASE-NAME
+            app.kubernetes.io/name: snyk-broker
+        spec:
+          containers:
+            - env:
+                - name: BROKER_SERVER_URL
+                  value: https://broker.test.snyk.io
+                - name: BROKER_HEALTHCHECK_PATH
+                  value: /healthcheck
+                - name: BROKER_SYSTEMCHECK_PATH
+                  value: /systemcheck
+                - name: BROKER_TOKEN
+                  valueFrom:
+                    secretKeyRef:
+                      key: github-com-broker-token-key
+                      name: github-com-broker-token
+                - name: GITHUB_TOKEN
+                  valueFrom:
+                    secretKeyRef:
+                      key: github-com-token-key
+                      name: github-com-token
+                - name: PORT
+                  value: "8000"
+                - name: BROKER_CLIENT_URL
+                  value: http://brokerclient
+                - name: LOG_LEVEL
+                  value: info
+                - name: LOG_ENABLE_BODY
+                  value: "false"
+                - name: ACCEPT_CODE
+                  value: "true"
+                - name: ACCEPT_IAC
+                  value: tf,yaml,yml,json,tpl
+                - name: BROKER_HA_MODE_ENABLED
+                  value: "true"
+                - name: BROKER_DISPATCHER_BASE_URL
+                  value: https://api.test.snyk.io
+              image: snyk/broker:github-com
+              imagePullPolicy: Always
+              livenessProbe:
+                failureThreshold: 3
+                httpGet:
+                  path: /healthcheck
+                  port: 8000
+                initialDelaySeconds: 3
+                periodSeconds: 10
+                timeoutSeconds: 1
+              name: github-com-broker
+              ports:
+                - containerPort: 8000
+                  name: http
+              readinessProbe:
+                failureThreshold: 3
+                httpGet:
+                  path: /healthcheck
+                  port: 8000
+                initialDelaySeconds: 3
+                periodSeconds: 10
+                timeoutSeconds: 1
+              resources:
+                limits:
+                  cpu: 1
+                  memory: 256Mi
+                requests:
+                  cpu: 1
+                  memory: 256Mi
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities:
+                  drop:
+                    - ALL
+                readOnlyRootFilesystem: true
+                runAsNonRoot: true
+                runAsUser: 1000
+              volumeMounts: null
+          securityContext: {}
+          serviceAccountName: snyk-broker
+          volumes: null
+  2: |
+    apiVersion: v1
+    kind: Service
+    metadata:
+      labels:
+        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: snyk-broker
+        helm.sh/chart: snyk-broker-1.7.0
+      name: github-com-broker-service
+      namespace: NAMESPACE
+    spec:
+      ports:
+        - port: 8000
+          targetPort: 8000
+      selector:
+        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/name: snyk-broker
+      type: ClusterIP
+  3: |
+    apiVersion: v1
+    data:
+      github-com-broker-token-key: MTIz
+    kind: Secret
+    metadata:
+      name: github-com-broker-token
+    type: Opaque
+  4: |
+    apiVersion: v1
+    kind: ServiceAccount
+    metadata:
+      labels:
+        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: snyk-broker
+        helm.sh/chart: snyk-broker-1.7.0
+      name: snyk-broker
+      namespace: NAMESPACE
+default values:
+  1: |
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      labels:
+        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: snyk-broker
+        helm.sh/chart: snyk-broker-1.7.0
+      name: github-com-broker
+      namespace: NAMESPACE
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          app.kubernetes.io/instance: RELEASE-NAME
+          app.kubernetes.io/name: snyk-broker
+      template:
+        metadata:
+          labels:
+            app.kubernetes.io/instance: RELEASE-NAME
+            app.kubernetes.io/name: snyk-broker
+        spec:
+          containers:
+            - env:
+                - name: BROKER_SERVER_URL
+                  value: https://broker.test.snyk.io
+                - name: BROKER_HEALTHCHECK_PATH
+                  value: /healthcheck
+                - name: BROKER_SYSTEMCHECK_PATH
+                  value: /systemcheck
+                - name: BROKER_TOKEN
+                  valueFrom:
+                    secretKeyRef:
+                      key: github-com-broker-token-key
+                      name: github-com-broker-token
+                - name: GITHUB_TOKEN
+                  valueFrom:
+                    secretKeyRef:
+                      key: github-com-token-key
+                      name: github-com-token
+                - name: PORT
+                  value: "8000"
+                - name: BROKER_CLIENT_URL
+                  value: http://brokerclient
+                - name: LOG_LEVEL
+                  value: info
+                - name: LOG_ENABLE_BODY
+                  value: "false"
+                - name: ACCEPT_CODE
+                  value: "true"
+                - name: ACCEPT_IAC
+                  value: tf,yaml,yml,json,tpl
+                - name: BROKER_DISPATCHER_BASE_URL
+                  value: https://api.test.snyk.io
+              image: snyk/broker:github-com
+              imagePullPolicy: Always
+              livenessProbe:
+                failureThreshold: 3
+                httpGet:
+                  path: /healthcheck
+                  port: 8000
+                initialDelaySeconds: 3
+                periodSeconds: 10
+                timeoutSeconds: 1
+              name: github-com-broker
+              ports:
+                - containerPort: 8000
+                  name: http
+              readinessProbe:
+                failureThreshold: 3
+                httpGet:
+                  path: /healthcheck
+                  port: 8000
+                initialDelaySeconds: 3
+                periodSeconds: 10
+                timeoutSeconds: 1
+              resources:
+                limits:
+                  cpu: 1
+                  memory: 256Mi
+                requests:
+                  cpu: 1
+                  memory: 256Mi
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities:
+                  drop:
+                    - ALL
+                readOnlyRootFilesystem: true
+                runAsNonRoot: true
+                runAsUser: 1000
+              volumeMounts: null
+          securityContext: {}
+          serviceAccountName: snyk-broker
+          volumes: null
+  2: |
+    apiVersion: v1
+    kind: Service
+    metadata:
+      labels:
+        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: snyk-broker
+        helm.sh/chart: snyk-broker-1.7.0
+      name: github-com-broker-service
+      namespace: NAMESPACE
+    spec:
+      ports:
+        - port: 8000
+          targetPort: 8000
+      selector:
+        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/name: snyk-broker
+      type: ClusterIP
+  3: |
+    apiVersion: v1
+    data:
+      github-com-broker-token-key: MTIz
+    kind: Secret
+    metadata:
+      name: github-com-broker-token
+    type: Opaque
+  4: |
+    apiVersion: v1
+    kind: ServiceAccount
+    metadata:
+      labels:
+        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: snyk-broker
+        helm.sh/chart: snyk-broker-1.7.0
+      name: snyk-broker
+      namespace: NAMESPACE
+preflight checks off:
+  1: |
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      labels:
+        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: snyk-broker
+        helm.sh/chart: snyk-broker-1.7.0
+      name: github-com-broker
+      namespace: NAMESPACE
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          app.kubernetes.io/instance: RELEASE-NAME
+          app.kubernetes.io/name: snyk-broker
+      template:
+        metadata:
+          labels:
+            app.kubernetes.io/instance: RELEASE-NAME
+            app.kubernetes.io/name: snyk-broker
+        spec:
+          containers:
+            - env:
+                - name: BROKER_SERVER_URL
+                  value: https://broker.test.snyk.io
+                - name: BROKER_HEALTHCHECK_PATH
+                  value: /healthcheck
+                - name: BROKER_SYSTEMCHECK_PATH
+                  value: /systemcheck
+                - name: BROKER_TOKEN
+                  valueFrom:
+                    secretKeyRef:
+                      key: github-com-broker-token-key
+                      name: github-com-broker-token
+                - name: GITHUB_TOKEN
+                  valueFrom:
+                    secretKeyRef:
+                      key: github-com-token-key
+                      name: github-com-token
+                - name: PORT
+                  value: "8000"
+                - name: BROKER_CLIENT_URL
+                  value: http://brokerclient
+                - name: LOG_LEVEL
+                  value: info
+                - name: LOG_ENABLE_BODY
+                  value: "false"
+                - name: ACCEPT_CODE
+                  value: "true"
+                - name: ACCEPT_IAC
+                  value: tf,yaml,yml,json,tpl
+                - name: PREFLIGHT_CHECKS_ENABLED
+                  value: "false"
+                - name: BROKER_DISPATCHER_BASE_URL
+                  value: https://api.test.snyk.io
+              image: snyk/broker:github-com
+              imagePullPolicy: Always
+              livenessProbe:
+                failureThreshold: 3
+                httpGet:
+                  path: /healthcheck
+                  port: 8000
+                initialDelaySeconds: 3
+                periodSeconds: 10
+                timeoutSeconds: 1
+              name: github-com-broker
+              ports:
+                - containerPort: 8000
+                  name: http
+              readinessProbe:
+                failureThreshold: 3
+                httpGet:
+                  path: /healthcheck
+                  port: 8000
+                initialDelaySeconds: 3
+                periodSeconds: 10
+                timeoutSeconds: 1
+              resources:
+                limits:
+                  cpu: 1
+                  memory: 256Mi
+                requests:
+                  cpu: 1
+                  memory: 256Mi
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities:
+                  drop:
+                    - ALL
+                readOnlyRootFilesystem: true
+                runAsNonRoot: true
+                runAsUser: 1000
+              volumeMounts: null
+          securityContext: {}
+          serviceAccountName: snyk-broker
+          volumes: null
+  2: |
+    apiVersion: v1
+    kind: Service
+    metadata:
+      labels:
+        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: snyk-broker
+        helm.sh/chart: snyk-broker-1.7.0
+      name: github-com-broker-service
+      namespace: NAMESPACE
+    spec:
+      ports:
+        - port: 8000
+          targetPort: 8000
+      selector:
+        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/name: snyk-broker
+      type: ClusterIP
+  3: |
+    apiVersion: v1
+    data:
+      github-com-broker-token-key: MTIz
+    kind: Secret
+    metadata:
+      name: github-com-broker-token
+    type: Opaque
+  4: |
+    apiVersion: v1
+    kind: ServiceAccount
+    metadata:
+      labels:
+        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: snyk-broker
+        helm.sh/chart: snyk-broker-1.7.0
+      name: snyk-broker
+      namespace: NAMESPACE
