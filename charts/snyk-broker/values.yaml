@@ -207,8 +207,7 @@ httpProxy: ""
 # HTTPS Proxy URL - This will apply to both Snyk Broker and Snyk Code Agent
 httpsProxy: ""
 
-# For custom accept.json, specify the path to the accept.json using the --set-file command when installing 
-the chart
+# For custom accept.json, specify the path to the accept.json using the --set-file command when installing the chart
 acceptJson: ""
 
 ##### Broker Image Parameters #####
