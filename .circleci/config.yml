@@ -1,0 +1,13 @@
+version: 2.1
+
+orbs:
+  prodsec: snyk/prodsec-orb@1.0
+
+workflows:
+  scans:
+    jobs:
+      - prodsec/secrets-scan:
+          name: Scan repository for secrets
+          context:
+            - snyk-bot-slack
+          channel: broker-alerts
