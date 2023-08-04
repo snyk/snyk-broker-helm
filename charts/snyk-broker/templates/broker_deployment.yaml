@@ -214,6 +214,8 @@ spec:
                   key: "{{ .Values.scmType}}-broker-token-key"
             - name: ARTIFACTORY_URL
               value: {{ .Values.artifactoryUrl }}
+            - name: PORT
+              value: {{ .Values.deployment.container.containerPort | squote }}
           {{- end }}
           {{- if or (eq .Values.scmType "nexus") (eq .Values.scmType "nexus2") }}
           # Nexus (3 or 2)
@@ -235,6 +237,9 @@ spec:
               
             - name: BROKER_CLIENT_VALIDATION_URL
               value: {{ .Values.brokerClientValidationUrl }}
+
+            - name: PORT
+              value: {{ .Values.deployment.container.containerPort | squote }}
           {{- end }}
           {{- if eq .Values.scmType "jira" }}
           # Jira
