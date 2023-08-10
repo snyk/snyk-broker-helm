@@ -8,7 +8,7 @@
 brokerToken: ""
 
 # brokerClientUrl is the address of the broker. This needs to be the address of itself. In the case of Kubernetes, you need to ensure that you are pointing to the cluster ingress you have setup.
-# Ex: http://kubernetes-ingress.domain.com:8000/broker
+# Ex: http://kubernetes-ingress.domain.com:8000
 brokerClientUrl: ""
 
 # Do not touch unless directed by a Snyk Representative
