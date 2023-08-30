@@ -355,13 +355,15 @@ spec:
               value: /home/node/private/accept.json
          {{ else }}
           {{- if or (eq .Values.scmType "github-com") (eq .Values.scmType "github-enterprise") (eq .Values.scmType "bitbucket-server") (eq .Values.scmType "gitlab") (eq .Values.scmType "azure-repos") }}
-         # Default Values to allow Snyk Code Snippets and Snyk IaC
-            {{- if not .Values.enableSnykCodeLocalEngine}}
+          {{- if not .Values.disableAutoAcceptRules  }}
+          # Default Values to allow Snyk Code Snippets and Snyk IaC
+            {{- if not .Values.enableSnykCodeLocalEngine }}
             - name: ACCEPT_CODE
               value: "true"
             {{- end}}
             - name: ACCEPT_IAC
               value: "tf,yaml,yml,json,tpl"
+          {{- end}}
           {{- end}}
          {{- end }}
          # Broker Configuration
