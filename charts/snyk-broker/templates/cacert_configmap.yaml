@@ -1,4 +1,4 @@
-{{- if .Values.caCert }}
+{{- if and (.Values.caCert) (not .Values.caCertFile) }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -8,4 +8,16 @@ metadata:
     {{- include "snyk-broker.labels" . | nindent 4 }}
 data:
 {{ (.Files.Glob .Values.caCert).AsConfig | nindent 2 }}
+{{- end }}
+
+{{- if and (.Values.caCertFile) (not .Values.caCert) }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "snyk-broker.fullname" . }}-cacert-configmap
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "snyk-broker.labels" . | nindent 4 }}
+data:
+  cacert: {{ .Values.caCertFile | nindent 4}}
 {{- end }}
