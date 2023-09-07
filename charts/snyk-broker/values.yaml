@@ -24,7 +24,8 @@ brokerDispatcherUrl: "https://api.snyk.io"
 # This number if only used if enableHighAvailabilityMode is true
 replicaCount: 2
 
-
+# Adding number value to allow for multiple of the same brokers to be deployed in the same namespace
+number: 1
 
 ##### SCM Generic #####
 

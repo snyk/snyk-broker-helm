@@ -106,12 +106,12 @@ spec:
             - name: BROKER_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.scmType}}-broker-token
+                  name: {{ .Values.scmType}}-broker-token-{{ .Values.number}}
                   key: "{{ .Values.scmType}}-broker-token-key"
             - name: GITHUB_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.scmType}}-token
+                  name: {{ .Values.scmType}}-token-{{ .Values.number}}
                   key: "{{ .Values.scmType}}-token-key"
             - name: PORT
               value: {{ .Values.deployment.container.containerPort | squote }}
@@ -123,12 +123,12 @@ spec:
             - name: BROKER_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.scmType}}-broker-token
+                  name: {{ .Values.scmType}}-broker-token-{{ .Values.number}}
                   key: "{{ .Values.scmType}}-broker-token-key"
             - name: GITHUB_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.scmType}}-token
+                  name: {{ .Values.scmType}}-token-{{ .Values.number}}
                   key: "{{ .Values.scmType}}-token-key"
             - name: GITHUB
               value: {{ .Values.github }}
@@ -147,14 +147,14 @@ spec:
             - name: BROKER_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.scmType}}-broker-token
+                  name: {{ .Values.scmType}}-broker-token-{{ .Values.number}}
                   key: "{{ .Values.scmType}}-broker-token-key"
             - name: BITBUCKET_USERNAME
               value: {{ .Values.bitbucketUsername }}
             - name: BITBUCKET_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.scmType}}-token
+                  name: {{ .Values.scmType}}-token-{{ .Values.number}}
                   key: "{{ .Values.scmType}}-token-key"
             - name: BITBUCKET
               value: {{ .Values.bitbucket }}
@@ -170,12 +170,12 @@ spec:
             - name: BROKER_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.scmType}}-broker-token
+                  name: {{ .Values.scmType}}-broker-token-{{ .Values.number}}
                   key: "{{ .Values.scmType}}-broker-token-key"
             - name: GITLAB_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.scmType}}-token
+                  name: {{ .Values.scmType}}-token-{{ .Values.number}}
                   key: "{{ .Values.scmType}}-token-key"
             - name: GITLAB
               value: {{ .Values.gitlab }}
@@ -189,12 +189,12 @@ spec:
             - name: BROKER_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.scmType}}-broker-token
+                  name: {{ .Values.scmType}}-broker-token-{{ .Values.number}}
                   key: "{{ .Values.scmType}}-broker-token-key"
             - name: AZURE_REPOS_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.scmType}}-token
+                  name: {{ .Values.scmType}}-token-{{ .Values.number}}
                   key: "{{ .Values.scmType}}-token-key"
             - name: AZURE_REPOS_ORG
               value: {{ .Values.azureReposOrg }}
@@ -210,7 +210,7 @@ spec:
             - name: BROKER_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.scmType}}-broker-token
+                  name: {{ .Values.scmType}}-broker-token-{{ .Values.number}}
                   key: "{{ .Values.scmType}}-broker-token-key"
             - name: ARTIFACTORY_URL
               value: {{ .Values.artifactoryUrl }}
@@ -222,12 +222,12 @@ spec:
             - name: BROKER_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.scmType }}-broker-token
+                  name: {{ .Values.scmType }}-broker-token-{{ .Values.number}}
                   key: "{{ .Values.scmType}}-broker-token-key"
             - name: BASE_NEXUS_URL
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.scmType }}-base-nexus-url
+                  name: {{ .Values.scmType }}-base-nexus-url-{{ .Values.number}}
                   key: "{{ .Values.scmType}}-base-nexus-url"
             - name: NEXUS_URL
               valueFrom:
@@ -246,14 +246,14 @@ spec:
             - name: BROKER_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.scmType}}-broker-token
+                  name: {{ .Values.scmType}}-broker-token-{{ .Values.number}}
                   key: "{{ .Values.scmType}}-broker-token-key"
             - name: JIRA_USERNAME
               value: {{ .Values.jiraUsername }}
             - name: JIRA_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.scmType}}-token
+                  name: {{ .Values.scmType}}-token-{{ .Values.number}}
                   key: "{{ .Values.scmType}}-token-key"
             - name: JIRA_HOSTNAME
               value: {{ .Values.jiraHostname }}
@@ -267,7 +267,7 @@ spec:
             - name: BROKER_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.scmType}}-broker-token
+                  name: {{ .Values.scmType}}-broker-token-{{ .Values.number}}
                   key: "{{ .Values.scmType}}-broker-token-key"
             - name: CR_AGENT_URL
               value: http://cra-service:{{ .Values.deployment.container.crSnykPort | toString }}
@@ -280,12 +280,12 @@ spec:
             - name: CR_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.scmType}}-token
+                  name: {{ .Values.scmType}}-token-{{ .Values.number}}
                   key: "{{ .Values.scmType}}-token-key"
             - name: CR_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.scmType}}-token
+                  name: {{ .Values.scmType}}-token-{{ .Values.number}}
                   key: "{{ .Values.scmType}}-token-key"
             - name: CR_ROLE_ARN
               value: {{ .Values.crRoleArn }}
