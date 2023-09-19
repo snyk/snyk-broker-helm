@@ -46,7 +46,7 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 Selector labels
 */}}
 {{- define "snyk-broker.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "snyk-broker.name" . }}
+app.kubernetes.io/name: {{ include "snyk-broker.name" . }}-{{ .Release.Name }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
