@@ -11,7 +11,7 @@
 apiVersion: {{ include "snyk-broker.ingress.apiVersion" . }}
 kind: Ingress
 metadata:
-  name: {{ $fullName }}
+  name: {{ $fullName }}-{{ .Release.Name }}
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "snyk-broker.labels" . | nindent 4 }}
@@ -48,11 +48,11 @@ spec:
             backend:
               {{- if $ingressApiIsStable }}
               service:
-                name: {{ $scmType }}-broker-service
+                name: {{ $scmType }}-broker-service-{{ .Release.Name }}
                 port:
                   number: {{ $servicePort }}
               {{- else }}
-              serviceName: {{ $scmType }}-broker-service
+              serviceName: {{ $scmType }}-broker-service-{{ .Release.Name }}
               servicePort: {{ $servicePort }}
               {{- end }}
   {{- end }}
@@ -62,11 +62,11 @@ spec:
           - backend:
               {{- if $ingressApiIsStable }}
               service:
-                name: {{ $scmType }}-broker-service
+                name: {{ $scmType }}-broker-service-{{ .Release.Name }}
                 port:
                   number: {{ $servicePort }}
               {{- else }}
-              serviceName: {{ $scmType }}-broker-service
+              serviceName: {{ $scmType }}-broker-service-{{ .Release.Name }}
               servicePort: {{ $servicePort }}
               {{- end }}
             {{- if $ingressPath }}

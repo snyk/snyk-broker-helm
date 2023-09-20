@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "snyk-broker.fullname" . }}-httpskey-configmap
+  name: {{ include "snyk-broker.fullname" . }}-httpskey-configmap-{{ .Release.Name }}
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "snyk-broker.labels" . | nindent 4 }}

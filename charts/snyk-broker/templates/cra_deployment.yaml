@@ -2,10 +2,10 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: "{{ .Values.scmType}}-cra"
+  name: "{{ .Values.scmType}}-cra-{{ .Release.Name }}"
   namespace: {{ .Release.Namespace }}
   labels:
-    app.kubernetes.io/name: {{ .Release.Name }}-cr
+    app.kubernetes.io/name: {{ .Release.Name }}-cr-{{ .Release.Name }}
     app.kubernetes.io/instance: {{ .Release.Name }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
@@ -13,7 +13,7 @@ spec:
   {{- end }}
   selector:
     matchLabels:
-      app.kubernetes.io/name: {{ .Release.Name }}-cr
+      app.kubernetes.io/name: {{ .Release.Name }}-cr-{{ .Release.Name }}
       app.kubernetes.io/instance: {{ .Release.Name }}
   template:
     metadata:
@@ -22,7 +22,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        app.kubernetes.io/name: {{ .Release.Name }}-cr
+        app.kubernetes.io/name: {{ .Release.Name }}-cr-{{ .Release.Name }}
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
       {{- with .Values.imagePullSecrets }}
@@ -33,7 +33,7 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
-        - name: container-registry-agent
+        - name: container-registry-agent-{{ .Release.Name }}
           resources:
             limits:
               cpu: {{ .Values.crResources.limits.cpu }}
@@ -67,7 +67,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: "cra-service"
+  name: "cra-service-{{ .Release.Name }}"
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "snyk-broker.labels" . | nindent 4 }}
