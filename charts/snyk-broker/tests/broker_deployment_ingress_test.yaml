@@ -1,0 +1,16 @@
+suite: test broker deployment with ingress
+templates: 
+  - broker_deployment.yaml
+  - broker_service.yaml
+  - secrets.yaml
+  - serviceaccount.yaml
+  - broker_ingress.yaml
+
+tests:
+  - it: ingress
+    values:
+      - ./fixtures/default_values_with_ingress.yaml
+    asserts:
+      - matchSnapshot: {}
+
+
