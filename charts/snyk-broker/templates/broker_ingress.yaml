@@ -8,6 +8,7 @@
 {{- $ingressPath := .Values.brokerIngress.path -}}
 {{- $ingressPathType := .Values.brokerIngress.pathType -}}
 {{- $extraPaths := .Values.brokerIngress.extraPaths -}}
+{{- $releaseName := .Release.Name -}}
 apiVersion: {{ include "snyk-broker.ingress.apiVersion" . }}
 kind: Ingress
 metadata:
@@ -48,11 +49,11 @@ spec:
             backend:
               {{- if $ingressApiIsStable }}
               service:
-                name: {{ $scmType }}-broker-service-{{ .Release.Name }}
+                name: {{ $scmType }}-broker-service-{{ $releaseName }}
                 port:
                   number: {{ $servicePort }}
               {{- else }}
-              serviceName: {{ $scmType }}-broker-service-{{ .Release.Name }}
+              serviceName: {{ $scmType }}-broker-service-{{ $releaseName }}
               servicePort: {{ $servicePort }}
               {{- end }}
   {{- end }}
