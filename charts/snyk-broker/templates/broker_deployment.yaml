@@ -46,6 +46,8 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           {{- if .Values.image.tag }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}-{{ .Values.scmType }}"
+          {{- else if eq .Values.image.tag "dev" }}
+          image: "{{ .Values.image.repository }}:{{ .Values.scmType }}-{{ .Values.image.tag }}"
           {{- else }}
           image: "{{ .Values.image.repository }}:{{ .Values.scmType }}"
           {{- end }}
