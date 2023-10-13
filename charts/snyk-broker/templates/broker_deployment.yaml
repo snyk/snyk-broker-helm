@@ -270,7 +270,7 @@ spec:
                   name: {{ .Values.scmType}}-broker-token-{{ .Release.Name }}
                   key: "{{ .Values.scmType}}-broker-token-key"
             - name: CR_AGENT_URL
-              value: http://cra-service:{{ .Values.deployment.container.crSnykPort | toString }}
+              value: http://cra-service-{{ .Release.Name }}:{{ .Values.deployment.container.crSnykPort | toString }}
             - name: CR_TYPE
               value: {{ .Values.crType }}
             - name: CR_BASE
@@ -298,7 +298,7 @@ spec:
             - name: BROKER_CLIENT_URL
               value: {{ .Values.brokerClientUrl }}
             - name: BROKER_CLIENT_VALIDATION_URL
-              value: http://cra-service:{{ .Values.deployment.container.crSnykPort | toString }}/healthcheck
+              value: http://cra-service-{{ .Release.Name }}:{{ .Values.deployment.container.crSnykPort | toString }}/healthcheck
           {{- end }}
          {{- if .Values.enableCodeAgent }}
          # Code Agent

@@ -29,7 +29,7 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "snyk-broker.serviceAccountName" . }}
+      serviceAccountName: {{ include "snyk-broker.serviceAccountName" . }}-{{ .Release.Name }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
@@ -77,6 +77,6 @@ spec:
     - port: {{ .Values.deployment.container.crSnykPort }}
       targetPort: {{ .Values.deployment.container.crSnykPort}}
   selector:
-    app.kubernetes.io/name: {{ .Release.Name }}-cr
+    app.kubernetes.io/name: {{ .Release.Name }}-cr-{{ .Release.Name }}
     app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
