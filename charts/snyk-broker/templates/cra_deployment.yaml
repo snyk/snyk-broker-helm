@@ -2,10 +2,10 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: "{{ .Values.scmType}}-cra-{{ .Release.Name }}"
+  name: "{{ .Values.scmType}}-cra{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}"
   namespace: {{ .Release.Namespace }}
   labels:
-    app.kubernetes.io/name: {{ .Release.Name }}-cr-{{ .Release.Name }}
+    app.kubernetes.io/name: {{ .Release.Name }}-cr{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
     app.kubernetes.io/instance: {{ .Release.Name }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
@@ -13,7 +13,7 @@ spec:
   {{- end }}
   selector:
     matchLabels:
-      app.kubernetes.io/name: {{ .Release.Name }}-cr-{{ .Release.Name }}
+      app.kubernetes.io/name: {{ .Release.Name }}-cr{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
       app.kubernetes.io/instance: {{ .Release.Name }}
   template:
     metadata:
@@ -22,18 +22,18 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        app.kubernetes.io/name: {{ .Release.Name }}-cr-{{ .Release.Name }}
+        app.kubernetes.io/name: {{ .Release.Name }}-cr{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "snyk-broker.serviceAccountName" . }}-{{ .Release.Name }}
+      serviceAccountName: {{ include "snyk-broker.serviceAccountName" . }}{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
-        - name: container-registry-agent-{{ .Release.Name }}
+        - name: container-registry-agent{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
           resources:
             limits:
               cpu: {{ .Values.crResources.limits.cpu }}
@@ -67,7 +67,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: "cra-service-{{ .Release.Name }}"
+  name: "cra-service{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}"
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "snyk-broker.labels" . | nindent 4 }}
@@ -77,6 +77,6 @@ spec:
     - port: {{ .Values.deployment.container.crSnykPort }}
       targetPort: {{ .Values.deployment.container.crSnykPort}}
   selector:
-    app.kubernetes.io/name: {{ .Release.Name }}-cr-{{ .Release.Name }}
+    app.kubernetes.io/name: {{ .Release.Name }}-cr{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
     app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}

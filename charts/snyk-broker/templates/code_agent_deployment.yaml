@@ -2,7 +2,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: "{{ .Values.scmType}}-code-agent-{{ .Release.Name }}"
+  name: "{{ .Values.scmType}}-code-agent{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}"
   namespace: {{ .Release.Namespace }}
   labels:
     app.kubernetes.io/name: {{ .Release.Name }}-ca
@@ -29,7 +29,7 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "snyk-broker.serviceAccountName" . }}-{{ .Release.Name }}
+      serviceAccountName: {{ include "snyk-broker.serviceAccountName" . }}{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
@@ -80,7 +80,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: "code-agent-service-{{ .Release.Name }}"
+  name: "code-agent-service{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}"
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "snyk-broker.labels" . | nindent 4 }}

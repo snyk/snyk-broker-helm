@@ -1,0 +1,24 @@
+# Default values for snyk-broker.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+##### Snyk Specific Values #####
+
+# Broker Token is a value from Snyk. Get this from the integration settings page or your Snyk Representative
+brokerToken: "123"
+
+# brokerClientUrl is the address of the broker. This needs to be the address of itself. In the case of Kubernetes, you need to ensure that you are pointing to the cluster ingress you have setup.
+# Ex: http://kubernetes-ingress.domain.com:8000/broker
+brokerClientUrl: "http://brokerclient"
+
+# Do not touch unless directed by a Snyk Representative
+brokerServerUrl: "https://broker.test.snyk.io"
+
+preflightChecks:
+  enabled: true
+
+highAvailabilityMode:
+  enabled: true
+brokerDispatcherUrl: "https://api.test.snyk.io"
+
+disableSuffixes: true

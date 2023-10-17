@@ -1,0 +1,13 @@
+suite: test broker deployment (No suffixes)
+templates: 
+  - broker_deployment.yaml
+  - broker_service.yaml
+  - secrets.yaml
+  - serviceaccount.yaml
+
+tests:
+  - it: with CRA
+    values:
+      - ./fixtures/default_values_cra.yaml
+    asserts:
+      - matchSnapshot: {}
