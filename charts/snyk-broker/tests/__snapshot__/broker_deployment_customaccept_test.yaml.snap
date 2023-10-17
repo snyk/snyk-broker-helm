@@ -1,5 +1,18 @@
-with CRA:
+customaccept values:
   1: |
+    apiVersion: v1
+    data:
+      accept.json: test
+    kind: ConfigMap
+    metadata:
+      labels:
+        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: snyk-broker-RELEASE-NAME
+        helm.sh/chart: snyk-broker-2.0.3
+      name: RELEASE-NAME-snyk-broker-accept-configmap-RELEASE-NAME
+      namespace: NAMESPACE
+  2: |
     apiVersion: apps/v1
     kind: Deployment
     metadata:
@@ -8,7 +21,7 @@ with CRA:
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker-RELEASE-NAME
         helm.sh/chart: snyk-broker-2.0.3
-      name: container-registry-agent-broker-RELEASE-NAME
+      name: github-com-broker-RELEASE-NAME
       namespace: NAMESPACE
     spec:
       replicas: 1
@@ -33,45 +46,26 @@ with CRA:
                 - name: BROKER_TOKEN
                   valueFrom:
                     secretKeyRef:
-                      key: container-registry-agent-broker-token-key
-                      name: container-registry-agent-broker-token-RELEASE-NAME
-                - name: CR_AGENT_URL
-                  value: http://cra-service-RELEASE-NAME:8081
-                - name: CR_TYPE
-                  value: null
-                - name: CR_BASE
-                  value: null
-                - name: CR_USERNAME
-                  value: null
-                - name: CR_PASSWORD
+                      key: github-com-broker-token-key
+                      name: github-com-broker-token-RELEASE-NAME
+                - name: GITHUB_TOKEN
                   valueFrom:
                     secretKeyRef:
-                      key: container-registry-agent-token-key
-                      name: container-registry-agent-token-RELEASE-NAME
-                - name: CR_TOKEN
-                  valueFrom:
-                    secretKeyRef:
-                      key: container-registry-agent-token-key
-                      name: container-registry-agent-token-RELEASE-NAME
-                - name: CR_ROLE_ARN
-                  value: arn:aws-us-gov:iam::123456789012:role
-                - name: CR_REGION
-                  value: eu-west
-                - name: CR_EXTERNAL_ID
-                  value: 11111111-1111-1111-1111-111111111111
+                      key: github-com-token-key
+                      name: github-com-token-RELEASE-NAME
                 - name: PORT
                   value: "8000"
                 - name: BROKER_CLIENT_URL
                   value: http://brokerclient
-                - name: BROKER_CLIENT_VALIDATION_URL
-                  value: http://cra-service-RELEASE-NAME:8081/healthcheck
                 - name: LOG_LEVEL
                   value: info
                 - name: LOG_ENABLE_BODY
                   value: "false"
+                - name: ACCEPT
+                  value: /home/node/private/accept.json
                 - name: BROKER_DISPATCHER_BASE_URL
                   value: https://api.test.snyk.io
-              image: snyk/broker:container-registry-agent
+              image: snyk/broker:github-com
               imagePullPolicy: Always
               livenessProbe:
                 failureThreshold: 3
@@ -81,7 +75,7 @@ with CRA:
                 initialDelaySeconds: 3
                 periodSeconds: 10
                 timeoutSeconds: 1
-              name: container-registry-agent-broker-RELEASE-NAME
+              name: github-com-broker-RELEASE-NAME
               ports:
                 - containerPort: 8000
                   name: http
@@ -108,11 +102,17 @@ with CRA:
                 readOnlyRootFilesystem: true
                 runAsNonRoot: true
                 runAsUser: 1000
-              volumeMounts: null
+              volumeMounts:
+                - mountPath: /home/node/private
+                  name: RELEASE-NAME-snyk-broker-accept-volume
+                  readOnly: true
           securityContext: {}
           serviceAccountName: snyk-broker-RELEASE-NAME
-          volumes: null
-  2: |
+          volumes:
+            - configMap:
+                name: RELEASE-NAME-snyk-broker-accept-configmap-RELEASE-NAME
+              name: RELEASE-NAME-snyk-broker-accept-volume
+  3: |
     apiVersion: v1
     kind: Service
     metadata:
@@ -121,7 +121,7 @@ with CRA:
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker-RELEASE-NAME
         helm.sh/chart: snyk-broker-2.0.3
-      name: container-registry-agent-broker-service-RELEASE-NAME
+      name: github-com-broker-service-RELEASE-NAME
       namespace: NAMESPACE
     spec:
       ports:
@@ -131,15 +131,15 @@ with CRA:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/name: snyk-broker-RELEASE-NAME
       type: ClusterIP
-  3: |
+  4: |
     apiVersion: v1
     data:
-      container-registry-agent-broker-token-key: MTIz
+      github-com-broker-token-key: MTIz
     kind: Secret
     metadata:
-      name: container-registry-agent-broker-token-RELEASE-NAME
+      name: github-com-broker-token-RELEASE-NAME
     type: Opaque
-  4: |
+  5: |
     apiVersion: v1
     kind: ServiceAccount
     metadata:
