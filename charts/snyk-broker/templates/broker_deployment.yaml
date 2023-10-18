@@ -262,6 +262,25 @@ spec:
             - name: BROKER_CLIENT_URL
               value: {{ .Values.brokerClientUrl }}
           {{- end }}
+          {{- if eq .Values.scmType "jira-bearer-auth" }}
+          # Jira
+            - name: BROKER_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.scmType}}-broker-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
+                  key: "{{ .Values.scmType}}-broker-token-key"
+            - name: JIRA_PAT
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.scmType}}-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
+                  key: "{{ .Values.scmType}}-token-key"
+            - name: JIRA_HOSTNAME
+              value: {{ .Values.jiraHostname }}
+            - name: PORT
+              value: {{ .Values.deployment.container.containerPort | squote }}
+            - name: BROKER_CLIENT_URL
+              value: {{ .Values.brokerClientUrl }}
+          {{- end }}
           {{- if eq .Values.scmType "container-registry-agent" }}
           # Container Registry Agent
             - name: BROKER_TOKEN

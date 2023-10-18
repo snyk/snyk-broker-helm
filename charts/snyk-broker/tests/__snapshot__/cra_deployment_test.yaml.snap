@@ -55,7 +55,7 @@ default values:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker-RELEASE-NAME
-        helm.sh/chart: snyk-broker-2.1.0
+        helm.sh/chart: snyk-broker-2.2.0
       name: cra-service-RELEASE-NAME
       namespace: NAMESPACE
     spec:

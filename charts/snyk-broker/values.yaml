@@ -40,6 +40,7 @@ replicaCount: 2
 #   Nexus: nexus
 #   Nexus2: nexus2
 #   Jira: jira
+#   Jira with bearer auth: jira-bearer-auth
 #   Container Registry Agent: container-registry-agent
 
 scmType: "github-com"
@@ -118,6 +119,9 @@ jiraUsername: ""
 
 # Jira Password
 jiraPassword: ""
+
+#Jira PAT (for Bearer auth):
+jiraPat: ""
 
 # Jira Hostname - do not prepend HTTPS
 jiraHostname: ""
