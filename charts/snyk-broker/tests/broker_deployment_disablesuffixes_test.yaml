@@ -1,0 +1,28 @@
+suite: test broker deployment (No suffixes)
+templates: 
+  - broker_deployment.yaml
+  - broker_service.yaml
+  - secrets.yaml
+  - serviceaccount.yaml
+
+tests:
+  - it: default values
+    values:
+      - ./fixtures/default_values_disablesuffixes.yaml
+    asserts:
+      - matchSnapshot: {}
+  - it: preflight checks off
+    values:
+      - ./fixtures/default_values_preflight_off_disablesuffixes.yaml
+    asserts:
+      - matchSnapshot: {}
+  - it: HA mode on
+    values:
+      - ./fixtures/default_values_ha_on_disablesuffixes.yaml
+    asserts:
+      - matchSnapshot: {}
+  - it: HA mode on with 4 replicas
+    values:
+      - ./fixtures/default_values_ha_on_4_replicas_disablesuffixes.yaml
+    asserts:
+      - matchSnapshot: {}

@@ -9,10 +9,11 @@
 {{- $ingressPathType := .Values.brokerIngress.pathType -}}
 {{- $extraPaths := .Values.brokerIngress.extraPaths -}}
 {{- $releaseName := .Release.Name -}}
+{{- $disableSuffixes := .Values.disableSuffixes }}
 apiVersion: {{ include "snyk-broker.ingress.apiVersion" . }}
 kind: Ingress
 metadata:
-  name: {{ $fullName }}-{{ .Release.Name }}
+  name: {{ $fullName }}{{ if not $disableSuffixes}}-{{ .Release.Name }}{{ end }}
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "snyk-broker.labels" . | nindent 4 }}
@@ -49,11 +50,11 @@ spec:
             backend:
               {{- if $ingressApiIsStable }}
               service:
-                name: {{ $scmType }}-broker-service-{{ $releaseName }}
+                name: {{ $scmType }}-broker-service{{ if not $disableSuffixes}}-{{ $releaseName }}{{ end }}
                 port:
                   number: {{ $servicePort }}
               {{- else }}
-              serviceName: {{ $scmType }}-broker-service-{{ $releaseName }}
+              serviceName: {{ $scmType }}-broker-service{{ if not $disableSuffixes}}-{{ $releaseName }}{{ end }}
               servicePort: {{ $servicePort }}
               {{- end }}
   {{- end }}
@@ -63,11 +64,11 @@ spec:
           - backend:
               {{- if $ingressApiIsStable }}
               service:
-                name: {{ $scmType }}-broker-service-{{ .Release.Name }}
+                name: {{ $scmType }}-broker-service{{ if not $disableSuffixes}}-{{ $releaseName }}{{ end }}
                 port:
                   number: {{ $servicePort }}
               {{- else }}
-              serviceName: {{ $scmType }}-broker-service-{{ .Release.Name }}
+              serviceName: {{ $scmType }}-broker-service{{ if not $disableSuffixes}}-{{ $releaseName }}{{ end }}
               servicePort: {{ $servicePort }}
               {{- end }}
             {{- if $ingressPath }}

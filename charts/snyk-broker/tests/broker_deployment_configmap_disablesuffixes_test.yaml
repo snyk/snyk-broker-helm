@@ -1,0 +1,25 @@
+suite: test broker deployment (No suffixes)
+templates: 
+  - broker_deployment.yaml
+  - broker_service.yaml
+  - secrets.yaml
+  - serviceaccount.yaml
+  - cacert_configmap.yaml
+
+tests:
+  - it: cacert
+    values:
+      - ./fixtures/default_values_disablesuffixes.yaml
+    set:
+      caCert: tests/dummy_ca_cert.pem
+    asserts:
+      - matchSnapshot: {}
+  - it: cacertfile
+    values:
+      - ./fixtures/default_values_disablesuffixes.yaml
+    set:
+      caCertFile: testValueSetBySetFile
+    asserts:
+      - matchSnapshot: {}
+
+
