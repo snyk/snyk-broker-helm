@@ -7,7 +7,7 @@ cacert:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker-RELEASE-NAME
-        helm.sh/chart: snyk-broker-2.2.0
+        helm.sh/chart: snyk-broker-2.2.1
       name: github-com-broker-RELEASE-NAME
       namespace: NAMESPACE
     spec:
@@ -49,6 +49,8 @@ cacert:
                 - name: LOG_ENABLE_BODY
                   value: "false"
                 - name: CA_CERT
+                  value: /home/node/cacert/tests/dummy_ca_cert.pem
+                - name: NODE_EXTRA_CA_CERTS
                   value: /home/node/cacert/tests/dummy_ca_cert.pem
                 - name: ACCEPT_CODE
                   value: "true"
@@ -111,7 +113,7 @@ cacert:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker-RELEASE-NAME
-        helm.sh/chart: snyk-broker-2.2.0
+        helm.sh/chart: snyk-broker-2.2.1
       name: github-com-broker-service-RELEASE-NAME
       namespace: NAMESPACE
     spec:
@@ -153,7 +155,7 @@ cacert:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker-RELEASE-NAME
-        helm.sh/chart: snyk-broker-2.2.0
+        helm.sh/chart: snyk-broker-2.2.1
       name: RELEASE-NAME-snyk-broker-cacert-configmap-RELEASE-NAME
       namespace: NAMESPACE
   4: |
@@ -172,7 +174,7 @@ cacert:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker-RELEASE-NAME
-        helm.sh/chart: snyk-broker-2.2.0
+        helm.sh/chart: snyk-broker-2.2.1
       name: snyk-broker-RELEASE-NAME
       namespace: NAMESPACE
 cacertfile:
@@ -184,7 +186,7 @@ cacertfile:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker-RELEASE-NAME
-        helm.sh/chart: snyk-broker-2.2.0
+        helm.sh/chart: snyk-broker-2.2.1
       name: github-com-broker-RELEASE-NAME
       namespace: NAMESPACE
     spec:
@@ -280,7 +282,7 @@ cacertfile:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker-RELEASE-NAME
-        helm.sh/chart: snyk-broker-2.2.0
+        helm.sh/chart: snyk-broker-2.2.1
       name: github-com-broker-service-RELEASE-NAME
       namespace: NAMESPACE
     spec:
@@ -301,7 +303,7 @@ cacertfile:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker-RELEASE-NAME
-        helm.sh/chart: snyk-broker-2.2.0
+        helm.sh/chart: snyk-broker-2.2.1
       name: RELEASE-NAME-snyk-broker-cacert-configmap-RELEASE-NAME
       namespace: NAMESPACE
   4: |
@@ -320,6 +322,6 @@ cacertfile:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker-RELEASE-NAME
-        helm.sh/chart: snyk-broker-2.2.0
+        helm.sh/chart: snyk-broker-2.2.1
       name: snyk-broker-RELEASE-NAME
       namespace: NAMESPACE
