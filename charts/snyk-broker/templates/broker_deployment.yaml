@@ -338,6 +338,8 @@ spec:
          # HTTPS Inspection 
             - name: CA_CERT
               value: /home/node/cacert/{{ .Values.caCert }}
+            - name: NODE_EXTRA_CA_CERTS
+              value: /home/node/cacert/{{ .Values.caCert }}
          {{- end }}
          
          {{- if .Values.httpsCert }}
