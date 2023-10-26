@@ -24,8 +24,6 @@ brokerDispatcherUrl: "https://api.snyk.io"
 # This number if only used if enableHighAvailabilityMode is true
 replicaCount: 2
 
-
-
 ##### SCM Generic #####
 
 # scmType is used to define the Source Control that you are connecting to. 

@@ -3,8 +3,8 @@
 {{- $ingressSupportsIngressClassName := eq (include "snyk-broker.ingress.supportsIngressClassName" .) "true" -}}
 {{- $ingressSupportsPathType := eq (include "snyk-broker.ingress.supportsPathType" .) "true" -}}
 {{- $fullName := include "snyk-broker.fullname" . -}}
-{{- $scmType := .Values.scmType -}}
 {{- $servicePort := .Values.service.port -}}
+{{- $scmType := .Values.scmType -}}
 {{- $ingressPath := .Values.brokerIngress.path -}}
 {{- $ingressPathType := .Values.brokerIngress.pathType -}}
 {{- $extraPaths := .Values.brokerIngress.extraPaths -}}
@@ -50,7 +50,7 @@ spec:
             backend:
               {{- if $ingressApiIsStable }}
               service:
-                name: {{ $scmType }}-broker-service{{ if not $disableSuffixes}}-{{ $releaseName }}{{ end }}
+                name: {{ include "snyk-broker.brokerServiceName" $ }}
                 port:
                   number: {{ $servicePort }}
               {{- else }}
@@ -64,11 +64,11 @@ spec:
           - backend:
               {{- if $ingressApiIsStable }}
               service:
-                name: {{ $scmType }}-broker-service{{ if not $disableSuffixes}}-{{ $releaseName }}{{ end }}
+                name: {{ include "snyk-broker.brokerServiceName" . }}
                 port:
                   number: {{ $servicePort }}
               {{- else }}
-              serviceName: {{ $scmType }}-broker-service{{ if not $disableSuffixes}}-{{ $releaseName }}{{ end }}
+              serviceName: {{ include "snyk-broker.brokerServiceName" . }}
               servicePort: {{ $servicePort }}
               {{- end }}
             {{- if $ingressPath }}

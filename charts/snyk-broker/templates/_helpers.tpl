@@ -99,3 +99,14 @@ Return if ingress supports pathType.
 {{- define "snyk-broker.ingress.supportsPathType" -}}
   {{- or (eq (include "snyk-broker.ingress.isStable" .) "true") (and (eq (include "snyk-broker.ingress.apiVersion" .) "networking.k8s.io/v1beta1") (semverCompare ">= 1.18-0" .Capabilities.KubeVersion.Version)) -}}
 {{- end -}}
+
+{{/*
+Create the name of the broker service to use
+*/}}
+{{- define "snyk-broker.brokerServiceName" -}}
+{{- if not .Values.disableSuffixes -}}
+{{ .Values.scmType }}-broker-service-{{ .Release.Name }}
+{{- else }}
+{{ .Values.scmType}}-broker-service
+{{- end -}}
+{{- end -}}
