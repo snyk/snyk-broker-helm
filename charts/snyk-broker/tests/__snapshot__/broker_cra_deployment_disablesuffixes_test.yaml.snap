@@ -62,7 +62,7 @@ with CRA:
                 - name: PORT
                   value: "8000"
                 - name: BROKER_CLIENT_URL
-                  value: http://brokerclient
+                  value: http://container-registry-agent-broker-service-RELEASE-NAME:8000
                 - name: BROKER_CLIENT_VALIDATION_URL
                   value: http://cra-service-RELEASE-NAME:8081/healthcheck
                 - name: LOG_LEVEL
