@@ -58,7 +58,7 @@ spec:
             - name: SNYK_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: snyk-token
+                  name: snyk-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
                   key: snyk-token-key
          {{- if .Values.tlsRejectUnauthorized  }}
          # Troubleshooting - Set to 0 for SSL inspection testing
