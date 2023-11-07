@@ -50,7 +50,7 @@ spec:
             backend:
               {{- if $ingressApiIsStable }}
               service:
-                name: {{ include "snyk-broker.brokerServiceName" $ }}
+                name: {{ include "snyk-broker.brokerServiceName" $ | trim }}
                 port:
                   number: {{ $servicePort }}
               {{- else }}
@@ -64,11 +64,11 @@ spec:
           - backend:
               {{- if $ingressApiIsStable }}
               service:
-                name: {{ include "snyk-broker.brokerServiceName" . }}
+                name: {{ include "snyk-broker.brokerServiceName" . | trim }}
                 port:
                   number: {{ $servicePort }}
               {{- else }}
-              serviceName: {{ include "snyk-broker.brokerServiceName" . }}
+              serviceName: {{ include "snyk-broker.brokerServiceName" . | trim }}
               servicePort: {{ $servicePort }}
               {{- end }}
             {{- if $ingressPath }}

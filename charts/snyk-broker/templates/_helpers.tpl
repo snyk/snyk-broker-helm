@@ -107,6 +107,6 @@ Create the name of the broker service to use
 {{- if not .Values.disableSuffixes -}}
 {{ .Values.scmType }}-broker-service-{{ .Release.Name }}
 {{- else }}
-{{ .Values.scmType}}-broker-service
+{{ .Values.scmType }}-broker-service
 {{- end -}}
 {{- end -}}

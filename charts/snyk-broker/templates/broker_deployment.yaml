@@ -315,7 +315,7 @@ spec:
             - name: PORT
               value: {{ .Values.deployment.container.containerPort | squote }}
             - name: BROKER_CLIENT_URL
-              value: "http://{{ include "snyk-broker.brokerServiceName" . }}:{{ .Values.service.port }}"
+              value: "http://{{ include "snyk-broker.brokerServiceName" . | trim }}:{{ .Values.service.port }}"
             - name: BROKER_CLIENT_VALIDATION_URL
               value: http://cra-service{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}:{{ .Values.deployment.container.crSnykPort | toString }}/healthcheck
           {{- end }}
