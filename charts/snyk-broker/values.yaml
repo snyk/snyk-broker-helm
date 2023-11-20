@@ -412,11 +412,11 @@ extraPodSpecs:
   # nodeSelector:
   #   networking.company.com/network-segment: internal-pods
 
-##### Do not adjust these settings. The Broker is not designed to work with multiple replicas
+##### The Broker is designed to work with multiple replicas (min 2, max 4) only with High Availability mode enabled.
 
 autoscaling:
   enabled: false
-  minReplicas: 1
-  maxReplicas: 100
+  minReplicas: 2
+  maxReplicas: 4
   targetCPUUtilizationPercentage: 80
   # targetMemoryUtilizationPercentage: 80
