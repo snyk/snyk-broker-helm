@@ -1,18 +1,5 @@
-customaccept values:
+apprisk enabled:
   1: |
-    apiVersion: v1
-    data:
-      accept.json: test
-    kind: ConfigMap
-    metadata:
-      labels:
-        app.kubernetes.io/instance: RELEASE-NAME
-        app.kubernetes.io/managed-by: Helm
-        app.kubernetes.io/name: snyk-broker-RELEASE-NAME
-        helm.sh/chart: snyk-broker-2.3.0
-      name: RELEASE-NAME-snyk-broker-accept-configmap-RELEASE-NAME
-      namespace: NAMESPACE
-  2: |
     apiVersion: apps/v1
     kind: Deployment
     metadata:
@@ -61,8 +48,12 @@ customaccept values:
                   value: info
                 - name: LOG_ENABLE_BODY
                   value: "false"
-                - name: ACCEPT
-                  value: /home/node/private/accept.json
+                - name: ACCEPT_CODE
+                  value: "true"
+                - name: ACCEPT_IAC
+                  value: tf,yaml,yml,json,tpl
+                - name: ACCEPT_APPRISK
+                  value: "true"
                 - name: BROKER_DISPATCHER_BASE_URL
                   value: https://api.test.snyk.io
               image: snyk/broker:github-com
@@ -102,17 +93,11 @@ customaccept values:
                 readOnlyRootFilesystem: true
                 runAsNonRoot: true
                 runAsUser: 1000
-              volumeMounts:
-                - mountPath: /home/node/private
-                  name: RELEASE-NAME-snyk-broker-accept-volume
-                  readOnly: true
+              volumeMounts: null
           securityContext: {}
           serviceAccountName: snyk-broker-RELEASE-NAME
-          volumes:
-            - configMap:
-                name: RELEASE-NAME-snyk-broker-accept-configmap-RELEASE-NAME
-              name: RELEASE-NAME-snyk-broker-accept-volume
-  3: |
+          volumes: null
+  2: |
     apiVersion: v1
     kind: Service
     metadata:
@@ -131,7 +116,7 @@ customaccept values:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/name: snyk-broker-RELEASE-NAME
       type: ClusterIP
-  4: |
+  3: |
     apiVersion: v1
     data:
       github-com-broker-token-key: MTIz
@@ -139,7 +124,7 @@ customaccept values:
     metadata:
       name: github-com-broker-token-RELEASE-NAME
     type: Opaque
-  5: |
+  4: |
     apiVersion: v1
     kind: ServiceAccount
     metadata:
