@@ -7,7 +7,7 @@ HA mode on:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker
-        helm.sh/chart: snyk-broker-2.2.3
+        helm.sh/chart: snyk-broker-2.3.0
       name: github-com-broker
       namespace: NAMESPACE
     spec:
@@ -105,7 +105,7 @@ HA mode on:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker
-        helm.sh/chart: snyk-broker-2.2.3
+        helm.sh/chart: snyk-broker-2.3.0
       name: github-com-broker-service
       namespace: NAMESPACE
     spec:
@@ -132,7 +132,7 @@ HA mode on:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker
-        helm.sh/chart: snyk-broker-2.2.3
+        helm.sh/chart: snyk-broker-2.3.0
       name: snyk-broker
       namespace: NAMESPACE
 HA mode on with 4 replicas:
@@ -144,7 +144,7 @@ HA mode on with 4 replicas:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker
-        helm.sh/chart: snyk-broker-2.2.3
+        helm.sh/chart: snyk-broker-2.3.0
       name: github-com-broker
       namespace: NAMESPACE
     spec:
@@ -242,7 +242,7 @@ HA mode on with 4 replicas:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker
-        helm.sh/chart: snyk-broker-2.2.3
+        helm.sh/chart: snyk-broker-2.3.0
       name: github-com-broker-service
       namespace: NAMESPACE
     spec:
@@ -269,7 +269,7 @@ HA mode on with 4 replicas:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker
-        helm.sh/chart: snyk-broker-2.2.3
+        helm.sh/chart: snyk-broker-2.3.0
       name: snyk-broker
       namespace: NAMESPACE
 default values:
@@ -281,7 +281,7 @@ default values:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker
-        helm.sh/chart: snyk-broker-2.2.3
+        helm.sh/chart: snyk-broker-2.3.0
       name: github-com-broker
       namespace: NAMESPACE
     spec:
@@ -377,7 +377,7 @@ default values:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker
-        helm.sh/chart: snyk-broker-2.2.3
+        helm.sh/chart: snyk-broker-2.3.0
       name: github-com-broker-service
       namespace: NAMESPACE
     spec:
@@ -404,7 +404,7 @@ default values:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker
-        helm.sh/chart: snyk-broker-2.2.3
+        helm.sh/chart: snyk-broker-2.3.0
       name: snyk-broker
       namespace: NAMESPACE
 preflight checks off:
@@ -416,7 +416,7 @@ preflight checks off:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker
-        helm.sh/chart: snyk-broker-2.2.3
+        helm.sh/chart: snyk-broker-2.3.0
       name: github-com-broker
       namespace: NAMESPACE
     spec:
@@ -514,7 +514,7 @@ preflight checks off:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker
-        helm.sh/chart: snyk-broker-2.2.3
+        helm.sh/chart: snyk-broker-2.3.0
       name: github-com-broker-service
       namespace: NAMESPACE
     spec:
@@ -541,6 +541,6 @@ preflight checks off:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker
-        helm.sh/chart: snyk-broker-2.2.3
+        helm.sh/chart: snyk-broker-2.3.0
       name: snyk-broker
       namespace: NAMESPACE

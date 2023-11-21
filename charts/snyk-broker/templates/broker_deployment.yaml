@@ -385,6 +385,10 @@ spec:
             - name: ACCEPT_IAC
               value: "tf,yaml,yml,json,tpl"
           {{- end}}
+          {{- if .Values.enableAppRisk }}
+            - name: ACCEPT_APPRISK
+              value: "true"
+          {{- end }}
           {{- end}}
          {{- end }}
          # Broker Configuration
