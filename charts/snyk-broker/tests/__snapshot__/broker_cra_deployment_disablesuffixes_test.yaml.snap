@@ -7,7 +7,7 @@ with CRA:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker-RELEASE-NAME
-        helm.sh/chart: snyk-broker-2.3.0
+        helm.sh/chart: snyk-broker-2.4.0
       name: container-registry-agent-broker-RELEASE-NAME
       namespace: NAMESPACE
     spec:
@@ -38,21 +38,7 @@ with CRA:
                 - name: CR_AGENT_URL
                   value: http://cra-service-RELEASE-NAME:8081
                 - name: CR_TYPE
-                  value: null
-                - name: CR_BASE
-                  value: null
-                - name: CR_USERNAME
-                  value: null
-                - name: CR_PASSWORD
-                  valueFrom:
-                    secretKeyRef:
-                      key: container-registry-agent-token-key
-                      name: container-registry-agent-token-RELEASE-NAME
-                - name: CR_TOKEN
-                  valueFrom:
-                    secretKeyRef:
-                      key: container-registry-agent-token-key
-                      name: container-registry-agent-token-RELEASE-NAME
+                  value: ecr
                 - name: CR_ROLE_ARN
                   value: arn:aws-us-gov:iam::123456789012:role
                 - name: CR_REGION
@@ -120,7 +106,7 @@ with CRA:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker-RELEASE-NAME
-        helm.sh/chart: snyk-broker-2.3.0
+        helm.sh/chart: snyk-broker-2.4.0
       name: container-registry-agent-broker-service-RELEASE-NAME
       namespace: NAMESPACE
     spec:
@@ -147,6 +133,6 @@ with CRA:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker-RELEASE-NAME
-        helm.sh/chart: snyk-broker-2.3.0
+        helm.sh/chart: snyk-broker-2.4.0
       name: snyk-broker-RELEASE-NAME
       namespace: NAMESPACE

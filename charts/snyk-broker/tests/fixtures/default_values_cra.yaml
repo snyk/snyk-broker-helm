@@ -23,6 +23,8 @@ brokerDispatcherUrl: "https://api.test.snyk.io"
 
 scmType: "container-registry-agent"
 
+crType: "ecr"
+
 crRoleArn: "arn:aws-us-gov:iam::123456789012:role"
 
 crRegion: "eu-west"

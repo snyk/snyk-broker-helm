@@ -23,12 +23,8 @@ brokerDispatcherUrl: "https://api.test.snyk.io"
 
 scmType: "container-registry-agent"
 
-crType: "ecr"
+crType: "digitalocean-cr"
 
-crRoleArn: "arn:aws-us-gov:iam::123456789012:role"
+crBase: "digitaloceanbase"
 
-crRegion: "eu-west"
-
-crExternalId: "11111111-1111-1111-1111-111111111111"
-
-disableSuffixes: true
+crToken: "mytoken"

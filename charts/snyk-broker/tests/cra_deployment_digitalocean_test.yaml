@@ -1,4 +1,4 @@
-suite: test broker deployment (No suffixes)
+suite: test broker deployment
 templates: 
   - cra_deployment.yaml
   - broker_deployment.yaml
@@ -6,6 +6,6 @@ templates:
 tests:
   - it: default values
     values:
-      - ./fixtures/default_values_cra_disablesuffixes.yaml
+      - ./fixtures/default_values_cra_digital_ocean.yaml
     asserts:
       - matchSnapshot: {}
