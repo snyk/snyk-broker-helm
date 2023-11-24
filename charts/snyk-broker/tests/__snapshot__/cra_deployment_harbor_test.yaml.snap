@@ -1,4 +1,4 @@
-apprisk enabled:
+default values:
   1: |
     apiVersion: apps/v1
     kind: Deployment
@@ -8,7 +8,7 @@ apprisk enabled:
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker-RELEASE-NAME
         helm.sh/chart: snyk-broker-2.4.0
-      name: github-com-broker-RELEASE-NAME
+      name: container-registry-agent-broker-RELEASE-NAME
       namespace: NAMESPACE
     spec:
       replicas: 1
@@ -33,30 +33,34 @@ apprisk enabled:
                 - name: BROKER_TOKEN
                   valueFrom:
                     secretKeyRef:
-                      key: github-com-broker-token-key
-                      name: github-com-broker-token-RELEASE-NAME
-                - name: GITHUB_TOKEN
+                      key: container-registry-agent-broker-token-key
+                      name: container-registry-agent-broker-token-RELEASE-NAME
+                - name: CR_AGENT_URL
+                  value: http://cra-service-RELEASE-NAME:8081
+                - name: CR_TYPE
+                  value: harbor
+                - name: CR_BASE
+                  value: crBaseValue
+                - name: CR_USERNAME
+                  value: myusername
+                - name: CR_PASSWORD
                   valueFrom:
                     secretKeyRef:
-                      key: github-com-token-key
-                      name: github-com-token-RELEASE-NAME
+                      key: container-registry-agent-token-key
+                      name: container-registry-agent-token-RELEASE-NAME
                 - name: PORT
                   value: "8000"
                 - name: BROKER_CLIENT_URL
-                  value: http://brokerclient
+                  value: http://container-registry-agent-broker-service-RELEASE-NAME:8000
+                - name: BROKER_CLIENT_VALIDATION_URL
+                  value: http://cra-service-RELEASE-NAME:8081/healthcheck
                 - name: LOG_LEVEL
                   value: info
                 - name: LOG_ENABLE_BODY
                   value: "false"
-                - name: ACCEPT_CODE
-                  value: "true"
-                - name: ACCEPT_IAC
-                  value: tf,yaml,yml,json,tpl
-                - name: ACCEPT_APPRISK
-                  value: "true"
                 - name: BROKER_DISPATCHER_BASE_URL
                   value: https://api.test.snyk.io
-              image: snyk/broker:github-com
+              image: snyk/broker:container-registry-agent
               imagePullPolicy: Always
               livenessProbe:
                 failureThreshold: 3
@@ -66,7 +70,7 @@ apprisk enabled:
                 initialDelaySeconds: 3
                 periodSeconds: 10
                 timeoutSeconds: 1
-              name: github-com-broker-RELEASE-NAME
+              name: container-registry-agent-broker-RELEASE-NAME
               ports:
                 - containerPort: 8000
                   name: http
@@ -98,6 +102,54 @@ apprisk enabled:
           serviceAccountName: snyk-broker-RELEASE-NAME
           volumes: null
   2: |
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      labels:
+        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/name: RELEASE-NAME-cr-RELEASE-NAME
+      name: container-registry-agent-cra-RELEASE-NAME
+      namespace: NAMESPACE
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          app.kubernetes.io/instance: RELEASE-NAME
+          app.kubernetes.io/name: RELEASE-NAME-cr-RELEASE-NAME
+      template:
+        metadata:
+          labels:
+            app.kubernetes.io/instance: RELEASE-NAME
+            app.kubernetes.io/name: RELEASE-NAME-cr-RELEASE-NAME
+        spec:
+          containers:
+            - env:
+                - name: SNYK_PORT
+                  value: "8081"
+              image: snyk/container-registry-agent:latest
+              imagePullPolicy: Always
+              name: container-registry-agent-RELEASE-NAME
+              ports:
+                - containerPort: 8081
+                  name: http
+              resources:
+                limits:
+                  cpu: 1
+                  memory: 2Gi
+                requests:
+                  cpu: 1
+                  memory: 2Gi
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities:
+                  drop:
+                    - ALL
+                readOnlyRootFilesystem: false
+                runAsNonRoot: true
+                runAsUser: 1000
+          securityContext: {}
+          serviceAccountName: snyk-broker-RELEASE-NAME
+  3: |
     apiVersion: v1
     kind: Service
     metadata:
@@ -106,32 +158,13 @@ apprisk enabled:
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker-RELEASE-NAME
         helm.sh/chart: snyk-broker-2.4.0
-      name: github-com-broker-service-RELEASE-NAME
+      name: cra-service-RELEASE-NAME
       namespace: NAMESPACE
     spec:
       ports:
-        - port: 8000
-          targetPort: 8000
+        - port: 8081
+          targetPort: 8081
       selector:
         app.kubernetes.io/instance: RELEASE-NAME
-        app.kubernetes.io/name: snyk-broker-RELEASE-NAME
+        app.kubernetes.io/name: RELEASE-NAME-cr-RELEASE-NAME
       type: ClusterIP
-  3: |
-    apiVersion: v1
-    data:
-      github-com-broker-token-key: MTIz
-    kind: Secret
-    metadata:
-      name: github-com-broker-token-RELEASE-NAME
-    type: Opaque
-  4: |
-    apiVersion: v1
-    kind: ServiceAccount
-    metadata:
-      labels:
-        app.kubernetes.io/instance: RELEASE-NAME
-        app.kubernetes.io/managed-by: Helm
-        app.kubernetes.io/name: snyk-broker-RELEASE-NAME
-        helm.sh/chart: snyk-broker-2.4.0
-      name: snyk-broker-RELEASE-NAME
-      namespace: NAMESPACE

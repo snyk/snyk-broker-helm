@@ -292,8 +292,11 @@ spec:
               value: http://cra-service{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}:{{ .Values.deployment.container.crSnykPort | toString }}
             - name: CR_TYPE
               value: {{ .Values.crType }}
+            {{- if not (has .Values.crType (list "ecr")) }}
             - name: CR_BASE
               value: {{ .Values.crBase }}
+            {{- end }}
+            {{- if not (has .Values.crType (list "ecr" "digitalocean-cr")) }}
             - name: CR_USERNAME
               value: {{ .Values.crUsername }}
             - name: CR_PASSWORD
@@ -301,17 +304,22 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.scmType}}-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
                   key: "{{ .Values.scmType}}-token-key"
+            {{- end }}
+            {{- if has .Values.crType (list "digitalocean-cr") }}
             - name: CR_TOKEN
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.scmType}}-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
                   key: "{{ .Values.scmType}}-token-key"
+            {{- end }}
+            {{- if has .Values.crType (list "ecr") }}
             - name: CR_ROLE_ARN
               value: {{ .Values.crRoleArn }}
             - name: CR_REGION
               value: {{ .Values.crRegion }}
             - name: CR_EXTERNAL_ID
               value: {{ .Values.crExternalId }}
+            {{- end }}
             - name: PORT
               value: {{ .Values.deployment.container.containerPort | squote }}
             - name: BROKER_CLIENT_URL
