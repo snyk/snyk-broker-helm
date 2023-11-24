@@ -9,7 +9,7 @@ customaccept values:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker-RELEASE-NAME
-        helm.sh/chart: snyk-broker-2.3.0
+        helm.sh/chart: snyk-broker-2.3.1
       name: RELEASE-NAME-snyk-broker-accept-configmap-RELEASE-NAME
       namespace: NAMESPACE
   2: |
@@ -20,7 +20,7 @@ customaccept values:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker-RELEASE-NAME
-        helm.sh/chart: snyk-broker-2.3.0
+        helm.sh/chart: snyk-broker-2.3.1
       name: github-com-broker-RELEASE-NAME
       namespace: NAMESPACE
     spec:
@@ -120,7 +120,7 @@ customaccept values:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker-RELEASE-NAME
-        helm.sh/chart: snyk-broker-2.3.0
+        helm.sh/chart: snyk-broker-2.3.1
       name: github-com-broker-service-RELEASE-NAME
       namespace: NAMESPACE
     spec:
@@ -147,6 +147,6 @@ customaccept values:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker-RELEASE-NAME
-        helm.sh/chart: snyk-broker-2.3.0
+        helm.sh/chart: snyk-broker-2.3.1
       name: snyk-broker-RELEASE-NAME
       namespace: NAMESPACE
