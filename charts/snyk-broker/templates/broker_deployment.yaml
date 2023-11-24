@@ -370,6 +370,12 @@ spec:
               value: {{ .Values.httpsProxy }}
          {{- end }}
 
+         {{- if .Values.noProxy }}
+         # No Proxy Settings
+            - name: NO_PROXY
+              value: {{ .Values.noProxy }}
+         {{- end }}
+
          {{- if (include "snyk-broker.acceptJson" .)}}
          # Accept.json Environment Variables
             - name: ACCEPT

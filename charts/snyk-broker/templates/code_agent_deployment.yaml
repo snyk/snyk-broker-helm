@@ -70,6 +70,11 @@ spec:
             - name: HTTPS_PROXY
               value: {{ .Values.httpsProxy }}
          {{- end }}
+         {{- if .Values.noProxy }}
+         # No Proxy Settings
+            - name: NO_PROXY
+              value: {{ .Values.noProxy }}
+         {{- end }}
          {{- range .Values.env }}
          # custom env var in override.yaml
             - name: {{ .name }}
