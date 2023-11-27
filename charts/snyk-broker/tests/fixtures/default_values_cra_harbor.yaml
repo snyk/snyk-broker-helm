@@ -23,12 +23,10 @@ brokerDispatcherUrl: "https://api.test.snyk.io"
 
 scmType: "container-registry-agent"
 
-crType: "ecr"
+crType: "harbor"
 
-crRoleArn: "arn:aws-us-gov:iam::123456789012:role"
+crBase: "crBaseValue"
 
-crRegion: "eu-west"
+crUsername: myusername
 
-crExternalId: "11111111-1111-1111-1111-111111111111"
-
-disableSuffixes: true
+crPassword: mypassword
