@@ -1,0 +1,11 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: snyk-broker-helm
+  annotations:
+    github.com/project-slug: snyk/snyk-broker-helm
+    github.com/team-slug: snyk/team-broker
+spec:
+  type: supply-chain-tooling
+  lifecycle: "-"
+  owner: team-broker
