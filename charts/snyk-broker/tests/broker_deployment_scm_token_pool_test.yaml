@@ -1,0 +1,18 @@
+suite: test broker deployment (credential pooling)
+templates:
+  - broker_deployment.yaml
+  - broker_service.yaml
+  - secrets.yaml
+  - serviceaccount.yaml
+
+tests:
+  - it: github token pool configured
+    values:
+      - ./fixtures/default_values_with_github_scmtokenpool.yaml
+    asserts:
+      - matchSnapshot: {}
+  - it: gitlab token pool configured
+    values:
+      - ./fixtures/default_values_with_gitlab_scmtokenpool.yaml
+    asserts:
+      - matchSnapshot: { }

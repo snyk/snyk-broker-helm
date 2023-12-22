@@ -1,4 +1,4 @@
-cacert:
+github token pool configured:
   1: |
     apiVersion: apps/v1
     kind: Deployment
@@ -40,185 +40,11 @@ cacert:
                     secretKeyRef:
                       key: github-com-token-key
                       name: github-com-token-RELEASE-NAME
-                - name: PORT
-                  value: "8000"
-                - name: BROKER_CLIENT_URL
-                  value: http://brokerclient
-                - name: LOG_LEVEL
-                  value: info
-                - name: LOG_ENABLE_BODY
-                  value: "false"
-                - name: CA_CERT
-                  value: /home/node/cacert/tests/dummy_ca_cert.pem
-                - name: NODE_EXTRA_CA_CERTS
-                  value: /home/node/cacert/tests/dummy_ca_cert.pem
-                - name: ACCEPT_CODE
-                  value: "true"
-                - name: ACCEPT_IAC
-                  value: tf,yaml,yml,json,tpl
-                - name: BROKER_DISPATCHER_BASE_URL
-                  value: https://api.test.snyk.io
-              image: snyk/broker:github-com
-              imagePullPolicy: Always
-              livenessProbe:
-                failureThreshold: 3
-                httpGet:
-                  path: /healthcheck
-                  port: 8000
-                initialDelaySeconds: 3
-                periodSeconds: 10
-                timeoutSeconds: 1
-              name: github-com-broker-RELEASE-NAME
-              ports:
-                - containerPort: 8000
-                  name: http
-              readinessProbe:
-                failureThreshold: 3
-                httpGet:
-                  path: /healthcheck
-                  port: 8000
-                initialDelaySeconds: 3
-                periodSeconds: 10
-                timeoutSeconds: 1
-              resources:
-                limits:
-                  cpu: 1
-                  memory: 256Mi
-                requests:
-                  cpu: 1
-                  memory: 256Mi
-              securityContext:
-                allowPrivilegeEscalation: false
-                capabilities:
-                  drop:
-                    - ALL
-                readOnlyRootFilesystem: true
-                runAsNonRoot: true
-                runAsUser: 1000
-              volumeMounts:
-                - mountPath: /home/node/cacert
-                  name: RELEASE-NAME-snyk-broker-cacert-volume
-                  readOnly: true
-          securityContext: {}
-          serviceAccountName: snyk-broker-RELEASE-NAME
-          volumes:
-            - configMap:
-                name: RELEASE-NAME-snyk-broker-cacert-configmap-RELEASE-NAME
-              name: RELEASE-NAME-snyk-broker-cacert-volume
-  2: |
-    apiVersion: v1
-    kind: Service
-    metadata:
-      labels:
-        app.kubernetes.io/instance: RELEASE-NAME
-        app.kubernetes.io/managed-by: Helm
-        app.kubernetes.io/name: snyk-broker-RELEASE-NAME
-        helm.sh/chart: snyk-broker-2.5.0
-      name: github-com-broker-service-RELEASE-NAME
-      namespace: NAMESPACE
-    spec:
-      ports:
-        - port: 8000
-          targetPort: 8000
-      selector:
-        app.kubernetes.io/instance: RELEASE-NAME
-        app.kubernetes.io/name: snyk-broker-RELEASE-NAME
-      type: ClusterIP
-  3: |
-    apiVersion: v1
-    data:
-      dummy_ca_cert.pem: |-
-        -----BEGIN CERTIFICATE-----
-        MIIDYzCCAksCFAYMPiMLU27bbnNw60gZkdMg4Rr2MA0GCSqGSIb3DQEBCwUAMG4x
-        CzAJBgNVBAYTAkNIMQswCQYDVQQIDAJBQTELMAkGA1UEBwwCQUExCzAJBgNVBAoM
-        AkFBMQswCQYDVQQLDAJBQTELMAkGA1UEAwwCQUExHjAcBgkqhkiG9w0BCQEWD2Fu
-        dG9pbmVAc255ay5pbzAeFw0yMzA4MzEyMTE2NDRaFw0yNDA4MzAyMTE2NDRaMG4x
-        CzAJBgNVBAYTAkNIMQswCQYDVQQIDAJBQTELMAkGA1UEBwwCQUExCzAJBgNVBAoM
-        AkFBMQswCQYDVQQLDAJBQTELMAkGA1UEAwwCQUExHjAcBgkqhkiG9w0BCQEWD2Fu
-        dG9pbmVAc255ay5pbzCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAPSe
-        fzWIMgAFuIwP4ScnLoZPb75dKLy8Ao2QtowF6WyntFuNWPJPLbs8sTeRPPbtbDYn
-        k2rfi15vQWL7HB7uKqTwFdXmf4kZu9SNxH1c7q+KNtYm1hiMBOlhM951N3gcefCE
-        W8A2rD95ngZlDdnFfBmsWvomg2a8OQjveMA9Nl3aR8qFNsym52yphTAilV+QMmmj
-        Xc7V/ElQElXN9uoSIbg6eTZ/yNqPDkdEQ+0f033IheHTdjFgnmCY4kFBp/4X6dDj
-        vUbmfvQ8c3GN11SvyoJgrd0grquiIp3qHRXIfr+U6Z5aAT+G4/paTnuRlMFhpQwV
-        D0Ur9jto7i/xo0gDArMCAwEAATANBgkqhkiG9w0BAQsFAAOCAQEAP7c+rHqEbST8
-        Vd25DNmhwb4hEGI2K8+YWixauZJOcRwamLrQree7UHn0EeWW+qZa2ec5G2y2fGb9
-        HrB6C3LvDb0rmXWXbWTSM3Mj55ITDIYD3xBe2I5+jlykrxlEsC5QwFXMMbDKFwQj
-        J7V6gFfjJweX8Ko9kUdXdKmx2/napkPEkU8hoAZ4cMaaqfx6d2hvQL+2flQkjH+A
-        B3AgJ/FdaW0sb5caSstO1BEg3NgpJjO1YKRkxb1hkrjNRSJ2NfTkCwiTp9yIz25u
-        2UANxr7bbnEPd4bkk7OjE6SL+RH3YMCa3sBqtKwY14vs61AoWlS1bE0z8aRRsX49
-        owemeenoGQ==
-        -----END CERTIFICATE-----
-    kind: ConfigMap
-    metadata:
-      labels:
-        app.kubernetes.io/instance: RELEASE-NAME
-        app.kubernetes.io/managed-by: Helm
-        app.kubernetes.io/name: snyk-broker-RELEASE-NAME
-        helm.sh/chart: snyk-broker-2.5.0
-      name: RELEASE-NAME-snyk-broker-cacert-configmap-RELEASE-NAME
-      namespace: NAMESPACE
-  4: |
-    apiVersion: v1
-    data:
-      github-com-broker-token-key: MTIz
-    kind: Secret
-    metadata:
-      name: github-com-broker-token-RELEASE-NAME
-    type: Opaque
-  5: |
-    apiVersion: v1
-    kind: ServiceAccount
-    metadata:
-      labels:
-        app.kubernetes.io/instance: RELEASE-NAME
-        app.kubernetes.io/managed-by: Helm
-        app.kubernetes.io/name: snyk-broker-RELEASE-NAME
-        helm.sh/chart: snyk-broker-2.5.0
-      name: snyk-broker-RELEASE-NAME
-      namespace: NAMESPACE
-cacertfile:
-  1: |
-    apiVersion: apps/v1
-    kind: Deployment
-    metadata:
-      labels:
-        app.kubernetes.io/instance: RELEASE-NAME
-        app.kubernetes.io/managed-by: Helm
-        app.kubernetes.io/name: snyk-broker-RELEASE-NAME
-        helm.sh/chart: snyk-broker-2.5.0
-      name: github-com-broker-RELEASE-NAME
-      namespace: NAMESPACE
-    spec:
-      replicas: 1
-      selector:
-        matchLabels:
-          app.kubernetes.io/instance: RELEASE-NAME
-          app.kubernetes.io/name: snyk-broker-RELEASE-NAME
-      template:
-        metadata:
-          labels:
-            app.kubernetes.io/instance: RELEASE-NAME
-            app.kubernetes.io/name: snyk-broker-RELEASE-NAME
-        spec:
-          containers:
-            - env:
-                - name: BROKER_SERVER_URL
-                  value: https://broker.test.snyk.io
-                - name: BROKER_HEALTHCHECK_PATH
-                  value: /healthcheck
-                - name: BROKER_SYSTEMCHECK_PATH
-                  value: /systemcheck
-                - name: BROKER_TOKEN
+                - name: GITHUB_TOKEN_POOL
                   valueFrom:
                     secretKeyRef:
-                      key: github-com-broker-token-key
-                      name: github-com-broker-token-RELEASE-NAME
-                - name: GITHUB_TOKEN
-                  valueFrom:
-                    secretKeyRef:
-                      key: github-com-token-key
-                      name: github-com-token-RELEASE-NAME
+                      key: github-com-token-key-pool
+                      name: github-com-token-pool-RELEASE-NAME
                 - name: PORT
                   value: "8000"
                 - name: BROKER_CLIENT_URL
@@ -296,23 +122,168 @@ cacertfile:
   3: |
     apiVersion: v1
     data:
-      cacert: testValueSetBySetFile
-    kind: ConfigMap
+      github-com-broker-token-key: MTIz
+    kind: Secret
+    metadata:
+      name: github-com-broker-token-RELEASE-NAME
+    type: Opaque
+  4: |
+    apiVersion: v1
+    data:
+      github-com-token-key-pool: Z2hfdG9rZW4xLGdoX3Rva2VuMixnaF90b2tlbjM=
+    kind: Secret
+    metadata:
+      name: github-com-token-pool-RELEASE-NAME
+    type: Opaque
+  5: |
+    apiVersion: v1
+    kind: ServiceAccount
     metadata:
       labels:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker-RELEASE-NAME
         helm.sh/chart: snyk-broker-2.5.0
-      name: RELEASE-NAME-snyk-broker-cacert-configmap-RELEASE-NAME
+      name: snyk-broker-RELEASE-NAME
       namespace: NAMESPACE
+gitlab token pool configured:
+  1: |
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      labels:
+        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: snyk-broker-RELEASE-NAME
+        helm.sh/chart: snyk-broker-2.5.0
+      name: gitlab-broker-RELEASE-NAME
+      namespace: NAMESPACE
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          app.kubernetes.io/instance: RELEASE-NAME
+          app.kubernetes.io/name: snyk-broker-RELEASE-NAME
+      template:
+        metadata:
+          labels:
+            app.kubernetes.io/instance: RELEASE-NAME
+            app.kubernetes.io/name: snyk-broker-RELEASE-NAME
+        spec:
+          containers:
+            - env:
+                - name: BROKER_SERVER_URL
+                  value: https://broker.test.snyk.io
+                - name: BROKER_HEALTHCHECK_PATH
+                  value: /healthcheck
+                - name: BROKER_SYSTEMCHECK_PATH
+                  value: /systemcheck
+                - name: BROKER_TOKEN
+                  valueFrom:
+                    secretKeyRef:
+                      key: gitlab-broker-token-key
+                      name: gitlab-broker-token-RELEASE-NAME
+                - name: GITLAB_TOKEN
+                  valueFrom:
+                    secretKeyRef:
+                      key: gitlab-token-key
+                      name: gitlab-token-RELEASE-NAME
+                - name: GITLAB_TOKEN_POOL
+                  valueFrom:
+                    secretKeyRef:
+                      key: gitlab-token-key-pool
+                      name: gitlab-token-pool-RELEASE-NAME
+                - name: GITLAB
+                  value: null
+                - name: PORT
+                  value: "8000"
+                - name: BROKER_CLIENT_URL
+                  value: http://brokerclient
+                - name: LOG_LEVEL
+                  value: info
+                - name: LOG_ENABLE_BODY
+                  value: "false"
+                - name: ACCEPT_CODE
+                  value: "true"
+                - name: ACCEPT_IAC
+                  value: tf,yaml,yml,json,tpl
+                - name: BROKER_DISPATCHER_BASE_URL
+                  value: https://api.test.snyk.io
+              image: snyk/broker:gitlab
+              imagePullPolicy: Always
+              livenessProbe:
+                failureThreshold: 3
+                httpGet:
+                  path: /healthcheck
+                  port: 8000
+                initialDelaySeconds: 3
+                periodSeconds: 10
+                timeoutSeconds: 1
+              name: gitlab-broker-RELEASE-NAME
+              ports:
+                - containerPort: 8000
+                  name: http
+              readinessProbe:
+                failureThreshold: 3
+                httpGet:
+                  path: /healthcheck
+                  port: 8000
+                initialDelaySeconds: 3
+                periodSeconds: 10
+                timeoutSeconds: 1
+              resources:
+                limits:
+                  cpu: 1
+                  memory: 256Mi
+                requests:
+                  cpu: 1
+                  memory: 256Mi
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities:
+                  drop:
+                    - ALL
+                readOnlyRootFilesystem: true
+                runAsNonRoot: true
+                runAsUser: 1000
+              volumeMounts: null
+          securityContext: {}
+          serviceAccountName: snyk-broker-RELEASE-NAME
+          volumes: null
+  2: |
+    apiVersion: v1
+    kind: Service
+    metadata:
+      labels:
+        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: snyk-broker-RELEASE-NAME
+        helm.sh/chart: snyk-broker-2.5.0
+      name: gitlab-broker-service-RELEASE-NAME
+      namespace: NAMESPACE
+    spec:
+      ports:
+        - port: 8000
+          targetPort: 8000
+      selector:
+        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/name: snyk-broker-RELEASE-NAME
+      type: ClusterIP
+  3: |
+    apiVersion: v1
+    data:
+      gitlab-broker-token-key: MTIz
+    kind: Secret
+    metadata:
+      name: gitlab-broker-token-RELEASE-NAME
+    type: Opaque
   4: |
     apiVersion: v1
     data:
-      github-com-broker-token-key: MTIz
+      gitlab-token-key-pool: Z2xfdG9rZW5fMSxnbF90b2tlbl8y
     kind: Secret
     metadata:
-      name: github-com-broker-token-RELEASE-NAME
+      name: gitlab-token-pool-RELEASE-NAME
     type: Opaque
   5: |
     apiVersion: v1

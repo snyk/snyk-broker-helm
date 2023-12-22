@@ -113,6 +113,13 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.scmType}}-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
                   key: "{{ .Values.scmType}}-token-key"
+            {{- if .Values.scmTokenPool }}
+            - name: GITHUB_TOKEN_POOL
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.scmType }}-token-pool{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
+                  key: "{{ .Values.scmType}}-token-key-pool"
+                {{- end }}
             - name: PORT
               value: {{ .Values.deployment.container.containerPort | squote }}
             - name: BROKER_CLIENT_URL
@@ -130,6 +137,13 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.scmType}}-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
                   key: "{{ .Values.scmType}}-token-key"
+            {{- if .Values.scmTokenPool }}
+            - name: GITHUB_TOKEN_POOL
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.scmType }}-token-pool{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
+                  key: "{{ .Values.scmType}}-token-key-pool"
+            {{- end }}
             - name: GITHUB
               value: {{ .Values.github }}
             - name: GITHUB_API
@@ -177,6 +191,13 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.scmType}}-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
                   key: "{{ .Values.scmType}}-token-key"
+            {{- if .Values.scmTokenPool }}
+            - name: GITLAB_TOKEN_POOL
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.scmType }}-token-pool{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
+                  key: "{{ .Values.scmType}}-token-key-pool"
+                {{- end }}
             - name: GITLAB
               value: {{ .Values.gitlab }}
             - name: PORT

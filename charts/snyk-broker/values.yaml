@@ -43,9 +43,11 @@ replicaCount: 2
 
 scmType: "github-com"
 
-# scmToken is used for SCMs that require a personal Access Token: Github & Gitlab
+# scmToken is used for SCMs that require a personal Access Token: GitHub & Gitlab
 scmToken: ""
 
+# scmTokenPool is used by credential pooling for SCMs that require a personal Access Token: GitHub & Gitlab
+scmTokenPool: ""
 
 ##### Github Enterprise #####
 
