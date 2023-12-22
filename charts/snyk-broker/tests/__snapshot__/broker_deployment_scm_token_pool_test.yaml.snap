@@ -7,7 +7,7 @@ github token pool configured:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker-RELEASE-NAME
-        helm.sh/chart: snyk-broker-2.4.0
+        helm.sh/chart: snyk-broker-2.5.0
       name: github-com-broker-RELEASE-NAME
       namespace: NAMESPACE
     spec:
@@ -108,7 +108,7 @@ github token pool configured:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker-RELEASE-NAME
-        helm.sh/chart: snyk-broker-2.4.0
+        helm.sh/chart: snyk-broker-2.5.0
       name: github-com-broker-service-RELEASE-NAME
       namespace: NAMESPACE
     spec:
@@ -143,7 +143,7 @@ github token pool configured:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker-RELEASE-NAME
-        helm.sh/chart: snyk-broker-2.4.0
+        helm.sh/chart: snyk-broker-2.5.0
       name: snyk-broker-RELEASE-NAME
       namespace: NAMESPACE
 gitlab token pool configured:
@@ -155,7 +155,7 @@ gitlab token pool configured:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker-RELEASE-NAME
-        helm.sh/chart: snyk-broker-2.4.0
+        helm.sh/chart: snyk-broker-2.5.0
       name: gitlab-broker-RELEASE-NAME
       namespace: NAMESPACE
     spec:
@@ -258,7 +258,7 @@ gitlab token pool configured:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker-RELEASE-NAME
-        helm.sh/chart: snyk-broker-2.4.0
+        helm.sh/chart: snyk-broker-2.5.0
       name: gitlab-broker-service-RELEASE-NAME
       namespace: NAMESPACE
     spec:
@@ -293,6 +293,6 @@ gitlab token pool configured:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker-RELEASE-NAME
-        helm.sh/chart: snyk-broker-2.4.0
+        helm.sh/chart: snyk-broker-2.5.0
       name: snyk-broker-RELEASE-NAME
       namespace: NAMESPACE
