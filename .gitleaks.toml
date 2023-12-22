@@ -3,6 +3,9 @@ useDefault = true
 
 [allowlist]
 description = "global allow list"
+paths = [
+  'charts/snyk-broker/tests/__snapshot__/*',
+]
 
 # ignoring historical secrets from past commits
 # (not present in the current codebase)
