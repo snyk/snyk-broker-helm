@@ -49,6 +49,9 @@ scmToken: ""
 # scmTokenPool is used by credential pooling for SCMs that require a personal Access Token: GitHub & Gitlab
 scmTokenPool: ""
 
+# useExternalSecretScmTokenPool forces credential pooling for SCMs, e.g. by using Secrets Store CSI Driver (default is false).
+useExternalSecretScmTokenPool: false
+
 ##### Github Enterprise #####
 
 # GHE URL - Ex: your.ghe.domain.com (do not prepend HTTPS) - For GHE Cloud use api.github.com
