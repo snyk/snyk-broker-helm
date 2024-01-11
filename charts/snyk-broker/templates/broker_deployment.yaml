@@ -113,7 +113,7 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.scmType}}-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
                   key: "{{ .Values.scmType}}-token-key"
-            {{- if .Values.scmTokenPool }}
+            {{- if or (.Values.scmTokenPool) (.Values.useExternalSecretScmTokenPool) }}
             - name: GITHUB_TOKEN_POOL
               valueFrom:
                 secretKeyRef:
@@ -137,7 +137,7 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.scmType}}-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
                   key: "{{ .Values.scmType}}-token-key"
-            {{- if .Values.scmTokenPool }}
+            {{- if or (.Values.scmTokenPool) (.Values.useExternalSecretScmTokenPool) }}
             - name: GITHUB_TOKEN_POOL
               valueFrom:
                 secretKeyRef:
@@ -191,7 +191,7 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.scmType}}-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
                   key: "{{ .Values.scmType}}-token-key"
-            {{- if .Values.scmTokenPool }}
+            {{- if or (.Values.scmTokenPool) (.Values.useExternalSecretScmTokenPool) }}
             - name: GITLAB_TOKEN_POOL
               valueFrom:
                 secretKeyRef:

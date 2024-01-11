@@ -7,7 +7,7 @@ default values:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker-RELEASE-NAME
-        helm.sh/chart: snyk-broker-2.5.0
+        helm.sh/chart: snyk-broker-2.5.1
       name: container-registry-agent-broker-RELEASE-NAME
       namespace: NAMESPACE
     spec:
@@ -157,7 +157,7 @@ default values:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker-RELEASE-NAME
-        helm.sh/chart: snyk-broker-2.5.0
+        helm.sh/chart: snyk-broker-2.5.1
       name: cra-service-RELEASE-NAME
       namespace: NAMESPACE
     spec:
