@@ -108,11 +108,13 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.scmType}}-broker-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
                   key: "{{ .Values.scmType}}-broker-token-key"
+            {{- if not .Values.useExternalSecretScmTokenPool }}
             - name: GITHUB_TOKEN
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.scmType}}-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
                   key: "{{ .Values.scmType}}-token-key"
+            {{- end }}
             {{- if or (.Values.scmTokenPool) (.Values.useExternalSecretScmTokenPool) }}
             - name: GITHUB_TOKEN_POOL
               valueFrom:
@@ -132,11 +134,13 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.scmType}}-broker-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
                   key: "{{ .Values.scmType}}-broker-token-key"
+            {{- if not .Values.useExternalSecretScmTokenPool }}
             - name: GITHUB_TOKEN
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.scmType}}-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
                   key: "{{ .Values.scmType}}-token-key"
+            {{- end }}
             {{- if or (.Values.scmTokenPool) (.Values.useExternalSecretScmTokenPool) }}
             - name: GITHUB_TOKEN_POOL
               valueFrom:
@@ -186,11 +190,13 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.scmType}}-broker-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
                   key: "{{ .Values.scmType}}-broker-token-key"
+            {{- if not .Values.useExternalSecretScmTokenPool }}
             - name: GITLAB_TOKEN
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.scmType}}-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
                   key: "{{ .Values.scmType}}-token-key"
+            {{- end }}
             {{- if or (.Values.scmTokenPool) (.Values.useExternalSecretScmTokenPool) }}
             - name: GITLAB_TOKEN_POOL
               valueFrom:
