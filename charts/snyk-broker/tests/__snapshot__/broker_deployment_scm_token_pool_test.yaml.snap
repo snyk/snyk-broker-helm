@@ -183,11 +183,6 @@ github token pool configured with enabled useExternalSecretScmTokenPool:
                     secretKeyRef:
                       key: github-com-broker-token-key
                       name: github-com-broker-token-RELEASE-NAME
-                - name: GITHUB_TOKEN
-                  valueFrom:
-                    secretKeyRef:
-                      key: github-com-token-key
-                      name: github-com-token-RELEASE-NAME
                 - name: GITHUB_TOKEN_POOL
                   valueFrom:
                     secretKeyRef:
