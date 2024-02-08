@@ -127,28 +127,7 @@ cacert:
   3: |
     apiVersion: v1
     data:
-      dummy_ca_cert.pem: |-
-        -----BEGIN CERTIFICATE-----
-        MIIDYzCCAksCFAYMPiMLU27bbnNw60gZkdMg4Rr2MA0GCSqGSIb3DQEBCwUAMG4x
-        CzAJBgNVBAYTAkNIMQswCQYDVQQIDAJBQTELMAkGA1UEBwwCQUExCzAJBgNVBAoM
-        AkFBMQswCQYDVQQLDAJBQTELMAkGA1UEAwwCQUExHjAcBgkqhkiG9w0BCQEWD2Fu
-        dG9pbmVAc255ay5pbzAeFw0yMzA4MzEyMTE2NDRaFw0yNDA4MzAyMTE2NDRaMG4x
-        CzAJBgNVBAYTAkNIMQswCQYDVQQIDAJBQTELMAkGA1UEBwwCQUExCzAJBgNVBAoM
-        AkFBMQswCQYDVQQLDAJBQTELMAkGA1UEAwwCQUExHjAcBgkqhkiG9w0BCQEWD2Fu
-        dG9pbmVAc255ay5pbzCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAPSe
-        fzWIMgAFuIwP4ScnLoZPb75dKLy8Ao2QtowF6WyntFuNWPJPLbs8sTeRPPbtbDYn
-        k2rfi15vQWL7HB7uKqTwFdXmf4kZu9SNxH1c7q+KNtYm1hiMBOlhM951N3gcefCE
-        W8A2rD95ngZlDdnFfBmsWvomg2a8OQjveMA9Nl3aR8qFNsym52yphTAilV+QMmmj
-        Xc7V/ElQElXN9uoSIbg6eTZ/yNqPDkdEQ+0f033IheHTdjFgnmCY4kFBp/4X6dDj
-        vUbmfvQ8c3GN11SvyoJgrd0grquiIp3qHRXIfr+U6Z5aAT+G4/paTnuRlMFhpQwV
-        D0Ur9jto7i/xo0gDArMCAwEAATANBgkqhkiG9w0BAQsFAAOCAQEAP7c+rHqEbST8
-        Vd25DNmhwb4hEGI2K8+YWixauZJOcRwamLrQree7UHn0EeWW+qZa2ec5G2y2fGb9
-        HrB6C3LvDb0rmXWXbWTSM3Mj55ITDIYD3xBe2I5+jlykrxlEsC5QwFXMMbDKFwQj
-        J7V6gFfjJweX8Ko9kUdXdKmx2/napkPEkU8hoAZ4cMaaqfx6d2hvQL+2flQkjH+A
-        B3AgJ/FdaW0sb5caSstO1BEg3NgpJjO1YKRkxb1hkrjNRSJ2NfTkCwiTp9yIz25u
-        2UANxr7bbnEPd4bkk7OjE6SL+RH3YMCa3sBqtKwY14vs61AoWlS1bE0z8aRRsX49
-        owemeenoGQ==
-        -----END CERTIFICATE-----
+      dummy_ca_cert.pem: "-----BEGIN CERTIFICATE-----\r\nMIIDYzCCAksCFAYMPiMLU27bbnNw60gZkdMg4Rr2MA0GCSqGSIb3DQEBCwUAMG4x\r\nCzAJBgNVBAYTAkNIMQswCQYDVQQIDAJBQTELMAkGA1UEBwwCQUExCzAJBgNVBAoM\r\nAkFBMQswCQYDVQQLDAJBQTELMAkGA1UEAwwCQUExHjAcBgkqhkiG9w0BCQEWD2Fu\r\ndG9pbmVAc255ay5pbzAeFw0yMzA4MzEyMTE2NDRaFw0yNDA4MzAyMTE2NDRaMG4x\r\nCzAJBgNVBAYTAkNIMQswCQYDVQQIDAJBQTELMAkGA1UEBwwCQUExCzAJBgNVBAoM\r\nAkFBMQswCQYDVQQLDAJBQTELMAkGA1UEAwwCQUExHjAcBgkqhkiG9w0BCQEWD2Fu\r\ndG9pbmVAc255ay5pbzCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAPSe\r\nfzWIMgAFuIwP4ScnLoZPb75dKLy8Ao2QtowF6WyntFuNWPJPLbs8sTeRPPbtbDYn\r\nk2rfi15vQWL7HB7uKqTwFdXmf4kZu9SNxH1c7q+KNtYm1hiMBOlhM951N3gcefCE\r\nW8A2rD95ngZlDdnFfBmsWvomg2a8OQjveMA9Nl3aR8qFNsym52yphTAilV+QMmmj\r\nXc7V/ElQElXN9uoSIbg6eTZ/yNqPDkdEQ+0f033IheHTdjFgnmCY4kFBp/4X6dDj\r\nvUbmfvQ8c3GN11SvyoJgrd0grquiIp3qHRXIfr+U6Z5aAT+G4/paTnuRlMFhpQwV\r\nD0Ur9jto7i/xo0gDArMCAwEAATANBgkqhkiG9w0BAQsFAAOCAQEAP7c+rHqEbST8\r\nVd25DNmhwb4hEGI2K8+YWixauZJOcRwamLrQree7UHn0EeWW+qZa2ec5G2y2fGb9\r\nHrB6C3LvDb0rmXWXbWTSM3Mj55ITDIYD3xBe2I5+jlykrxlEsC5QwFXMMbDKFwQj\r\nJ7V6gFfjJweX8Ko9kUdXdKmx2/napkPEkU8hoAZ4cMaaqfx6d2hvQL+2flQkjH+A\r\nB3AgJ/FdaW0sb5caSstO1BEg3NgpJjO1YKRkxb1hkrjNRSJ2NfTkCwiTp9yIz25u\r\n2UANxr7bbnEPd4bkk7OjE6SL+RH3YMCa3sBqtKwY14vs61AoWlS1bE0z8aRRsX49\r\nowemeenoGQ==\r\n-----END CERTIFICATE-----\r\n"
     kind: ConfigMap
     metadata:
       labels:
@@ -227,6 +206,10 @@ cacertfile:
                   value: info
                 - name: LOG_ENABLE_BODY
                   value: "false"
+                - name: CA_CERT
+                  value: /home/node/cacert/cacert
+                - name: NODE_EXTRA_CA_CERTS
+                  value: /home/node/cacert/cacert
                 - name: ACCEPT_CODE
                   value: "true"
                 - name: ACCEPT_IAC
@@ -270,10 +253,16 @@ cacertfile:
                 readOnlyRootFilesystem: true
                 runAsNonRoot: true
                 runAsUser: 1000
-              volumeMounts: null
+              volumeMounts:
+                - mountPath: /home/node/cacert
+                  name: RELEASE-NAME-snyk-broker-cacert-volume
+                  readOnly: true
           securityContext: {}
           serviceAccountName: snyk-broker
-          volumes: null
+          volumes:
+            - configMap:
+                name: RELEASE-NAME-snyk-broker-cacert-configmap
+              name: RELEASE-NAME-snyk-broker-cacert-volume
   2: |
     apiVersion: v1
     kind: Service
