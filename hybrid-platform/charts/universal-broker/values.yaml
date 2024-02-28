@@ -1,0 +1,207 @@
+# Default values for snyk-broker.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+preflightChecks:
+  enabled: true
+
+highAvailabilityMode:
+  enabled: false
+brokerDispatcherUrl: "https://api.snyk.io"
+
+# This number if only used if enableHighAvailabilityMode is true
+replicaCount: 2
+
+##### SCM Generic #####
+
+# scmType is used to define the Source Control that you are connecting to. 
+
+# Allowed values for scmType:
+#   GitHub.com: github-com
+#   GitHub Enterprise: github-enterprise
+#   Bitbucket: bitbucket-server
+#   GitLab: gitlab
+#   Azure Repos: azure-repos
+#   Artifactory: artifactory
+#   Nexus: nexus
+#   Nexus2: nexus2
+#   Jira: jira
+#   Jira with bearer auth: jira-bearer-auth
+#   Container Registry Agent: container-registry-agent
+
+scmType: "github-com"
+
+# scmToken is used for SCMs that require a personal Access Token: GitHub & Gitlab
+scmToken: ""
+
+# scmTokenPool is used by credential pooling for SCMs that require a personal Access Token: GitHub & Gitlab
+scmTokenPool: ""
+
+# useExternalSecretScmTokenPool forces credential pooling for SCMs, e.g. by using Secrets Store CSI Driver (default is false).
+useExternalSecretScmTokenPool: false
+
+##### Github Enterprise #####
+
+# GHE URL - Ex: your.ghe.domain.com (do not prepend HTTPS) - For GHE Cloud use api.github.com
+github: ""
+
+# GHE API Address - do not prepend HTTPS
+githubApi: ""
+
+# GHE Graph QL Address - do not prepend HTTPS
+githubGraphQl: ""
+
+##### Broker Image Parameters #####
+
+image:
+  repository: snyk/broker
+  crRepository: snyk/container-registry-agent
+  caRepository: snyk/code-agent
+  pullPolicy: Always
+  # Overrides the image tag. If left empty the latest version is used
+  tag: ""
+
+##### Broker Image Pull Secrets Parameters #####
+imagePullSecrets: []
+# - name: registrySecretName
+
+# Health and System Check Paths for the broker
+healthCheckPath: &healthCheckPath "/healthcheck"
+systemCheckPath: &systemCheckPath "/systemcheck"
+
+# Configure K8s Liveness and Readiness Probes for broker
+brokerLivenessProbe:
+  enabled: true
+  path: *healthCheckPath
+  config:
+    initialDelaySeconds: 3
+    periodSeconds: 10
+    timeoutSeconds: 1
+    failureThreshold: 3  
+
+
+brokerReadinessProbe:
+  enabled: true
+  path: *healthCheckPath
+  config:
+    initialDelaySeconds: 3
+    periodSeconds: 10
+    timeoutSeconds: 1
+    failureThreshold: 3
+
+##### Broker Resource Values #####
+brokerResources:
+   limits:
+     cpu: 1
+     memory: "256Mi"
+   requests:
+     cpu: 1
+     memory: "256Mi"
+
+
+##### Container Registry Agent Resource Values #####
+
+crResources:
+   limits:
+     cpu: 1
+     memory: "2Gi"
+   requests:
+     cpu: 1
+     memory: "2Gi"
+
+##### Code Agent Resource Values #####
+
+caResources:
+   limits:
+     cpu: 1
+     memory: "2Gi"
+   requests:
+     cpu: 1
+     memory: "2Gi"
+   storage: "2Gi"
+
+
+##### Ports for Broker, Code Agent, Container Registry Agent #####
+deployment:
+   container: 
+     containerPort: 8000
+     crSnykPort: 8081
+     caSnykPort: 3000
+nameOverride: ""
+fullnameOverride: ""
+
+
+##### Service Account Values. Nothing to change here #####
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: "snyk-broker"
+
+podAnnotations: {}
+
+podSecurityContext: {}
+ 
+
+##### Security Context #####
+# These can be adjusted at your own risk. 
+
+securityContext: 
+   capabilities:
+     drop:
+     - ALL
+   readOnlyRootFilesystem: true
+   allowPrivilegeEscalation: false
+   runAsNonRoot: true
+   runAsUser: 1000
+
+securityContextCr: 
+   capabilities:
+     drop:
+     - ALL
+   allowPrivilegeEscalation: false
+   readOnlyRootFilesystem: false
+   runAsNonRoot: true
+   runAsUser: 1000
+
+securityContextCa: 
+   capabilities:
+     drop:
+     - ALL
+   allowPrivilegeEscalation: false
+   readOnlyRootFilesystem: false
+   runAsNonRoot: true
+   runAsUser: 1000
+
+##### Service Types #####
+# If you prefer to adjust how communication to the cluster occurs, these values can be adjusted
+service:
+ 
+  # Snyk Broker
+  brokerType: ClusterIP
+ 
+  # Container Registry Agent 
+  crType: ClusterIP
+
+  # Code Agent
+  caType: ClusterIP
+  port: 8000
+
+
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+  
+##### The Broker is designed to work with multiple replicas (min 2, max 4) only with High Availability mode enabled.
+
+autoscaling:
+  enabled: false
+  minReplicas: 2
+  maxReplicas: 4
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80

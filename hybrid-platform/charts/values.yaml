@@ -1,0 +1,441 @@
+# Default values for snyk-broker.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+##### Snyk Specific Values #####
+
+# Broker Token is a value from Snyk. Get this from the integration settings page or your Snyk Representative
+brokerToken: "abc"
+
+secrets:
+  - namePrefix: "scmType-broker-token"
+    name: "broker-token-key"
+    value: "abc"
+
+  - namePrefix: "scmType-token"
+    name: "scmType-token-key"
+    value: "def"
+
+
+# brokerClientUrl is the address of the broker. This needs to be the address of itself. In the case of Kubernetes, you need to ensure that you are pointing to the cluster ingress you have setup.
+# Ex: http://kubernetes-ingress.domain.com:8000
+brokerClientUrl: ""
+
+# Do not touch unless directed by a Snyk Representative
+brokerServerUrl: "https://broker.snyk.io"
+
+preflightChecks:
+  enabled: true
+
+highAvailabilityMode:
+  enabled: true
+brokerDispatcherUrl: "https://api.snyk.io"
+
+# This number if only used if enableHighAvailabilityMode is true
+replicaCount: 4
+
+disableSuffixes: false
+##### SCM Generic #####
+
+# scmType is used to define the Source Control that you are connecting to. 
+
+# Allowed values for scmType:
+#   GitHub.com: github-com
+#   GitHub Enterprise: github-enterprise
+#   Bitbucket: bitbucket-server
+#   GitLab: gitlab
+#   Azure Repos: azure-repos
+#   Artifactory: artifactory
+#   Nexus: nexus
+#   Nexus2: nexus2
+#   Jira: jira
+#   Jira with bearer auth: jira-bearer-auth
+#   Container Registry Agent: container-registry-agent
+
+scmType: "github-com"
+
+# scmToken is used for SCMs that require a personal Access Token: GitHub & Gitlab
+scmToken: ""
+
+# scmTokenPool is used by credential pooling for SCMs that require a personal Access Token: GitHub & Gitlab
+scmTokenPool: ""
+
+# useExternalSecretScmTokenPool forces credential pooling for SCMs, e.g. by using Secrets Store CSI Driver (default is false).
+useExternalSecretScmTokenPool: false
+
+##### Github Enterprise #####
+
+# GHE URL - Ex: your.ghe.domain.com (do not prepend HTTPS) - For GHE Cloud use api.github.com
+github: ""
+
+# GHE API Address - do not prepend HTTPS
+githubApi: ""
+
+# GHE Graph QL Address - do not prepend HTTPS
+githubGraphQl: ""
+
+
+##### Bitbucket Server #####
+
+# Bitbucket Username
+bitbucketUsername: ""
+
+# Bitbucket Password
+bitbucketPassword: ""
+
+# Bitbucket URL - do not prepend HTTPS
+bitbucket: ""
+
+# Bitbucket API URL - do not prepend HTTPS
+bitbucketApi: "" 
+
+
+##### GitLab #####
+
+# Gitlab URL - do not prepend HTTPS
+gitlab: ""
+
+
+##### Azure Repos #####
+
+# Azure Repos Organization
+azureReposOrg: ""
+
+# Azure Repos Hostname - do not prepend HTTPS
+azureReposHost: ""
+
+# Azure Repos Token
+azureReposToken: ""
+
+
+##### Artifactory #####
+
+# Artifactory URL - do not prepend HTTPS
+artifactoryUrl: ""
+
+
+##### Nexus 2 & 3 #####
+
+# Nexus Base URL - include HTTPS
+baseNexusUrl: ""
+
+# Nexus URL - include HTTPS
+nexusUrl: ""
+
+# Nexus Validation URL, checked by broker client systemcheck endpoint.
+brokerClientValidationUrl: ""
+
+
+##### Jira #####
+
+# Jira Username
+jiraUsername: ""
+
+# Jira Password
+jiraPassword: ""
+
+#Jira PAT (for Bearer auth):
+jiraPat: ""
+
+# Jira Hostname - do not prepend HTTPS
+jiraHostname: ""
+
+
+##### Container Registry Agent #####
+
+# Container Registry Type. See Documentation for allowed values
+crType: ""
+
+# Container Registry Base URL - do not prepend HTTPS
+crBase: ""
+
+# Container Registry Username
+crUsername: ""
+
+# Container Registry Password
+crPassword: ""
+
+# Container Role ARN (Only for ECR)
+crRoleArn: ""
+
+# Container Region (Only for ECR)
+crRegion: ""
+
+# Container External ID (Only for ECR)
+crExternalId: ""
+
+# Container Authentication Token (Only for DigitalOcean)
+crToken: ""
+
+# CRA Image tag. Do not adjust unless instructed by Snyk Representative
+crImage: "latest"
+
+
+##### Code Agent #####
+
+# Set to 'true' to enable Code Agent
+enableCodeAgent: ""
+
+# Only adjust this value if advised to by Snyk Representative. Used to upload content to non-standard environment. 
+upstreamUrlCodeAgent: ""
+
+# Snyk API token. Allows Code Agent to upload source code. Group > Settings > Service Accounts 
+snykToken: ""
+
+#CA Image Tag. Do not touch unless instructed by Snyk Representative
+caImage: "latest"
+
+# Only adjust this value if advised to by Snyk Representative. This is the URL of the Snyk Code Agent. This helm chart already connects everything. 
+gitClientUrl: ""
+
+##### Snyk Code Local Engine #####
+
+# Set to 'true' to enable Snyk Code Local Engine
+enableSnykCodeLocalEngine: ""
+
+##### Logging #####
+
+# Default Log Level. Can be set to "debug" for more information
+logLevel: "info"
+
+# Add additional logging by setting to true
+logEnableBody: "false"
+
+##### Enable HTTPS #####
+
+# Location of mounted cert
+httpsCert: "abc"
+
+# Location of mounted HTTPS key
+httpsKey: "def"
+
+##### HTTPS Inspection #####
+
+# Not supported by Snyk Container Registry Agent or Snyk Code Agent (use tlsRejectUnauthorized instead). Location of mounted custom certificate. To allow visibility for SSL Inspection. 
+caCert: ""
+
+# Set to "0" to disable trust validation when using self signed certificates. 
+tlsRejectUnauthorized: "" 
+
+##### Use behind proxy #####
+
+# Do not change unless advised by your Snyk Representative. You probably need to use HTTPS proxy setting and leave this blank. - HTTP Proxy URL 
+httpProxy: ""
+
+# HTTPS Proxy URL - This will apply to both Snyk Broker and Snyk Code Agent
+httpsProxy: ""
+
+# No Proxy URL - This will apply to both Snyk Broker and Snyk Code Agent
+noProxy: ""
+
+# For custom accept.json, specify the path to the accept.json using the --set-file command when installing the chart
+acceptJson: ""
+
+##### Broker Image Parameters #####
+
+image:
+  repository: snyk/broker
+  crRepository: snyk/container-registry-agent
+  caRepository: snyk/code-agent
+  pullPolicy: Always
+  # Overrides the image tag. If left empty the latest version is used
+  tag: ""
+
+##### Broker Image Pull Secrets Parameters #####
+imagePullSecrets: []
+# - name: registrySecretName
+
+# Health and System Check Paths for the broker
+healthCheckPath: &healthCheckPath "/healthcheck"
+systemCheckPath: &systemCheckPath "/systemcheck"
+
+# Configure K8s Liveness and Readiness Probes for broker
+brokerLivenessProbe:
+  enabled: true
+  path: *healthCheckPath
+  config:
+    initialDelaySeconds: 3
+    periodSeconds: 10
+    timeoutSeconds: 1
+    failureThreshold: 3  
+
+
+brokerReadinessProbe:
+  enabled: true
+  path: *healthCheckPath
+  config:
+    initialDelaySeconds: 3
+    periodSeconds: 10
+    timeoutSeconds: 1
+    failureThreshold: 3
+
+##### Broker Resource Values #####
+brokerResources:
+   limits:
+     cpu: 1
+     memory: "256Mi"
+   requests:
+     cpu: 1
+     memory: "256Mi"
+
+
+##### Container Registry Agent Resource Values #####
+
+crResources:
+   limits:
+     cpu: 1
+     memory: "2Gi"
+   requests:
+     cpu: 1
+     memory: "2Gi"
+
+##### Code Agent Resource Values #####
+
+caResources:
+   limits:
+     cpu: 1
+     memory: "2Gi"
+   requests:
+     cpu: 1
+     memory: "2Gi"
+   storage: "2Gi"
+
+
+##### Ports for Broker, Code Agent, Container Registry Agent #####
+deployment:
+   container: 
+     containerPort: 8000
+     crSnykPort: 8081
+     caSnykPort: 3000
+nameOverride: "abc"
+fullnameOverride: "abc"
+
+
+##### Service Account Values. Nothing to change here #####
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: "snyk-broker"
+
+podAnnotations: {}
+
+podSecurityContext: {}
+ 
+
+##### Security Context #####
+# These can be adjusted at your own risk. 
+
+securityContext: 
+   capabilities:
+     drop:
+     - ALL
+   readOnlyRootFilesystem: true
+   allowPrivilegeEscalation: false
+   runAsNonRoot: true
+   runAsUser: 1000
+
+securityContextCr: 
+   capabilities:
+     drop:
+     - ALL
+   allowPrivilegeEscalation: false
+   readOnlyRootFilesystem: false
+   runAsNonRoot: true
+   runAsUser: 1000
+
+securityContextCa: 
+   capabilities:
+     drop:
+     - ALL
+   allowPrivilegeEscalation: false
+   readOnlyRootFilesystem: false
+   runAsNonRoot: true
+   runAsUser: 1000
+
+##### Service Types #####
+# If you prefer to adjust how communication to the cluster occurs, these values can be adjusted
+service:
+ 
+  # Snyk Broker
+  brokerType: ClusterIP
+ 
+  # Container Registry Agent 
+  crType: ClusterIP
+
+  # Code Agent
+  caType: ClusterIP
+  port: 8000
+
+
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+
+##### Optionally Deploy a Broker Ingress Resource #####
+brokerIngress:
+  enabled: false
+  # For Kubernetes >= 1.18 you should specify the ingress-controller via the field ingressClassName
+  # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
+  ingressClassName: ""
+  annotations: {}
+    #kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  labels: {}
+  path: /
+  pathType: Prefix
+  hosts:
+    - <ENTER_BROKER_CLIENT_URL> # Must match the Broker client url
+  ## Extra paths to prepend to every host configuration. This is useful when working with annotation based services.
+  extraPaths: []
+  # - path: /*
+  #   backend:
+  #     serviceName: ssl-redirect
+  #     servicePort: use-annotation
+  ## Or for k8s > 1.19
+  # - path: /*
+  #   pathType: Prefix
+  #   backend:
+  #     service:
+  #       name: ssl-redirect
+  #       port:
+  #         name: use-annotation
+
+  tls: [] # If configured to use https for BROKER_CLIENT_URL
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+##### Extra K8s resources, Volumes and VolumeMounts
+# These are useful when there is a need to introduce additional K8s resources (Drivers, Volumes, etc.) into the mix.
+# Secrets Store CSI Driver is one perfect example that can utilize these
+extraObjects: []
+
+extraVolumes: []
+
+extraVolumeMounts: []
+extraContainerSpecs:
+
+extraPodSpecs: 
+  # tolerations:
+  # - key: "networking/something"
+  #   operator: "Equal"
+  #   value: "internal-pods"
+  #   effect: "NoSchedule"
+  # nodeSelector:
+  #   networking.company.com/network-segment: internal-pods
+
+##### The Broker is designed to work with multiple replicas (min 2, max 4) only with High Availability mode enabled.
+
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 4
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80

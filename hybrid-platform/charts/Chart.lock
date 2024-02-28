@@ -1,0 +1,6 @@
+dependencies:
+- name: Universal Broker
+  repository: file://./universal-broker
+  version: 2.5.2
+digest: sha256:dee511ee4cb20696b08ebd9d053250f5ac6c0f3ded55676e00453371b4e6f726
+generated: "2024-02-26T14:50:20.545853-05:00"

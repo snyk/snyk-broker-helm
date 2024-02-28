@@ -1,0 +1,9 @@
+apiVersion: v2
+name: snyk-broker-test
+version: 2.5.2
+description: A Helm chart for Kubernetes
+type: application
+dependencies:
+  - name: Universal Broker
+    version: 2.5.2
+    repository: "file://./universal-broker"
