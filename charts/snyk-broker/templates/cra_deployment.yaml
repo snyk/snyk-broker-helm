@@ -56,13 +56,30 @@ spec:
             - name: NODE_TLS_REJECT_UNAUTHORIZED
               value: "0"
          {{- end }}
+         {{- if .Values.caCert }}
+         # HTTPS Inspection 
+            - name: CA_CERT
+              value: /home/node/cacert/{{ .Values.caCert }}
+            - name: NODE_EXTRA_CA_CERTS
+              value: /home/node/cacert/{{ .Values.caCert }}
+         {{- end }}
          {{- range .Values.env }}
          # custom env var in override.yaml
             - name: {{ .name }}
               value: {{ .value | squote }} 
         {{- end}}
-
-
+        {{- if .Values.caCert }}
+          volumeMounts:
+              - name: {{ include "snyk-broker.fullname" . }}-cacert-volume
+                mountPath: /home/node/cacert
+                readOnly: true
+        {{- end }}
+      {{- if .Values.caCert }}
+      volumes:
+      - name: {{ include "snyk-broker.fullname" . }}-cacert-volume
+        configMap:
+          name: {{ include "snyk-broker.fullname" . }}-cacert-configmap{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
+      {{- end }}
 ---
 apiVersion: v1
 kind: Service
