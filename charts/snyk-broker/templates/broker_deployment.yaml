@@ -81,16 +81,11 @@ spec:
                 mountPath: /home/node/cacert
                 readOnly: true
               {{- end }}
-              {{- if .Values.httpsCert }}
-              - name: {{ include "snyk-broker.fullname" . }}-httpscert-volume
-                mountPath: /home/node/httpscert
+              {{- if and .Values.httpsCert .Values.httpsKey }}
+              - name: {{ include "snyk-broker.fullname" . }}-tls-secret-volume
+                mountPath: /home/node/tls-cert/
                 readOnly: true
-              {{- end }}
-              {{- if .Values.httpsKey }}
-              - name: {{ include "snyk-broker.fullname" . }}-httpskey-volume
-                mountPath: /home/node/httpskey
-                readOnly: true
-              {{- end }}              
+              {{- end }}                 
 {{- if .Values.extraVolumeMounts }}
 {{ tpl (toYaml .Values.extraVolumeMounts | indent 14) . }}
 {{- end }}
@@ -380,11 +375,11 @@ spec:
          {{- if .Values.httpsCert }}
          # HTTPS Config
             - name: HTTPS_CERT
-              value: /home/node/httpscert/{{ .Values.httpsCert }}
+              value: /home/node/tls-cert/{{ .Values.httpsCert }}
          {{- end }}
          {{- if .Values.httpsKey }}
             - name: HTTPS_KEY
-              value: /home/node/httpskey/{{ .Values.httpsKey }}
+              value: /home/node/tls-cert/{{ .Values.httpsKey }}
          {{- end }}
          
          {{- if .Values.tlsRejectUnauthorized  }}
@@ -460,16 +455,11 @@ spec:
         configMap:
           name: {{ include "snyk-broker.fullname" . }}-cacert-configmap{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
       {{- end }}
-      {{- if .Values.httpsCert }}
-      - name: {{ include "snyk-broker.fullname" . }}-httpscert-volume
-        configMap:
-          name: {{ include "snyk-broker.fullname" . }}-httpscert-configmap{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
+      {{- if and .Values.httpsCert .Values.httpsKey }}
+      - name: {{ include "snyk-broker.fullname" . }}-tls-secret-volume
+        secret:
+          secretName: "tls-secret{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}"
       {{- end }}
-      {{- if .Values.httpsKey }}
-      - name: {{ include "snyk-broker.fullname" . }}-httpskey-volume
-        configMap:
-          name: {{ include "snyk-broker.fullname" . }}-httpskey-configmap{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
-      {{- end }}      
 {{- if .Values.extraVolumes }}
 {{ tpl (toYaml .Values.extraVolumes | indent 6) . }}
 {{- end }}
