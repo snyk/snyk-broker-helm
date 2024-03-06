@@ -193,10 +193,10 @@ logEnableBody: "false"
 ##### Enable HTTPS #####
 
 # Location of mounted cert
-httpsCert: ""
+httpsCert: "MyCertificate.crt"
 
 # Location of mounted HTTPS key
-httpsKey: ""
+httpsKey: "MyKey.key"
 
 ##### HTTPS Inspection #####
 
@@ -320,22 +320,12 @@ podSecurityContext: {}
 # These can be adjusted at your own risk. 
 
 securityContext: 
-   capabilities:
-     drop:
-     - ALL
-   readOnlyRootFilesystem: true
    allowPrivilegeEscalation: false
-   runAsNonRoot: true
-   runAsUser: 1000
+   runAsUser: 0
 
 securityContextCr: 
-   capabilities:
-     drop:
-     - ALL
-   allowPrivilegeEscalation: false
    readOnlyRootFilesystem: false
-   runAsNonRoot: true
-   runAsUser: 1000
+   runAsUser: 0
 
 securityContextCa: 
    capabilities:
@@ -343,8 +333,7 @@ securityContextCa:
      - ALL
    allowPrivilegeEscalation: false
    readOnlyRootFilesystem: false
-   runAsNonRoot: true
-   runAsUser: 1000
+   runAsUser: 0
 
 ##### Service Types #####
 # If you prefer to adjust how communication to the cluster occurs, these values can be adjusted

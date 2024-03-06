@@ -81,7 +81,7 @@ spec:
                 mountPath: /home/node/cacert
                 readOnly: true
               {{- end }}
-              {{- if and .Values.httpsCert .Values.httpsKey }}
+              {{- if and (.Values.httpsCert) (.Values.httpsKey) }}
               - name: {{ include "snyk-broker.fullname" . }}-tls-secret-volume
                 mountPath: /home/node/tls-cert/
                 readOnly: true
@@ -375,11 +375,11 @@ spec:
          {{- if .Values.httpsCert }}
          # HTTPS Config
             - name: HTTPS_CERT
-              value: /home/node/tls-cert/{{ .Values.httpsCert }}
+              value: /home/node/tls-cert/tls.crt
          {{- end }}
          {{- if .Values.httpsKey }}
             - name: HTTPS_KEY
-              value: /home/node/tls-cert/{{ .Values.httpsKey }}
+              value: /home/node/tls-cert/tls.key
          {{- end }}
          
          {{- if .Values.tlsRejectUnauthorized  }}
@@ -455,10 +455,10 @@ spec:
         configMap:
           name: {{ include "snyk-broker.fullname" . }}-cacert-configmap{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
       {{- end }}
-      {{- if and .Values.httpsCert .Values.httpsKey }}
+      {{- if and (.Values.httpsCert) (.Values.httpsKey) }}
       - name: {{ include "snyk-broker.fullname" . }}-tls-secret-volume
         secret:
-          secretName: "tls-secret{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}"
+          secretName: {{ include "tls-secret-name" . }}
       {{- end }}
 {{- if .Values.extraVolumes }}
 {{ tpl (toYaml .Values.extraVolumes | indent 6) . }}
