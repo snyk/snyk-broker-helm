@@ -116,7 +116,7 @@ Create TLS secret name
 */}}
 {{- define "tls-secret-name" -}}
 {{- if not .Values.disableSuffixes -}}
-tls-secret-{{ .Release.Name }}
+{{ include "snyk-broker.fullname" .}}-tls-secret
 {{- else -}}
 tls-secret
 {{- end -}}
