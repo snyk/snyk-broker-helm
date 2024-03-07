@@ -110,3 +110,14 @@ Create the name of the broker service to use
 {{- .Values.scmType}}-broker-service
 {{- end -}}
 {{- end -}}
+
+{{/*
+Create TLS secret name
+*/}}
+{{- define "tls-secret-name" -}}
+{{- if not .Values.disableSuffixes -}}
+{{ include "snyk-broker.fullname" .}}-tls-secret
+{{- else -}}
+tls-secret
+{{- end -}}
+{{- end -}}
