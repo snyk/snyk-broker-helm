@@ -7,7 +7,7 @@ ingress:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker-RELEASE-NAME
-        helm.sh/chart: snyk-broker-2.6.0
+        helm.sh/chart: snyk-broker-2.6.1
       name: github-com-broker-RELEASE-NAME
       namespace: NAMESPACE
     spec:
@@ -48,6 +48,10 @@ ingress:
                   value: info
                 - name: LOG_ENABLE_BODY
                   value: "false"
+                - name: HTTPS_CERT
+                  value: /home/node/tls-cert/tls.crt
+                - name: HTTPS_KEY
+                  value: /home/node/tls-cert/tls.key
                 - name: ACCEPT_CODE
                   value: "true"
                 - name: ACCEPT_IAC
@@ -61,6 +65,7 @@ ingress:
                 httpGet:
                   path: /healthcheck
                   port: 8000
+                  scheme: HTTPS
                 initialDelaySeconds: 3
                 periodSeconds: 10
                 timeoutSeconds: 1
@@ -73,6 +78,7 @@ ingress:
                 httpGet:
                   path: /healthcheck
                   port: 8000
+                  scheme: HTTPS
                 initialDelaySeconds: 3
                 periodSeconds: 10
                 timeoutSeconds: 1
@@ -91,10 +97,16 @@ ingress:
                 readOnlyRootFilesystem: true
                 runAsNonRoot: true
                 runAsUser: 1000
-              volumeMounts: null
+              volumeMounts:
+                - mountPath: /home/node/tls-cert/
+                  name: RELEASE-NAME-snyk-broker-tls-secret-volume
+                  readOnly: true
           securityContext: {}
           serviceAccountName: snyk-broker-RELEASE-NAME
-          volumes: null
+          volumes:
+            - name: RELEASE-NAME-snyk-broker-tls-secret-volume
+              secret:
+                secretName: RELEASE-NAME-snyk-broker-tls-secret
   2: |
     apiVersion: extensions/v1beta1
     kind: Ingress
@@ -103,7 +115,7 @@ ingress:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker-RELEASE-NAME
-        helm.sh/chart: snyk-broker-2.6.0
+        helm.sh/chart: snyk-broker-2.6.1
       name: RELEASE-NAME-snyk-broker-RELEASE-NAME
       namespace: NAMESPACE
     spec:
@@ -123,7 +135,7 @@ ingress:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker-RELEASE-NAME
-        helm.sh/chart: snyk-broker-2.6.0
+        helm.sh/chart: snyk-broker-2.6.1
       name: github-com-broker-service-RELEASE-NAME
       namespace: NAMESPACE
     spec:
@@ -144,12 +156,21 @@ ingress:
     type: Opaque
   5: |
     apiVersion: v1
+    data:
+      tls.crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUZhekNDQTFPZ0F3SUJBZ0lVWHNWWG41N293WDVVSkNTZ21waVVDRHNjeXVVd0RRWUpLb1pJaHZjTkFRRUwKQlFBd1JURUxNQWtHQTFVRUJoTUNRVlV4RXpBUkJnTlZCQWdNQ2xOdmJXVXRVM1JoZEdVeElUQWZCZ05WQkFvTQpHRWx1ZEdWeWJtVjBJRmRwWkdkcGRITWdVSFI1SUV4MFpEQWVGdzB5TkRBek1UTXhORFF6TWpsYUZ3MHlOVEF6Ck1UTXhORFF6TWpsYU1FVXhDekFKQmdOVkJBWVRBa0ZWTVJNd0VRWURWUVFJREFwVGIyMWxMVk4wWVhSbE1TRXcKSHdZRFZRUUtEQmhKYm5SbGNtNWxkQ0JYYVdSbmFYUnpJRkIwZVNCTWRHUXdnZ0lpTUEwR0NTcUdTSWIzRFFFQgpBUVVBQTRJQ0R3QXdnZ0lLQW9JQ0FRRGtlZm5TTFpWLzVNWFBRMTd4Q25ZWThxNGRybEwwcURjWTNHYVhzV2QxCnd2YzZBQ2psNS9uT3pzeFZHNmQwaVhZWFlKWTdPUnJmSkIvRXpJL3RaZGRndzQ1T050Z3BkQUtCeFNMdVVLNCsKaXNBYThOMUJDeTMvR1RyRllpNmppWGZ3dUcxL20xeCtHZVVVc0xZMlFWNno4anlrU0N0cWdSZjVVajBSdDFIbApOMVRlcm1yZDFOZWJwZTB4cld1VUM1by8xSDQ5a3lzUlF2VFQ0YThDRXFONWRjdFJJVE9aZlpyU0dqalpFRVpqCmVCbnp2LzVKNzNuVEdCVGhpYXI4SWkzaVBlSDRwYm5lZlFSMG9SRnB3RW1lSTNUcHRtLzNxWmVaanRXVGY0bFUKQm9wa2dyZHN6bFFCZFBiVi9ocXNlOU5neHRMcTZ4UzVmMFIrMG9JbWs3VENOSEhOa0E0VWtKNzBKRldBVEdaSwphSzYrZ0ROSitBVExQNVNhQ010WmNGRHlWQ1d1U2kra0huNThrZU9UN3FVMWNDKzhHZFc2QTQ4TklMNUtoQThPClRDWkU0dHlNUU1CQ3VxUDI3dFFBb0FHdytMc3NKRDFBdG1rblI3U2NrZm9YMkQyeHVBVDc0L1JjbFpwUmUrUTIKWXJjY05xVGE1ZzJUSVdkdVFXMXlaMVpoWkdxN2lRS0lvSDRSOUlzOHY2aGJmeGJ1bDZqZVcwelc1cVVNWUJvVwoxQ2ZtQzNaZmJhOWk2M1JLbFk2V0hvSDlVV3FTSFZjcEplWmdWOTFlMGltemw4WHUwV2c3NGFYcWJBNTVINzArCjNwci9wdkdLMXRzbWxWN3VlbEo1QzhzVm9oMXpTRzVTR2VDYTIxNm1iRjR3WXpPWlh6enF6RTdoV0l6TDJGL3AKblFJREFRQUJvMU13VVRBZEJnTlZIUTRFRmdRVUxPU1BkRGZQRGZCbG1YVkdZZ21sUURXQTNHY3dId1lEVlIwagpCQmd3Rm9BVUxPU1BkRGZQRGZCbG1YVkdZZ21sUURXQTNHY3dEd1lEVlIwVEFRSC9CQVV3QXdFQi96QU5CZ2txCmhraUc5dzBCQVFzRkFBT0NBZ0VBb0FyWEsvOGpQRWpHT2pxL0VrM0twcFdBWVpwWnpFNFRrZlQrRitBc2lzWFUKb1JDUkRsZWNTa1dlSzVlcjl4cEtNNjZrRWptQURJaW5ITytDc0J6U3Qrb3h1VTh6MXNWTm1PQkJaTEkrQjdhbgorKzBlTGcwcHlOTlMyZ0h5ZEpza2RiRUZLNHhOTkdMbjg0N2Jhd2xEZjNicTMwT1EzS0dXNUVCQ1prbGM5R0VmClVBL0dvWC9STmhMZTdlMFJKeTA4SjlEZmU4L3J2QkhJQXJtS0ljTStNekRrUis2SmhVWVhYZElBRlk0anBNeGQKNUZpZXFqK05VRjJVVUZkamJ0S0VPalh6YU5BMlJSa2VzSGFPcUdBeFY5RnhWRlJ1Z2dIM0RKeGlTd2p6QkgyegpOdmpxNVZWZ2g2L3ZSYmNLVVl1NzNINUpOQWRMRkZydXVvOWxUQ3VOZGtyekVCUzN6anl4MnFyQXVWVldPY1BjCnBLbTdjUGdRNDFIMzMreld4RWJvdHVnMTRXb2tsRnlERmZUVksvUkNYTHVGVm5ZSVI0ZEwvQnNqYnIyM1VzS1UKVGgrdFZMK1Q2dUtyOFVvTWUwT0RJTnNYOHhndXl3bzdqNFhhMDkvRkhsblo5VllWT1gzVTNDa1JzNXYxN3VpQgpvQnlVelRwTU9EY3NGakppRTdURFpNQXhWd2F6endBMTJPTzRpZU9YbEIzd2lIUi91Vm85NE1ETklWTC9jUVZHCmQ2T2o2Vno5K01teWhFYUhKc1hKUXYwYzNVcnBVUkk3Um4xVU4xb1VhNHZiMkhYNThHblFDNXZKNkdQNU5CdkcKVlFRM3hkWFUya1FEUHZiekhXNGNGOG5iSXpiRXJYZFJrcWluWklFb3NOTWhDZEV0amRDZUxnL0huMEszTFBrPQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
+      tls.key: LS0tLS1CRUdJTiBQUklWQVRFIEtFWS0tLS0tCk1JSUpRUUlCQURBTkJna3Foa2lHOXcwQkFRRUZBQVNDQ1Nzd2dna25BZ0VBQW9JQ0FRRGtlZm5TTFpWLzVNWFAKUTE3eENuWVk4cTRkcmxMMHFEY1kzR2FYc1dkMXd2YzZBQ2psNS9uT3pzeFZHNmQwaVhZWFlKWTdPUnJmSkIvRQp6SS90WmRkZ3c0NU9OdGdwZEFLQnhTTHVVSzQraXNBYThOMUJDeTMvR1RyRllpNmppWGZ3dUcxL20xeCtHZVVVCnNMWTJRVjZ6OGp5a1NDdHFnUmY1VWowUnQxSGxOMVRlcm1yZDFOZWJwZTB4cld1VUM1by8xSDQ5a3lzUlF2VFQKNGE4Q0VxTjVkY3RSSVRPWmZaclNHampaRUVaamVCbnp2LzVKNzNuVEdCVGhpYXI4SWkzaVBlSDRwYm5lZlFSMApvUkZwd0VtZUkzVHB0bS8zcVplWmp0V1RmNGxVQm9wa2dyZHN6bFFCZFBiVi9ocXNlOU5neHRMcTZ4UzVmMFIrCjBvSW1rN1RDTkhITmtBNFVrSjcwSkZXQVRHWkthSzYrZ0ROSitBVExQNVNhQ010WmNGRHlWQ1d1U2kra0huNTgKa2VPVDdxVTFjQys4R2RXNkE0OE5JTDVLaEE4T1RDWkU0dHlNUU1CQ3VxUDI3dFFBb0FHdytMc3NKRDFBdG1rbgpSN1Nja2ZvWDJEMnh1QVQ3NC9SY2xacFJlK1EyWXJjY05xVGE1ZzJUSVdkdVFXMXlaMVpoWkdxN2lRS0lvSDRSCjlJczh2NmhiZnhidWw2amVXMHpXNXFVTVlCb1cxQ2ZtQzNaZmJhOWk2M1JLbFk2V0hvSDlVV3FTSFZjcEplWmcKVjkxZTBpbXpsOFh1MFdnNzRhWHFiQTU1SDcwKzNwci9wdkdLMXRzbWxWN3VlbEo1QzhzVm9oMXpTRzVTR2VDYQoyMTZtYkY0d1l6T1pYenpxekU3aFdJekwyRi9wblFJREFRQUJBb0lDQUQrNlpoeGg2cGxKem9NSlg2b01LUFM4CmZDUjdRMWhLczFPVDVtblphZXBHLzM2R0hPSkQya0g5SExHQWpTek1Tc3dxZkx6NEtLNmsvTmQvMTRWNEtxTXEKNkw2WVBhTVNZTUNocENTbERIVVZicEFWTHlHOVpJOExFb0dMNlVaa1NiZ3pPUmVtMWgyMlMxZUNFdEQvV3RNRwpkak84alorZmNuaHduK2daSWhhMVlFN2NoNkpvZzlzK1pQSytWSXR1MFErTXpjbVBDeXc5YU56UXptZmRtd3Q5Cjk4QWhhcXNkaGRta3hzYUU2NTFER3JvS2kzdEQrTThRb0lKb1MvRVg5NFJyam1RMGxhdWhZMlRFcUg2K3k4bjQKU2R3R3J5UjlnWE9yaTVjZ3M4VmtMYVhyY0E1Qlh0MHBLdEIxbUNzVVB0bDNtODA2MVFVSW9xcGRQVUJWWXMxaAp0Rml4OEM2ckMxYVEycFhSV2ZPUDdVakU1RE84V29zSXZkK09FZE9tcGJoM0E0R0tva3hMVERRZUtQQ1l2L2poCmF2WjhjRDkrUm1RWnpQSk4xZ01xckFVLy9rL0NwU3QzaUxmUDNnN3BiaWE5T3B3SC9LUVRmblZKVVhuRDVoZ2MKT2xnNXJCeSt6N0VacFBWMExQZDlpUjErMjRndE93ajA3eW50UWpldmJ0UFlmbHJqdjdMTERrenZlSDJMTkhQSQp5RFJPaFdTblNNaHBqOHRzQmJxZ1JEZVpENWNwQ3ozSEtSUFROT2NZdUYrZUFseGNEMkR4aG5DZ3RDQzhodmFuCnFFSGlPU2ZnQVZ4S01lK1Z2akp2eE9CVFN3WE1RcmYyTHRRT2FOeHYzMUs0NmlEWFQ0c3dZTlFrUkl2U0Rlb1oKc3BCZzFTcUFWb21Lc1p4SlNZdGhBb0lCQVFEMXVPU0R3RXRqbmFhYkxsb3g4UDgzMkw3NGkvV250QU4yK0duYwpxanU1dzJXSGpZejBHd1h5RE8wbm9uQkVOZklJZVhCQUN3L3IvTWlxODBUaGZQTENtaTBscVpjVVpKTWhFNzlTCjcwVlEwVUJrR2J0b0J0cTRzTC9jeHRLOUtCRGw2Z3p0b05hSjE1OVhPOXdtcVoxWm8xMTAxTnpSdjBpZ09Ra0sKMG5sNGxFTG1GZ0dpbTlUZHBKM1JBQmxCWk5DaEUwWjlKVTBXZ0hmbE1wbndGdTR1Qm1IOWdkV0w5OUkxbGNTSwpaWFZId3F0cmhYdkZwOUFtalF2d2o4SVJJNG1YQXhCRHFtcWxsZThZbG9yWU4rY05ja1JpTEdzNG9KbndlZW45CmxBY2VZZnZVV3Y4L09NL0JEYWVxNVM5SVovRUhnMWxaZ3pLK2hCTXY5dlM5THY2TEFvSUJBUUR1Q0d2dDBXc2kKSEE2RGJFc0ZFQTZxWWM3Z1VOUmNxZHRZQUpGQVkycXNyTFZLSVVEWUdYTk1RU3RWcm1RUDdpMFhONVlHdkVUVgpScmo1VHJlN1UzZEl6V2tGTUF4WjR5bW04dTNodUp0aTh0RnhpM2EvclJrK3h2VWxKZnlldGFCS1BXWCtwcHJWCjlmbnlxUllXVitaTitGMjhNa0svQUpCcU5sMmxJRG1Od2J5eVNNMld0VUpYMXphTkFTZEFLeUlLakdGUXR3OGgKYm1ERDc5cy90WW1XV2FXMEFLS2g3M3k4REJSOS9JR084TGorTGNQTGVnK2FFL01yVEQ5cmJ2djUxSXlmRUhoRApOeUpEc2thdDg3SHI4Zkh3ZVFsVlNXUVRKMnhGTjcwMFkxbkZ2TGNEUkFucEVhQlMrTHhsMEc3NmZTSVB1eUQwCkh5UXZKcmMvYUtWM0FvSUJBR1BXaitLSVN4bGFnTXNrZGprOGRqWTJ0c0U5L0wzN0FqMWdpWUxER0NsT0h2NkkKb1BDOTJoaVM3L2plbzBiVHRGZUZIL3FsZy82YVl0NHlvWllNc29ZbkpwamE0eXZDQVpXNjlFMjZNaXU0R2JXUwpUdmJoY2hVQW03UVVoS09lbDk4U3pkWHZON3dpQS9mcHRuVnZEU1BTb0xKTG1yME9QMi82UEpaTkZsWEx4N0s4CjFrVS9rNm5Lck9TeWFaQ01hY2hJa0tkZ2RJWGtCTkwzVUZ5Z3RIMjIwakd5Z3hXdng1VkdHT2t5ZUFpRUxDb3YKdmk1OUZMSFZOVGkwOEdFT1UyVXNOWHVJem5RaEMxaXVNaFBRQXUwUHRJRS9Fd0diSDNENTEvelVIR0JYNTM1TQp5dERoUUdoc0orZmozdVpJZFVKY04vMkt0Ujk3Z21CR3N3SDdDaWtDZ2dFQUs1N3JlSGVLTklRRHZOM1ptYUhwCnJodWlkOFVZUmFyekFWdUpRczExUFJPaFhXWmVwYnQwUDZNcHQ5ZnZpbVBSYTVIS01vM0o1M1BBYmgrWTJBRmgKdUx1NzVURjY4ZllKS2drV3d1aTd3UlJTZ1laWFNxVUVIVmNFa2J3MllUZFRtb2RKNjdMSWFURmNqcldoMEpKbgpLQjY5dnNGUExnV0NjWlJvOE52SThFdHlzeEZZYTZmbjhvVUVBQzhYN0ZCN09vZWpSZEZtT25BcDEzNWJKWCsxCktSSmdwVzRBWDhDdGtTQjltT0R2TlN5MEdoQjA4eEw1VFBrZTlPNVNLUFA3eFRySVVsWUlVL2tFbEhkVk1JZWEKTVd6ek0yaGE1NEE5a0swRzBHQjRrZU1yRG11WTlrWS9zckNDT3ZKT1JESkFSRE11VE1lME1FaU1ydjlmVVlWeAozUUtDQVFCOHcwWmhGN3hNUzVUanpkZXR5dXJqMksvWHRyZlNjOGpoaXRDR05vejhHbmM4a1NQMHRycmhHeWRvCi91NVBJRG11enUyeTZoOS9LK3BGdDdhWjhUa0hhb3FWckc1WVJ1TXBTYXFVZ1dkdHBIUTVweG9HMXNiODZYaDQKbGdRNFg2eDl5dTlidlVNZkZWZXhma0xkWFpPYjBXN20vai94WFRMR3VlUkFCek1ZWVN3cDlKbnlsZHBvaVIwZQpHekxIM1JWRTFwTU05Y1J4RUZhRDBmR3k5eUZTc0RzYitKbS9BMTdXcTcvSThvR1M0Q28vUVBtTkJLN1U4ZnBrCnlNdHZhUmdTMVdLQURqMzhYKzhzcmc2dXN6TzN0ZUdBVWJ3UC9wTnErVEQ5eWhZSjlGT2RQczBxaTZyZHBmVW4KWkZoc1JmUVI2WVBzQ2RnQnhTaG00bG95eUdIZQotLS0tLUVORCBQUklWQVRFIEtFWS0tLS0tCg==
+    kind: Secret
+    metadata:
+      name: RELEASE-NAME-snyk-broker-tls-secret
+    type: kubernetes.io/tls
+  6: |
+    apiVersion: v1
     kind: ServiceAccount
     metadata:
       labels:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker-RELEASE-NAME
-        helm.sh/chart: snyk-broker-2.6.0
+        helm.sh/chart: snyk-broker-2.6.1
       name: snyk-broker-RELEASE-NAME
       namespace: NAMESPACE
