@@ -7,7 +7,7 @@ github token pool configured:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker-RELEASE-NAME
-        helm.sh/chart: snyk-broker-2.6.0
+        helm.sh/chart: snyk-broker-2.6.1
       name: github-com-broker-RELEASE-NAME
       namespace: NAMESPACE
     spec:
@@ -66,6 +66,7 @@ github token pool configured:
                 httpGet:
                   path: /healthcheck
                   port: 8000
+                  scheme: HTTP
                 initialDelaySeconds: 3
                 periodSeconds: 10
                 timeoutSeconds: 1
@@ -78,6 +79,7 @@ github token pool configured:
                 httpGet:
                   path: /healthcheck
                   port: 8000
+                  scheme: HTTP
                 initialDelaySeconds: 3
                 periodSeconds: 10
                 timeoutSeconds: 1
@@ -108,7 +110,7 @@ github token pool configured:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker-RELEASE-NAME
-        helm.sh/chart: snyk-broker-2.6.0
+        helm.sh/chart: snyk-broker-2.6.1
       name: github-com-broker-service-RELEASE-NAME
       namespace: NAMESPACE
     spec:
@@ -143,7 +145,7 @@ github token pool configured:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker-RELEASE-NAME
-        helm.sh/chart: snyk-broker-2.6.0
+        helm.sh/chart: snyk-broker-2.6.1
       name: snyk-broker-RELEASE-NAME
       namespace: NAMESPACE
 github token pool configured with enabled useExternalSecretScmTokenPool:
@@ -155,7 +157,7 @@ github token pool configured with enabled useExternalSecretScmTokenPool:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker-RELEASE-NAME
-        helm.sh/chart: snyk-broker-2.6.0
+        helm.sh/chart: snyk-broker-2.6.1
       name: github-com-broker-RELEASE-NAME
       namespace: NAMESPACE
     spec:
@@ -209,6 +211,7 @@ github token pool configured with enabled useExternalSecretScmTokenPool:
                 httpGet:
                   path: /healthcheck
                   port: 8000
+                  scheme: HTTP
                 initialDelaySeconds: 3
                 periodSeconds: 10
                 timeoutSeconds: 1
@@ -221,6 +224,7 @@ github token pool configured with enabled useExternalSecretScmTokenPool:
                 httpGet:
                   path: /healthcheck
                   port: 8000
+                  scheme: HTTP
                 initialDelaySeconds: 3
                 periodSeconds: 10
                 timeoutSeconds: 1
@@ -251,7 +255,7 @@ github token pool configured with enabled useExternalSecretScmTokenPool:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker-RELEASE-NAME
-        helm.sh/chart: snyk-broker-2.6.0
+        helm.sh/chart: snyk-broker-2.6.1
       name: github-com-broker-service-RELEASE-NAME
       namespace: NAMESPACE
     spec:
@@ -278,7 +282,7 @@ github token pool configured with enabled useExternalSecretScmTokenPool:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker-RELEASE-NAME
-        helm.sh/chart: snyk-broker-2.6.0
+        helm.sh/chart: snyk-broker-2.6.1
       name: snyk-broker-RELEASE-NAME
       namespace: NAMESPACE
 gitlab token pool configured:
@@ -290,7 +294,7 @@ gitlab token pool configured:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker-RELEASE-NAME
-        helm.sh/chart: snyk-broker-2.6.0
+        helm.sh/chart: snyk-broker-2.6.1
       name: gitlab-broker-RELEASE-NAME
       namespace: NAMESPACE
     spec:
@@ -351,6 +355,7 @@ gitlab token pool configured:
                 httpGet:
                   path: /healthcheck
                   port: 8000
+                  scheme: HTTP
                 initialDelaySeconds: 3
                 periodSeconds: 10
                 timeoutSeconds: 1
@@ -363,6 +368,7 @@ gitlab token pool configured:
                 httpGet:
                   path: /healthcheck
                   port: 8000
+                  scheme: HTTP
                 initialDelaySeconds: 3
                 periodSeconds: 10
                 timeoutSeconds: 1
@@ -393,7 +399,7 @@ gitlab token pool configured:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker-RELEASE-NAME
-        helm.sh/chart: snyk-broker-2.6.0
+        helm.sh/chart: snyk-broker-2.6.1
       name: gitlab-broker-service-RELEASE-NAME
       namespace: NAMESPACE
     spec:
@@ -428,6 +434,6 @@ gitlab token pool configured:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker-RELEASE-NAME
-        helm.sh/chart: snyk-broker-2.6.0
+        helm.sh/chart: snyk-broker-2.6.1
       name: snyk-broker-RELEASE-NAME
       namespace: NAMESPACE

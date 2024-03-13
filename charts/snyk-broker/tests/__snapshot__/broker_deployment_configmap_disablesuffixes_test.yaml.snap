@@ -7,7 +7,7 @@ cacert:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker
-        helm.sh/chart: snyk-broker-2.6.0
+        helm.sh/chart: snyk-broker-2.6.1
       name: github-com-broker
       namespace: NAMESPACE
     spec:
@@ -65,6 +65,7 @@ cacert:
                 httpGet:
                   path: /healthcheck
                   port: 8000
+                  scheme: HTTP
                 initialDelaySeconds: 3
                 periodSeconds: 10
                 timeoutSeconds: 1
@@ -77,6 +78,7 @@ cacert:
                 httpGet:
                   path: /healthcheck
                   port: 8000
+                  scheme: HTTP
                 initialDelaySeconds: 3
                 periodSeconds: 10
                 timeoutSeconds: 1
@@ -113,7 +115,7 @@ cacert:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker
-        helm.sh/chart: snyk-broker-2.6.0
+        helm.sh/chart: snyk-broker-2.6.1
       name: github-com-broker-service
       namespace: NAMESPACE
     spec:
@@ -155,7 +157,7 @@ cacert:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker
-        helm.sh/chart: snyk-broker-2.6.0
+        helm.sh/chart: snyk-broker-2.6.1
       name: RELEASE-NAME-snyk-broker-cacert-configmap
       namespace: NAMESPACE
   4: |
@@ -174,7 +176,7 @@ cacert:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker
-        helm.sh/chart: snyk-broker-2.6.0
+        helm.sh/chart: snyk-broker-2.6.1
       name: snyk-broker
       namespace: NAMESPACE
 cacertfile:
@@ -186,7 +188,7 @@ cacertfile:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker
-        helm.sh/chart: snyk-broker-2.6.0
+        helm.sh/chart: snyk-broker-2.6.1
       name: github-com-broker
       namespace: NAMESPACE
     spec:
@@ -240,6 +242,7 @@ cacertfile:
                 httpGet:
                   path: /healthcheck
                   port: 8000
+                  scheme: HTTP
                 initialDelaySeconds: 3
                 periodSeconds: 10
                 timeoutSeconds: 1
@@ -252,6 +255,7 @@ cacertfile:
                 httpGet:
                   path: /healthcheck
                   port: 8000
+                  scheme: HTTP
                 initialDelaySeconds: 3
                 periodSeconds: 10
                 timeoutSeconds: 1
@@ -282,7 +286,7 @@ cacertfile:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker
-        helm.sh/chart: snyk-broker-2.6.0
+        helm.sh/chart: snyk-broker-2.6.1
       name: github-com-broker-service
       namespace: NAMESPACE
     spec:
@@ -303,7 +307,7 @@ cacertfile:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker
-        helm.sh/chart: snyk-broker-2.6.0
+        helm.sh/chart: snyk-broker-2.6.1
       name: RELEASE-NAME-snyk-broker-cacert-configmap
       namespace: NAMESPACE
   4: |
@@ -322,6 +326,6 @@ cacertfile:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker
-        helm.sh/chart: snyk-broker-2.6.0
+        helm.sh/chart: snyk-broker-2.6.1
       name: snyk-broker
       namespace: NAMESPACE

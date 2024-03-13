@@ -7,7 +7,7 @@ ingress:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker-RELEASE-NAME
-        helm.sh/chart: snyk-broker-2.6.0
+        helm.sh/chart: snyk-broker-2.6.1
       name: github-com-broker-RELEASE-NAME
       namespace: NAMESPACE
     spec:
@@ -61,6 +61,7 @@ ingress:
                 httpGet:
                   path: /healthcheck
                   port: 8000
+                  scheme: HTTP
                 initialDelaySeconds: 3
                 periodSeconds: 10
                 timeoutSeconds: 1
@@ -73,6 +74,7 @@ ingress:
                 httpGet:
                   path: /healthcheck
                   port: 8000
+                  scheme: HTTP
                 initialDelaySeconds: 3
                 periodSeconds: 10
                 timeoutSeconds: 1
@@ -103,7 +105,7 @@ ingress:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker-RELEASE-NAME
-        helm.sh/chart: snyk-broker-2.6.0
+        helm.sh/chart: snyk-broker-2.6.1
       name: RELEASE-NAME-snyk-broker-RELEASE-NAME
       namespace: NAMESPACE
     spec:
@@ -123,7 +125,7 @@ ingress:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker-RELEASE-NAME
-        helm.sh/chart: snyk-broker-2.6.0
+        helm.sh/chart: snyk-broker-2.6.1
       name: github-com-broker-service-RELEASE-NAME
       namespace: NAMESPACE
     spec:
@@ -150,6 +152,6 @@ ingress:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker-RELEASE-NAME
-        helm.sh/chart: snyk-broker-2.6.0
+        helm.sh/chart: snyk-broker-2.6.1
       name: snyk-broker-RELEASE-NAME
       namespace: NAMESPACE
