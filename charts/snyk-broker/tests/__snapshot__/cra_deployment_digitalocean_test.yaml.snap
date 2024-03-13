@@ -56,10 +56,6 @@ default values:
                   value: info
                 - name: LOG_ENABLE_BODY
                   value: "false"
-                - name: HTTPS_CERT
-                  value: /home/node/tls-cert/tls.crt
-                - name: HTTPS_KEY
-                  value: /home/node/tls-cert/tls.key
                 - name: BROKER_DISPATCHER_BASE_URL
                   value: https://api.test.snyk.io
               image: snyk/broker:container-registry-agent
@@ -69,7 +65,7 @@ default values:
                 httpGet:
                   path: /healthcheck
                   port: 8000
-                  scheme: HTTPS
+                  scheme: HTTP
                 initialDelaySeconds: 3
                 periodSeconds: 10
                 timeoutSeconds: 1
@@ -82,7 +78,7 @@ default values:
                 httpGet:
                   path: /healthcheck
                   port: 8000
-                  scheme: HTTPS
+                  scheme: HTTP
                 initialDelaySeconds: 3
                 periodSeconds: 10
                 timeoutSeconds: 1
@@ -101,16 +97,10 @@ default values:
                 readOnlyRootFilesystem: true
                 runAsNonRoot: true
                 runAsUser: 1000
-              volumeMounts:
-                - mountPath: /home/node/tls-cert/
-                  name: RELEASE-NAME-snyk-broker-tls-secret-volume
-                  readOnly: true
+              volumeMounts: null
           securityContext: {}
           serviceAccountName: snyk-broker-RELEASE-NAME
-          volumes:
-            - name: RELEASE-NAME-snyk-broker-tls-secret-volume
-              secret:
-                secretName: RELEASE-NAME-snyk-broker-tls-secret
+          volumes: null
   2: |
     apiVersion: apps/v1
     kind: Deployment
