@@ -58,7 +58,7 @@ spec:
             httpGet:
               port: {{ .Values.deployment.container.containerPort }}
               path: {{ .Values.brokerLivenessProbe.path }}
-              {{- if and (.Values.httpsCert) (.Values.httpsKey) }}
+              {{- if .Values.httpsEnabled }}
               scheme: HTTPS
               {{- else }}
               scheme: HTTP
@@ -70,7 +70,7 @@ spec:
             httpGet:
               port: {{ .Values.deployment.container.containerPort }}
               path: {{ .Values.brokerReadinessProbe.path }}
-              {{- if and (.Values.httpsCert) (.Values.httpsKey) }}
+              {{- if .Values.httpsEnabled }}
               scheme: HTTPS
               {{- else }}
               scheme: HTTP

@@ -191,6 +191,7 @@ logLevel: "info"
 logEnableBody: "false"
 
 ##### Enable HTTPS #####
+httpsEnabled: false
 
 # Location of mounted cert
 httpsCert: ""
