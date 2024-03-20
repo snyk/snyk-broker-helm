@@ -11,6 +11,11 @@ tests:
       - ./fixtures/default_values.yaml
     asserts:
       - matchSnapshot: {}
+  - it: HTTPS enabled
+    values:
+      - ./fixtures/default_values_https_enabled.yaml
+    asserts:
+      - matchSnapshot: {}
   - it: preflight checks off
     values:
       - ./fixtures/default_values_preflight_off.yaml

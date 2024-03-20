@@ -192,8 +192,8 @@ logEnableBody: "false"
 
 ##### Enable HTTPS #####
 
-# To enable broker client to run a HTTPS server enable enableBrokerServerOverHttps flag and also provide location of HTTPS_CERT and HTTPS_KEY
-enableBrokerServerOverHttps: false
+# To enable broker client to run a HTTPS server enable enableBrokerLocalWebserverOverHttps flag and also provide location of HTTPS_CERT and HTTPS_KEY
+enableBrokerLocalWebserverOverHttps: false
 
 # Location of mounted cert
 httpsCert: ""
