@@ -7,7 +7,7 @@ HA mode on:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker-RELEASE-NAME
-        helm.sh/chart: snyk-broker-2.6.1
+        helm.sh/chart: snyk-broker-2.6.2
       name: github-com-broker-RELEASE-NAME
       namespace: NAMESPACE
     spec:
@@ -107,7 +107,7 @@ HA mode on:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker-RELEASE-NAME
-        helm.sh/chart: snyk-broker-2.6.1
+        helm.sh/chart: snyk-broker-2.6.2
       name: github-com-broker-service-RELEASE-NAME
       namespace: NAMESPACE
     spec:
@@ -134,7 +134,7 @@ HA mode on:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker-RELEASE-NAME
-        helm.sh/chart: snyk-broker-2.6.1
+        helm.sh/chart: snyk-broker-2.6.2
       name: snyk-broker-RELEASE-NAME
       namespace: NAMESPACE
 HA mode on with 4 replicas:
@@ -146,7 +146,7 @@ HA mode on with 4 replicas:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker-RELEASE-NAME
-        helm.sh/chart: snyk-broker-2.6.1
+        helm.sh/chart: snyk-broker-2.6.2
       name: github-com-broker-RELEASE-NAME
       namespace: NAMESPACE
     spec:
@@ -246,7 +246,7 @@ HA mode on with 4 replicas:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker-RELEASE-NAME
-        helm.sh/chart: snyk-broker-2.6.1
+        helm.sh/chart: snyk-broker-2.6.2
       name: github-com-broker-service-RELEASE-NAME
       namespace: NAMESPACE
     spec:
@@ -273,7 +273,163 @@ HA mode on with 4 replicas:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker-RELEASE-NAME
-        helm.sh/chart: snyk-broker-2.6.1
+        helm.sh/chart: snyk-broker-2.6.2
+      name: snyk-broker-RELEASE-NAME
+      namespace: NAMESPACE
+HTTPS enabled:
+  1: |
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      labels:
+        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: snyk-broker-RELEASE-NAME
+        helm.sh/chart: snyk-broker-2.6.2
+      name: github-com-broker-RELEASE-NAME
+      namespace: NAMESPACE
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          app.kubernetes.io/instance: RELEASE-NAME
+          app.kubernetes.io/name: snyk-broker-RELEASE-NAME
+      template:
+        metadata:
+          labels:
+            app.kubernetes.io/instance: RELEASE-NAME
+            app.kubernetes.io/name: snyk-broker-RELEASE-NAME
+        spec:
+          containers:
+            - env:
+                - name: BROKER_SERVER_URL
+                  value: https://broker.test.snyk.io
+                - name: BROKER_HEALTHCHECK_PATH
+                  value: /healthcheck
+                - name: BROKER_SYSTEMCHECK_PATH
+                  value: /systemcheck
+                - name: BROKER_TOKEN
+                  valueFrom:
+                    secretKeyRef:
+                      key: github-com-broker-token-key
+                      name: github-com-broker-token-RELEASE-NAME
+                - name: GITHUB_TOKEN
+                  valueFrom:
+                    secretKeyRef:
+                      key: github-com-token-key
+                      name: github-com-token-RELEASE-NAME
+                - name: PORT
+                  value: "8000"
+                - name: BROKER_CLIENT_URL
+                  value: http://brokerclient
+                - name: LOG_LEVEL
+                  value: info
+                - name: LOG_ENABLE_BODY
+                  value: "false"
+                - name: HTTPS_CERT
+                  value: /home/node/tls-cert/tls.crt
+                - name: HTTPS_KEY
+                  value: /home/node/tls-cert/tls.key
+                - name: ACCEPT_CODE
+                  value: "true"
+                - name: ACCEPT_IAC
+                  value: tf,yaml,yml,json,tpl
+                - name: BROKER_DISPATCHER_BASE_URL
+                  value: https://api.test.snyk.io
+              image: snyk/broker:github-com
+              imagePullPolicy: Always
+              livenessProbe:
+                failureThreshold: 3
+                httpGet:
+                  path: /healthcheck
+                  port: 8000
+                  scheme: HTTPS
+                initialDelaySeconds: 3
+                periodSeconds: 10
+                timeoutSeconds: 1
+              name: github-com-broker-RELEASE-NAME
+              ports:
+                - containerPort: 8000
+                  name: http
+              readinessProbe:
+                failureThreshold: 3
+                httpGet:
+                  path: /healthcheck
+                  port: 8000
+                  scheme: HTTPS
+                initialDelaySeconds: 3
+                periodSeconds: 10
+                timeoutSeconds: 1
+              resources:
+                limits:
+                  cpu: 1
+                  memory: 256Mi
+                requests:
+                  cpu: 1
+                  memory: 256Mi
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities:
+                  drop:
+                    - ALL
+                readOnlyRootFilesystem: true
+                runAsNonRoot: true
+                runAsUser: 1000
+              volumeMounts:
+                - mountPath: /home/node/tls-cert/
+                  name: RELEASE-NAME-snyk-broker-tls-secret-volume
+                  readOnly: true
+          securityContext: {}
+          serviceAccountName: snyk-broker-RELEASE-NAME
+          volumes:
+            - name: RELEASE-NAME-snyk-broker-tls-secret-volume
+              secret:
+                secretName: RELEASE-NAME-snyk-broker-tls-secret
+  2: |
+    apiVersion: v1
+    kind: Service
+    metadata:
+      labels:
+        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: snyk-broker-RELEASE-NAME
+        helm.sh/chart: snyk-broker-2.6.2
+      name: github-com-broker-service-RELEASE-NAME
+      namespace: NAMESPACE
+    spec:
+      ports:
+        - port: 8000
+          targetPort: 8000
+      selector:
+        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/name: snyk-broker-RELEASE-NAME
+      type: ClusterIP
+  3: |
+    apiVersion: v1
+    data:
+      github-com-broker-token-key: MTIz
+    kind: Secret
+    metadata:
+      name: github-com-broker-token-RELEASE-NAME
+    type: Opaque
+  4: |
+    apiVersion: v1
+    data:
+      tls.crt: ""
+      tls.key: ""
+    kind: Secret
+    metadata:
+      name: RELEASE-NAME-snyk-broker-tls-secret
+    type: kubernetes.io/tls
+  5: |
+    apiVersion: v1
+    kind: ServiceAccount
+    metadata:
+      labels:
+        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: snyk-broker-RELEASE-NAME
+        helm.sh/chart: snyk-broker-2.6.2
       name: snyk-broker-RELEASE-NAME
       namespace: NAMESPACE
 default values:
@@ -285,7 +441,7 @@ default values:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker-RELEASE-NAME
-        helm.sh/chart: snyk-broker-2.6.1
+        helm.sh/chart: snyk-broker-2.6.2
       name: github-com-broker-RELEASE-NAME
       namespace: NAMESPACE
     spec:
@@ -383,7 +539,7 @@ default values:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker-RELEASE-NAME
-        helm.sh/chart: snyk-broker-2.6.1
+        helm.sh/chart: snyk-broker-2.6.2
       name: github-com-broker-service-RELEASE-NAME
       namespace: NAMESPACE
     spec:
@@ -410,7 +566,7 @@ default values:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker-RELEASE-NAME
-        helm.sh/chart: snyk-broker-2.6.1
+        helm.sh/chart: snyk-broker-2.6.2
       name: snyk-broker-RELEASE-NAME
       namespace: NAMESPACE
 preflight checks off:
@@ -422,7 +578,7 @@ preflight checks off:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker-RELEASE-NAME
-        helm.sh/chart: snyk-broker-2.6.1
+        helm.sh/chart: snyk-broker-2.6.2
       name: github-com-broker-RELEASE-NAME
       namespace: NAMESPACE
     spec:
@@ -522,7 +678,7 @@ preflight checks off:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker-RELEASE-NAME
-        helm.sh/chart: snyk-broker-2.6.1
+        helm.sh/chart: snyk-broker-2.6.2
       name: github-com-broker-service-RELEASE-NAME
       namespace: NAMESPACE
     spec:
@@ -549,6 +705,6 @@ preflight checks off:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker-RELEASE-NAME
-        helm.sh/chart: snyk-broker-2.6.1
+        helm.sh/chart: snyk-broker-2.6.2
       name: snyk-broker-RELEASE-NAME
       namespace: NAMESPACE
