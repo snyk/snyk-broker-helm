@@ -5,11 +5,12 @@ useDefault = true
 description = "global allow list"
 paths = [
   'charts/snyk-broker/tests/__snapshot__/*',
+  'charts/snyk-broker/tests/.*(.key)$',
 ]
 
 # ignoring historical secrets from past commits
 # (not present in the current codebase)
 commits = [
   "9c8b32139b73111b618fc946a7f64355e8429423",
-  "e7402fc715eb06b675c47d84eab6e42b50c891cb",
+  "74045878cc8bd9891485d7a85048ecd68d6d241f",
 ]
