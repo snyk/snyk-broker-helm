@@ -19,5 +19,6 @@ metadata:
   labels:
     {{- include "snyk-broker.labels" . | nindent 4 }}
 data:
-  cacert: {{ .Values.caCertFile | nindent 4}}
+  cacert: |
+{{ .Values.caCertFile | indent 4 }}
 {{- end }}
