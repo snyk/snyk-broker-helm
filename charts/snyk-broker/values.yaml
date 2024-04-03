@@ -206,6 +206,8 @@ httpsKey: ""
 # Not supported by Snyk Container Registry Agent or Snyk Code Agent (use tlsRejectUnauthorized instead). Location of mounted custom certificate. To allow visibility for SSL Inspection. 
 caCert: ""
 
+caCertFile: ""
+
 # Set to "0" to disable trust validation when using self signed certificates. 
 tlsRejectUnauthorized: "" 
 
