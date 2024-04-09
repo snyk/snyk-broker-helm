@@ -245,9 +245,21 @@ spec:
                   name: {{ .Values.scmType}}-broker-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
                   key: "{{ .Values.scmType}}-broker-token-key"
             - name: ARTIFACTORY_URL
-              value: {{ .Values.artifactoryUrl }}
+              valueFrom:
+                secretKeyRef:
+                  name: artifactory-url{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
+                  key: "artifactory-url"
             - name: PORT
               value: {{ .Values.deployment.container.containerPort | squote }}
+            - name: BROKER_CLIENT_URL
+              value: {{ .Values.brokerClientUrl }}
+            {{- if .Values.brokerClientValidationUrl }}
+            - name: BROKER_CLIENT_VALIDATION_URL
+              valueFrom:
+                secretKeyRef:
+                  name: artifactory-broker-client-validation-url{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
+                  key: "artifactory-broker-client-validation-url"
+            {{- end }}
           {{- end }}
           {{- if or (eq .Values.scmType "nexus") (eq .Values.scmType "nexus2") }}
           # Nexus (3 or 2)
@@ -266,10 +278,8 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.scmType }}-nexus-url{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
                   key: "{{ .Values.scmType}}-nexus-url"
-              
             - name: BROKER_CLIENT_VALIDATION_URL
               value: {{ .Values.brokerClientValidationUrl }}
-
             - name: PORT
               value: {{ .Values.deployment.container.containerPort | squote }}
           {{- end }}
@@ -367,7 +377,7 @@ spec:
           # Snyk Code Local Engine
             - name: GIT_CLIENT_URL
               value: {{ tpl .Values.gitClientUrl . }}
-         {{- end }}        
+         {{- end }}
          # Logging
             - name: LOG_LEVEL
               value: {{ .Values.logLevel }}
@@ -375,7 +385,7 @@ spec:
               value: {{ .Values.logEnableBody | squote }}
 
          {{- if and (.Values.caCert) (not .Values.caCertFile) }}
-         # HTTPS Inspection 
+         # HTTPS Inspection
             - name: CA_CERT
               value: /home/node/cacert/{{ .Values.caCert }}
             - name: NODE_EXTRA_CA_CERTS
@@ -388,7 +398,7 @@ spec:
             - name: NODE_EXTRA_CA_CERTS
               value: /home/node/cacert/cacert
          {{- end }}
-         
+
          {{- if .Values.httpsCert }}
          # HTTPS Config
             - name: HTTPS_CERT
@@ -398,7 +408,7 @@ spec:
             - name: HTTPS_KEY
               value: /home/node/tls-cert/tls.key
          {{- end }}
-         
+
          {{- if .Values.tlsRejectUnauthorized  }}
          # Troubleshooting - Set to 0 for SSL inspection testing
             - name: NODE_TLS_REJECT_UNAUTHORIZED
@@ -456,10 +466,10 @@ spec:
         {{- range .Values.env }}
          # custom env var in override.yaml
             - name: {{ .name }}
-              value: {{ .value | squote }} 
+              value: {{ .value | squote }}
         {{- end}}
             - name: BROKER_DISPATCHER_BASE_URL
-              value: {{ .Values.brokerDispatcherUrl }} 
+              value: {{ .Values.brokerDispatcherUrl }}
       # Mount Accept.json and Certs
       volumes:
       {{- if (include "snyk-broker.acceptJson" .)}}
