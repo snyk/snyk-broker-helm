@@ -7,7 +7,7 @@ ingress:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker
-        helm.sh/chart: snyk-broker-2.6.4
+        helm.sh/chart: snyk-broker-2.6.5
       name: github-com-broker
       namespace: NAMESPACE
     spec:
@@ -105,7 +105,7 @@ ingress:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker
-        helm.sh/chart: snyk-broker-2.6.4
+        helm.sh/chart: snyk-broker-2.6.5
       name: RELEASE-NAME-snyk-broker
       namespace: NAMESPACE
     spec:
@@ -125,7 +125,7 @@ ingress:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker
-        helm.sh/chart: snyk-broker-2.6.4
+        helm.sh/chart: snyk-broker-2.6.5
       name: github-com-broker-service
       namespace: NAMESPACE
     spec:
@@ -152,6 +152,6 @@ ingress:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker
-        helm.sh/chart: snyk-broker-2.6.4
+        helm.sh/chart: snyk-broker-2.6.5
       name: snyk-broker
       namespace: NAMESPACE
