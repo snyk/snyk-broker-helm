@@ -1,4 +1,6 @@
 suite: broker deployment (artifactory)
+chart:
+  version: 0.0.0
 templates:
   - broker_deployment.yaml
   - broker_service.yaml

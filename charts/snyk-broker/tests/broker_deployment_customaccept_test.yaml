@@ -1,5 +1,7 @@
 suite: test broker deployment
-templates: 
+chart:
+  version: 0.0.0
+templates:
   - broker_deployment.yaml
   - broker_service.yaml
   - secrets.yaml
@@ -12,4 +14,3 @@ tests:
       - ./fixtures/customaccept_values.yaml
     asserts:
       - matchSnapshot: {}
-

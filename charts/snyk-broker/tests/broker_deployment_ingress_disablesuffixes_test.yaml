@@ -1,5 +1,7 @@
 suite: test broker deployment with ingress (No suffixes)
-templates: 
+chart:
+  version: 0.0.0
+templates:
   - broker_deployment.yaml
   - broker_service.yaml
   - secrets.yaml
@@ -12,5 +14,3 @@ tests:
       - ./fixtures/default_values_with_ingress_disablesuffixes.yaml
     asserts:
       - matchSnapshot: {}
-
-
