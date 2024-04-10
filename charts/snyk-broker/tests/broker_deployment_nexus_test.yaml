@@ -1,0 +1,102 @@
+suite: broker deployment (nexus)
+values:
+  - ./fixtures/default_values.yaml
+
+tests:
+  - it: should create secret if brokerClientValidationUrl, baseNexusUrl and nexusUrl are defined
+    chart:
+      version: 0.0.0
+    template: secrets.yaml
+
+    set:
+      scmType: nexus
+      baseNexusUrl: https://username:password@your-domain.com
+      nexusUrl: https://username:password@your-domain.com/repository
+      brokerClientValidationUrl: https://username:password@your-domain.com/service/rest/v1/status/check
+      disableSuffixes: true
+    documentIndex: 3
+
+    asserts:
+      - containsDocument:
+          apiVersion: v1
+          kind: Secret
+          name: nexus-broker-client-validation-url
+      - equal:
+          path: stringData.nexus-broker-client-validation-url
+          value: https://username:password@your-domain.com/service/rest/v1/status/check
+
+  - it: should create secret if brokerClientValidationUrl and nexusUrl are defined
+    chart:
+      version: 0.0.0
+    template: secrets.yaml
+
+    set:
+      scmType: nexus
+      nexusUrl: https://username:password@your-domain.com/repository
+      brokerClientValidationUrl: https://username:password@your-domain.com/service/rest/v1/status/check
+      disableSuffixes: true
+    documentIndex: 2
+
+    asserts:
+      - containsDocument:
+          apiVersion: v1
+          kind: Secret
+          name: nexus-broker-client-validation-url
+      - equal:
+          path: stringData.nexus-broker-client-validation-url
+          value: https://username:password@your-domain.com/service/rest/v1/status/check
+
+  - it: should create secret if brokerClientValidationUrl and baseNexusUrl are defined
+    chart:
+      version: 0.0.0
+    template: secrets.yaml
+
+    set:
+      scmType: nexus
+      baseNexusUrl: https://username:password@your-domain.com
+      brokerClientValidationUrl: https://username:password@your-domain.com/service/rest/v1/status/check
+      disableSuffixes: true
+    documentIndex: 2
+
+    asserts:
+      - containsDocument:
+          apiVersion: v1
+          kind: Secret
+          name: nexus-broker-client-validation-url
+      - equal:
+          path: stringData.nexus-broker-client-validation-url
+          value: https://username:password@your-domain.com/service/rest/v1/status/check
+
+  - it: should not create secret for brokerClientValidationUrl if value is empty
+    chart:
+      version: 0.0.0
+    template: secrets.yaml
+
+    set:
+      scmType: nexus
+      nexusUrl: https://username:password@your-domain.com/repository
+      baseNexusUrl: https://username:password@your-domain.com
+      disableSuffixes: true
+
+    asserts:
+      - notEqual:
+          path: metadata.name
+          value: nexus-broker-client-validation-url
+
+  - it: should render render nexusUrl, baseNexusUrl and brokerClientValidationUrl as secrets
+    chart:
+      version: 0.0.0
+    templates:
+      - broker_deployment.yaml
+      - broker_service.yaml
+      - secrets.yaml
+      - serviceaccount.yaml
+
+    set:
+      scmType: nexus
+      baseNexusUrl: https://username:password@your-domain.com
+      nexusUrl: https://username:password@your-domain.com/repository
+      brokerClientValidationUrl: https://username:password@your-domain.com/service/rest/v1/status/check
+
+    asserts:
+      - matchSnapshot: {}

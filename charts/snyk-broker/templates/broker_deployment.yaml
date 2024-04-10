@@ -279,7 +279,10 @@ spec:
                   name: {{ .Values.scmType }}-nexus-url{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
                   key: "{{ .Values.scmType}}-nexus-url"
             - name: BROKER_CLIENT_VALIDATION_URL
-              value: {{ .Values.brokerClientValidationUrl }}
+              valueFrom:
+                secretKeyRef:
+                  name: nexus-broker-client-validation-url{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
+                  key: "nexus-broker-client-validation-url"
             - name: PORT
               value: {{ .Values.deployment.container.containerPort | squote }}
           {{- end }}

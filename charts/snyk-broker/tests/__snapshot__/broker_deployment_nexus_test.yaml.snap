@@ -1,0 +1,165 @@
+should render render nexusUrl, baseNexusUrl and brokerClientValidationUrl as secrets:
+  1: |
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      labels:
+        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: snyk-broker-RELEASE-NAME
+        helm.sh/chart: snyk-broker-0.0.0
+      name: nexus-broker-RELEASE-NAME
+      namespace: NAMESPACE
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          app.kubernetes.io/instance: RELEASE-NAME
+          app.kubernetes.io/name: snyk-broker-RELEASE-NAME
+      template:
+        metadata:
+          labels:
+            app.kubernetes.io/instance: RELEASE-NAME
+            app.kubernetes.io/name: snyk-broker-RELEASE-NAME
+        spec:
+          containers:
+            - env:
+                - name: BROKER_SERVER_URL
+                  value: https://broker.test.snyk.io
+                - name: BROKER_HEALTHCHECK_PATH
+                  value: /healthcheck
+                - name: BROKER_SYSTEMCHECK_PATH
+                  value: /systemcheck
+                - name: BROKER_TOKEN
+                  valueFrom:
+                    secretKeyRef:
+                      key: nexus-broker-token-key
+                      name: nexus-broker-token-RELEASE-NAME
+                - name: BASE_NEXUS_URL
+                  valueFrom:
+                    secretKeyRef:
+                      key: nexus-base-nexus-url
+                      name: nexus-base-nexus-url-RELEASE-NAME
+                - name: NEXUS_URL
+                  valueFrom:
+                    secretKeyRef:
+                      key: nexus-nexus-url
+                      name: nexus-nexus-url-RELEASE-NAME
+                - name: BROKER_CLIENT_VALIDATION_URL
+                  valueFrom:
+                    secretKeyRef:
+                      key: nexus-broker-client-validation-url
+                      name: nexus-broker-client-validation-url-RELEASE-NAME
+                - name: PORT
+                  value: "8000"
+                - name: LOG_LEVEL
+                  value: info
+                - name: LOG_ENABLE_BODY
+                  value: "false"
+                - name: BROKER_DISPATCHER_BASE_URL
+                  value: https://api.test.snyk.io
+              image: snyk/broker:nexus
+              imagePullPolicy: Always
+              livenessProbe:
+                failureThreshold: 3
+                httpGet:
+                  path: /healthcheck
+                  port: 8000
+                  scheme: HTTP
+                initialDelaySeconds: 3
+                periodSeconds: 10
+                timeoutSeconds: 1
+              name: nexus-broker-RELEASE-NAME
+              ports:
+                - containerPort: 8000
+                  name: http
+              readinessProbe:
+                failureThreshold: 3
+                httpGet:
+                  path: /healthcheck
+                  port: 8000
+                  scheme: HTTP
+                initialDelaySeconds: 3
+                periodSeconds: 10
+                timeoutSeconds: 1
+              resources:
+                limits:
+                  cpu: 1
+                  memory: 256Mi
+                requests:
+                  cpu: 1
+                  memory: 256Mi
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities:
+                  drop:
+                    - ALL
+                readOnlyRootFilesystem: true
+                runAsNonRoot: true
+                runAsUser: 1000
+              volumeMounts: null
+          securityContext: {}
+          serviceAccountName: snyk-broker-RELEASE-NAME
+          volumes: null
+  2: |
+    apiVersion: v1
+    kind: Service
+    metadata:
+      labels:
+        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: snyk-broker-RELEASE-NAME
+        helm.sh/chart: snyk-broker-0.0.0
+      name: nexus-broker-service-RELEASE-NAME
+      namespace: NAMESPACE
+    spec:
+      ports:
+        - port: 8000
+          targetPort: 8000
+      selector:
+        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/name: snyk-broker-RELEASE-NAME
+      type: ClusterIP
+  3: |
+    apiVersion: v1
+    data:
+      nexus-broker-token-key: MTIz
+    kind: Secret
+    metadata:
+      name: nexus-broker-token-RELEASE-NAME
+    type: Opaque
+  4: |
+    apiVersion: v1
+    data:
+      nexus-base-nexus-url: aHR0cHM6Ly91c2VybmFtZTpwYXNzd29yZEB5b3VyLWRvbWFpbi5jb20=
+    kind: Secret
+    metadata:
+      name: nexus-base-nexus-url-RELEASE-NAME
+    type: Opaque
+  5: |
+    apiVersion: v1
+    data:
+      nexus-nexus-url: aHR0cHM6Ly91c2VybmFtZTpwYXNzd29yZEB5b3VyLWRvbWFpbi5jb20vcmVwb3NpdG9yeQ==
+    kind: Secret
+    metadata:
+      name: nexus-nexus-url-RELEASE-NAME
+    type: Opaque
+  6: |
+    apiVersion: v1
+    kind: Secret
+    metadata:
+      name: nexus-broker-client-validation-url-RELEASE-NAME
+    stringData:
+      nexus-broker-client-validation-url: https://username:password@your-domain.com/service/rest/v1/status/check
+    type: Opaque
+  7: |
+    apiVersion: v1
+    kind: ServiceAccount
+    metadata:
+      labels:
+        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: snyk-broker-RELEASE-NAME
+        helm.sh/chart: snyk-broker-0.0.0
+      name: snyk-broker-RELEASE-NAME
+      namespace: NAMESPACE
