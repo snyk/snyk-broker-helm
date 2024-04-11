@@ -1,5 +1,7 @@
 suite: test broker deployment (No suffixes)
-templates: 
+chart:
+  version: 0.0.0
+templates:
   - cra_deployment.yaml
   - broker_deployment.yaml
 

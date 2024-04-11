@@ -1,11 +1,11 @@
 suite: broker deployment (nexus)
+chart:
+  version: 0.0.0
 values:
   - ./fixtures/default_values.yaml
 
 tests:
   - it: should create secret if brokerClientValidationUrl, baseNexusUrl and nexusUrl are defined
-    chart:
-      version: 0.0.0
     template: secrets.yaml
 
     set:
@@ -26,8 +26,6 @@ tests:
           value: https://username:password@your-domain.com/service/rest/v1/status/check
 
   - it: should create secret if brokerClientValidationUrl and nexusUrl are defined
-    chart:
-      version: 0.0.0
     template: secrets.yaml
 
     set:
@@ -47,8 +45,6 @@ tests:
           value: https://username:password@your-domain.com/service/rest/v1/status/check
 
   - it: should create secret if brokerClientValidationUrl and baseNexusUrl are defined
-    chart:
-      version: 0.0.0
     template: secrets.yaml
 
     set:
@@ -68,8 +64,6 @@ tests:
           value: https://username:password@your-domain.com/service/rest/v1/status/check
 
   - it: should not create secret for brokerClientValidationUrl if value is empty
-    chart:
-      version: 0.0.0
     template: secrets.yaml
 
     set:
@@ -84,8 +78,6 @@ tests:
           value: nexus-broker-client-validation-url
 
   - it: should render render nexusUrl, baseNexusUrl and brokerClientValidationUrl as secrets
-    chart:
-      version: 0.0.0
     templates:
       - broker_deployment.yaml
       - broker_service.yaml

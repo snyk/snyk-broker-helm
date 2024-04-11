@@ -1,5 +1,7 @@
 suite: test broker deployment (No suffixes)
-templates: 
+chart:
+  version: 0.0.0
+templates:
   - broker_deployment.yaml
   - broker_service.yaml
   - secrets.yaml
@@ -21,5 +23,3 @@ tests:
       caCertFile: testValueSetBySetFile
     asserts:
       - matchSnapshot: {}
-
-
