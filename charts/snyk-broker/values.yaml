@@ -26,7 +26,7 @@ replicaCount: 2
 
 ##### SCM Generic #####
 
-# scmType is used to define the Source Control that you are connecting to. 
+# scmType is used to define the Source Control that you are connecting to.
 
 # Allowed values for scmType:
 #   GitHub.com: github-com
@@ -76,7 +76,7 @@ bitbucketPassword: ""
 bitbucket: ""
 
 # Bitbucket API URL - do not prepend HTTPS
-bitbucketApi: "" 
+bitbucketApi: ""
 
 
 ##### GitLab #####
@@ -165,16 +165,16 @@ crImage: "latest"
 # Set to 'true' to enable Code Agent
 enableCodeAgent: ""
 
-# Only adjust this value if advised to by Snyk Representative. Used to upload content to non-standard environment. 
+# Only adjust this value if advised to by Snyk Representative. Used to upload content to non-standard environment.
 upstreamUrlCodeAgent: ""
 
-# Snyk API token. Allows Code Agent to upload source code. Group > Settings > Service Accounts 
+# Snyk API token. Allows Code Agent to upload source code. Group > Settings > Service Accounts
 snykToken: ""
 
 #CA Image Tag. Do not touch unless instructed by Snyk Representative
 caImage: "latest"
 
-# Only adjust this value if advised to by Snyk Representative. This is the URL of the Snyk Code Agent. This helm chart already connects everything. 
+# Only adjust this value if advised to by Snyk Representative. This is the URL of the Snyk Code Agent. This helm chart already connects everything.
 gitClientUrl: ""
 
 ##### Snyk Code Local Engine #####
@@ -203,17 +203,17 @@ httpsKey: ""
 
 ##### HTTPS Inspection #####
 
-# Not supported by Snyk Container Registry Agent or Snyk Code Agent (use tlsRejectUnauthorized instead). Location of mounted custom certificate. To allow visibility for SSL Inspection. 
+# Not supported by Snyk Container Registry Agent or Snyk Code Agent (use tlsRejectUnauthorized instead). Location of mounted custom certificate. To allow visibility for SSL Inspection.
 caCert: ""
 
 caCertFile: ""
 
-# Set to "0" to disable trust validation when using self signed certificates. 
-tlsRejectUnauthorized: "" 
+# Set to "0" to disable trust validation when using self signed certificates.
+tlsRejectUnauthorized: ""
 
 ##### Use behind proxy #####
 
-# Do not change unless advised by your Snyk Representative. You probably need to use HTTPS proxy setting and leave this blank. - HTTP Proxy URL 
+# Do not change unless advised by your Snyk Representative. You probably need to use HTTPS proxy setting and leave this blank. - HTTP Proxy URL
 httpProxy: ""
 
 # HTTPS Proxy URL - This will apply to both Snyk Broker and Snyk Code Agent
@@ -251,7 +251,7 @@ brokerLivenessProbe:
     initialDelaySeconds: 3
     periodSeconds: 10
     timeoutSeconds: 1
-    failureThreshold: 3  
+    failureThreshold: 3
 
 
 brokerReadinessProbe:
@@ -297,7 +297,7 @@ caResources:
 
 ##### Ports for Broker, Code Agent, Container Registry Agent #####
 deployment:
-   container: 
+   container:
      containerPort: 8000
      crSnykPort: 8081
      caSnykPort: 3000
@@ -319,12 +319,12 @@ serviceAccount:
 podAnnotations: {}
 
 podSecurityContext: {}
- 
+
 
 ##### Security Context #####
-# These can be adjusted at your own risk. 
+# These can be adjusted at your own risk.
 
-securityContext: 
+securityContext:
    capabilities:
      drop:
      - ALL
@@ -333,7 +333,7 @@ securityContext:
    runAsNonRoot: true
    runAsUser: 1000
 
-securityContextCr: 
+securityContextCr:
    capabilities:
      drop:
      - ALL
@@ -342,7 +342,7 @@ securityContextCr:
    runAsNonRoot: true
    runAsUser: 1000
 
-securityContextCa: 
+securityContextCa:
    capabilities:
      drop:
      - ALL
@@ -354,11 +354,11 @@ securityContextCa:
 ##### Service Types #####
 # If you prefer to adjust how communication to the cluster occurs, these values can be adjusted
 service:
- 
+
   # Snyk Broker
   brokerType: ClusterIP
- 
-  # Container Registry Agent 
+
+  # Container Registry Agent
   crType: ClusterIP
 
   # Code Agent
@@ -416,7 +416,7 @@ extraVolumes: []
 extraVolumeMounts: []
 extraContainerSpecs:
 
-extraPodSpecs: 
+extraPodSpecs:
   # tolerations:
   # - key: "networking/something"
   #   operator: "Equal"
@@ -424,6 +424,9 @@ extraPodSpecs:
   #   effect: "NoSchedule"
   # nodeSelector:
   #   networking.company.com/network-segment: internal-pods
+
+extraPodSpecsCr:
+  # As above, for Container Registry Agent
 
 ##### The Broker is designed to work with multiple replicas (min 2, max 4) only with High Availability mode enabled.
 

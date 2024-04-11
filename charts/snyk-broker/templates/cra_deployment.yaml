@@ -25,6 +25,9 @@ spec:
         app.kubernetes.io/name: {{ .Release.Name }}-cr{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
+      {{- if .Values.extraPodSpecsCr }}
+          {{- toYaml .Values.extraPodSpecsCr | nindent 6 }}
+      {{- end }}
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
@@ -42,7 +45,7 @@ spec:
               cpu: {{ .Values.crResources.requests.cpu }}
               memory: {{ .Values.crResources.requests.memory}}
           securityContext:
-            {{- toYaml .Values.securityContextCr | nindent 12 }}      
+            {{- toYaml .Values.securityContextCr | nindent 12 }}
           image: "{{ .Values.image.crRepository }}:{{ .Values.crImage}}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
@@ -50,14 +53,14 @@ spec:
               containerPort: {{ .Values.deployment.container.crSnykPort }}
           env:
             - name: SNYK_PORT
-              value: {{ .Values.deployment.container.crSnykPort | squote }} 
+              value: {{ .Values.deployment.container.crSnykPort | squote }}
          {{- if .Values.tlsRejectUnauthorized  }}
          # Troubleshooting - Set to 0 for SSL inspection testing
             - name: NODE_TLS_REJECT_UNAUTHORIZED
               value: "0"
          {{- end }}
          {{- if .Values.caCert }}
-         # HTTPS Inspection 
+         # HTTPS Inspection
             - name: CA_CERT
               value: /home/node/cacert/{{ .Values.caCert }}
             - name: NODE_EXTRA_CA_CERTS
@@ -66,7 +69,7 @@ spec:
          {{- range .Values.env }}
          # custom env var in override.yaml
             - name: {{ .name }}
-              value: {{ .value | squote }} 
+              value: {{ .value | squote }}
         {{- end}}
         {{- if .Values.caCert }}
           volumeMounts:
