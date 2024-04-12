@@ -1,0 +1,18 @@
+
+extraPodSpecs:
+  tolerations:
+  - key: "networking/something"
+    operator: "Equal"
+    value: "internal-pods"
+    effect: "NoSchedule"
+  nodeSelector:
+    corp.io/node-classification: snyk
+
+extraPodSpecsCr:
+  tolerations:
+  - key: "networking/something"
+    operator: "Equal"
+    value: "internal-pods"
+    effect: "NoSchedule"
+  nodeSelector:
+    corp.io/node-classification: snyk
