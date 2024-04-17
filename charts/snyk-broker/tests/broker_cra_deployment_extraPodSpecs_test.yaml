@@ -1,0 +1,20 @@
+suite: test broker deployment with extraPodSpec
+chart:
+  version: 0.0.0
+templates:
+  - broker_deployment.yaml
+  - cra_deployment.yaml
+values:
+  - ./fixtures/default_values_cra.yaml
+  - ./fixtures/extra_pod_spec_values.yaml
+
+tests:
+  - it: renders extraPodSpecs CRA
+    asserts:
+      - matchSnapshot:
+          path: spec.template.spec
+        template: broker_deployment.yaml
+      - matchSnapshot:
+          path: spec.template.spec
+        template: cra_deployment.yaml
+        documentIndex: 0
