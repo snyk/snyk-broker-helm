@@ -188,6 +188,27 @@ spec:
             - name: BROKER_CLIENT_URL
               value: {{ .Values.brokerClientUrl }}
           {{- end }}
+          {{- if eq .Values.scmType "bitbucket-server-bearer-auth" }}
+          # Bitbucket Bearer Auth
+            - name: BROKER_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.scmType}}-broker-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
+                  key: "{{ .Values.scmType}}-broker-token-key"
+            - name: BITBUCKET_PAT
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.scmType}}-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
+                  key: "{{ .Values.scmType}}-token-key"
+            - name: BITBUCKET
+              value: {{ .Values.bitbucket }}
+            - name: BITBUCKET_API
+              value: {{ .Values.bitbucketApi }}
+            - name: PORT
+              value: {{ .Values.deployment.container.containerPort | squote }}
+            - name: BROKER_CLIENT_URL
+              value: {{ .Values.brokerClientUrl }}
+          {{- end }}
           {{- if eq .Values.scmType "gitlab" }}
           # GitLab
             - name: BROKER_TOKEN
@@ -441,7 +462,7 @@ spec:
             - name: ACCEPT
               value: /home/node/private/accept.json
          {{ else }}
-          {{- if or (eq .Values.scmType "github-com") (eq .Values.scmType "github-enterprise") (eq .Values.scmType "bitbucket-server") (eq .Values.scmType "gitlab") (eq .Values.scmType "azure-repos") }}
+          {{- if or (eq .Values.scmType "github-com") (eq .Values.scmType "github-enterprise") (eq .Values.scmType "bitbucket-server") (eq .Values.scmType "bitbucket-server-bearer-auth") (eq .Values.scmType "gitlab") (eq .Values.scmType "azure-repos") }}
           {{- if not .Values.disableAutoAcceptRules  }}
           # Default Values to allow Snyk Code Snippets and Snyk IaC
             {{- if not .Values.enableSnykCodeLocalEngine }}
