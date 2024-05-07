@@ -462,7 +462,7 @@ spec:
             - name: ACCEPT
               value: /home/node/private/accept.json
          {{ else }}
-          {{- if or (eq .Values.scmType "github-com") (eq .Values.scmType "github-enterprise") (eq .Values.scmType "bitbucket-server") (eq .Values.scmType "bitbucket-server-bearer-auth") (eq .Values.scmType "gitlab") (eq .Values.scmType "azure-repos") }}
+          {{- if has .Values.scmType ( list "github-com" "github-enterprise" "bitbucket-server" "bitbucket-server-bearer-auth" "gitlab" "azure-repos") }}
           {{- if not .Values.disableAutoAcceptRules  }}
           # Default Values to allow Snyk Code Snippets and Snyk IaC
             {{- if not .Values.enableSnykCodeLocalEngine }}
