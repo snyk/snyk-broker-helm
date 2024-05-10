@@ -66,11 +66,14 @@ githubGraphQl: ""
 
 ##### Bitbucket Server #####
 
-# Bitbucket Username
+# Bitbucket Username (Bitbucket-server type only)
 bitbucketUsername: ""
 
-# Bitbucket Password
+# Bitbucket Password (Bitbucket-server type only)
 bitbucketPassword: ""
+
+# Bitbucket Pat (Bitbucket-server-bearer-auth type only)
+bitbucketPat: ""
 
 # Bitbucket URL - do not prepend HTTPS
 bitbucket: ""
