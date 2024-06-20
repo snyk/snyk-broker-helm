@@ -8,6 +8,8 @@ should render render nexusUrl, baseNexusUrl and brokerClientValidationUrl as sec
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker-RELEASE-NAME
         helm.sh/chart: snyk-broker-0.0.0
+        node1: test1
+        node2: test2
       name: nexus-broker-RELEASE-NAME
       namespace: NAMESPACE
     spec:
@@ -110,6 +112,8 @@ should render render nexusUrl, baseNexusUrl and brokerClientValidationUrl as sec
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker-RELEASE-NAME
         helm.sh/chart: snyk-broker-0.0.0
+        node1: test1
+        node2: test2
       name: nexus-broker-service-RELEASE-NAME
       namespace: NAMESPACE
     spec:
@@ -161,5 +165,7 @@ should render render nexusUrl, baseNexusUrl and brokerClientValidationUrl as sec
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker-RELEASE-NAME
         helm.sh/chart: snyk-broker-0.0.0
+        node1: test1
+        node2: test2
       name: snyk-broker-RELEASE-NAME
       namespace: NAMESPACE

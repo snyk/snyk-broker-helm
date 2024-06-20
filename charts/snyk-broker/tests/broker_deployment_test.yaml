@@ -33,3 +33,8 @@ tests:
       - ./fixtures/default_values_ha_on_4_replicas.yaml
     asserts:
       - matchSnapshot: {}
+  - it: add deployment labels
+    values:
+      - ./fixtures/default_values.yaml
+    asserts:
+      - matchSnapshot: {}
