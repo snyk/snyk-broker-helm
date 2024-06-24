@@ -8,8 +8,6 @@ should render artifactoryUrl and brokerClientValidationUrl as secrets:
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker-RELEASE-NAME
         helm.sh/chart: snyk-broker-0.0.0
-        node1: test1
-        node2: test2
       name: artifactory-broker-RELEASE-NAME
       namespace: NAMESPACE
     spec:
@@ -109,8 +107,6 @@ should render artifactoryUrl and brokerClientValidationUrl as secrets:
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker-RELEASE-NAME
         helm.sh/chart: snyk-broker-0.0.0
-        node1: test1
-        node2: test2
       name: artifactory-broker-service-RELEASE-NAME
       namespace: NAMESPACE
     spec:
@@ -154,7 +150,5 @@ should render artifactoryUrl and brokerClientValidationUrl as secrets:
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker-RELEASE-NAME
         helm.sh/chart: snyk-broker-0.0.0
-        node1: test1
-        node2: test2
       name: snyk-broker-RELEASE-NAME
       namespace: NAMESPACE

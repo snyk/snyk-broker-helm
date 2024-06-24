@@ -36,5 +36,16 @@ tests:
   - it: add deployment labels
     values:
       - ./fixtures/default_values.yaml
+    set:
+      labels:
+        test: node1
+    asserts:
+      - matchSnapshot: {}
+  - it: handles duplicative labels
+    values:
+      - ./fixtures/default_values.yaml
+    set:
+      labels:
+        app.kubernetes.io/name: "my duplicated label"
     asserts:
       - matchSnapshot: {}
