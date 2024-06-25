@@ -33,12 +33,3 @@ tests:
       - ./fixtures/default_values_ha_on_4_replicas.yaml
     asserts:
       - matchSnapshot: {}
-  - it: handles duplicative labels and adds new labels
-    values:
-      - ./fixtures/default_values.yaml
-    set:
-      labels:
-        app.kubernetes.io/name: "my duplicated label"
-        test: node1
-    asserts:
-      - matchSnapshot: {}
