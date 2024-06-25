@@ -719,6 +719,7 @@ handles duplicative labels:
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker-RELEASE-NAME
         helm.sh/chart: snyk-broker-0.0.0
+        test: node1
       name: github-com-broker-RELEASE-NAME
       namespace: NAMESPACE
     spec:
@@ -817,6 +818,7 @@ handles duplicative labels:
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker-RELEASE-NAME
         helm.sh/chart: snyk-broker-0.0.0
+        test: node1
       name: github-com-broker-service-RELEASE-NAME
       namespace: NAMESPACE
     spec:
@@ -844,6 +846,7 @@ handles duplicative labels:
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker-RELEASE-NAME
         helm.sh/chart: snyk-broker-0.0.0
+        test: node1
       name: snyk-broker-RELEASE-NAME
       namespace: NAMESPACE
 preflight checks off:
