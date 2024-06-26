@@ -43,7 +43,7 @@ Common labels
 {{- with .Values.labels }}
 {{- $commonLabels = merge $commonLabels . }}
 {{- end }}
-{{- toYaml $commonLabels | nindent 2 }}
+{{- toYaml $commonLabels | nindent 4 }}
 {{- end }}
 
 {{/*
