@@ -20,4 +20,3 @@ preflightChecks:
 highAvailabilityMode:
   enabled: false
 brokerDispatcherUrl: "https://api.test.snyk.io"
-

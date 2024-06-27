@@ -34,12 +34,16 @@ Create chart name and version as used by the chart label.
 Common labels
 */}}
 {{- define "snyk-broker.labels" -}}
-helm.sh/chart: {{ include "snyk-broker.chart" . }}
-{{ include "snyk-broker.selectorLabels" . }}
+{{- $commonLabels := dict "helm.sh/chart" (include "snyk-broker.chart" .) }}
+{{- $commonLabels = merge $commonLabels (include "snyk-broker.selectorLabels" . | fromYaml) }}
 {{- if .Chart.AppVersion }}
-app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- $commonLabels = merge $commonLabels (dict "app.kubernetes.io/version" (quote .Chart.AppVersion)) }}
 {{- end }}
-app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- $commonLabels = merge $commonLabels (dict "app.kubernetes.io/managed-by" .Release.Service) }}
+{{- with .Values.labels }}
+{{- $commonLabels = merge $commonLabels . }}
+{{- end }}
+{{- toYaml $commonLabels | nindent 4 }}
 {{- end }}
 
 {{/*

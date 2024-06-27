@@ -1,0 +1,25 @@
+suite: test broker deployment
+chart:
+  version: 0.0.0
+templates:
+  - broker_deployment.yaml
+  - broker_service.yaml
+  - serviceaccount.yaml
+
+tests:
+  - it: handles duplicative labels and adds new labels
+    values:
+      - ./fixtures/default_values.yaml
+    set:
+      labels:
+        app.kubernetes.io/name: "my duplicated label"
+        test: node1
+    asserts:
+      - equal:
+          path: metadata.labels
+          value: 
+            app.kubernetes.io/instance: RELEASE-NAME
+            app.kubernetes.io/managed-by: Helm
+            app.kubernetes.io/name: snyk-broker-RELEASE-NAME
+            helm.sh/chart: snyk-broker-0.0.0
+            test: node1

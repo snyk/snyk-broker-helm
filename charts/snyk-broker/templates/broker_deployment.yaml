@@ -4,7 +4,7 @@ metadata:
   name: "{{ .Values.scmType}}-broker{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}"
   namespace: {{ .Release.Namespace }}
   labels:
-    {{- include "snyk-broker.labels" . | nindent 4 }}
+    {{- include "snyk-broker.labels" . }}
 spec:
   {{- if and (not .Values.autoscaling.enabled) (.Values.highAvailabilityMode.enabled) }}
   replicas: {{ .Values.replicaCount }}
