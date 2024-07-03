@@ -165,6 +165,9 @@ crToken: ""
 # CRA Image tag. Do not adjust unless instructed by Snyk Representative
 crImage: "latest"
 
+##### AppRisk #####
+# Set to 'true' to enable AppRisk
+enableAppRisk: ""
 
 ##### Code Agent #####
 
