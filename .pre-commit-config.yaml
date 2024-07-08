@@ -4,6 +4,8 @@ repos:
     hooks:
       - id: gitleaks
         stages: [ commit ]
+  - repo: local
+    hooks:
       - id: helm-unittest
         name: Helm Unittest
         entry: helm unittest charts/snyk-broker

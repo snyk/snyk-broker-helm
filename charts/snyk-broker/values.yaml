@@ -186,11 +186,6 @@ caImage: "latest"
 # Only adjust this value if advised to by Snyk Representative. This is the URL of the Snyk Code Agent. This helm chart already connects everything.
 gitClientUrl: ""
 
-##### Snyk Code Local Engine #####
-
-# Set to 'true' to enable Snyk Code Local Engine
-enableSnykCodeLocalEngine: ""
-
 ##### Logging #####
 
 # Default Log Level. Can be set to "debug" for more information
@@ -250,7 +245,7 @@ imagePullSecrets: []
 
 # Health and System Check Paths for the broker
 healthCheckPath: &healthCheckPath "/healthcheck"
-systemCheckPath: &systemCheckPath "/systemcheck"
+systemCheckPath: "/systemcheck"
 
 # Configure K8s Liveness and Readiness Probes for broker
 brokerLivenessProbe:
@@ -443,5 +438,11 @@ autoscaling:
   enabled: false
   minReplicas: 2
   maxReplicas: 4
-  targetCPUUtilizationPercentage: 80
-  # targetMemoryUtilizationPercentage: 80
+  cpu:
+    type: "Utilization"
+    value: 80
+    enabled: true
+  memory:
+    type: "Utilization"
+    value: 80
+    enabled: false
