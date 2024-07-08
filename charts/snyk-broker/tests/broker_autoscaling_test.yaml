@@ -1,0 +1,78 @@
+suite: test broker hpa
+chart:
+  version: 0.0.0
+templates:
+  - broker_hpa.yaml
+values:
+  - ./fixtures/default_values.yaml
+
+tests:
+  - it: does not render if autoscaling enabled but ha mode is off
+    set:
+      autoscaling.enabled: true
+    asserts:
+      - containsDocument:
+          kind: HorizontalPodAutoscaler
+          apiVersion: autoscaling/v2
+          name: github-com-broker-RELEASE-NAME
+        not: true
+  - it: does not render if autoscaling off and ha mode is on
+    set:
+      autoscaling.enabled: false
+      highAvailabilityMode.enabled: true
+    asserts:
+      - containsDocument:
+          kind: HorizontalPodAutoscaler
+          apiVersion: autoscaling/v2
+          name: github-com-broker-RELEASE-NAME
+        not: true
+  - it: renders if autoscaling enabled and ha is on
+    set:
+      autoscaling.enabled: true
+      highAvailabilityMode.enabled: true
+    asserts:
+      - containsDocument:
+          kind: HorizontalPodAutoscaler
+          apiVersion: autoscaling/v2
+          name: github-com-broker-RELEASE-NAME
+  - it: targets the correct deployment
+    set:
+      autoscaling.enabled: true
+      highAvailabilityMode.enabled: true
+    asserts:
+      - equal:
+          path: spec.scaleTargetRef.name
+          value: github-com-broker-RELEASE-NAME
+  - it: overrides cpu to value correctly
+    set:
+      autoscaling.enabled: true
+      highAvailabilityMode.enabled: true
+      autoscaling.cpu.type: "AverageValue"
+      autoscaling.cpu.value: 100m
+    asserts:
+      - contains:
+          path: spec.metrics
+          content:
+            type: Resource
+            resource:
+              name: cpu
+              target:
+                averageValue: 100m
+                type: AverageValue
+  - it: overrides memory to value correctly
+    set:
+      autoscaling.enabled: true
+      highAvailabilityMode.enabled: true
+      autoscaling.memory.enabled: true
+      autoscaling.memory.type: "AverageValue"
+      autoscaling.memory.value: 256Mi
+    asserts:
+      - contains:
+          path: spec.metrics
+          content:
+            type: Resource
+            resource:
+              name: memory
+              target:
+                averageValue: 256Mi
+                type: AverageValue
