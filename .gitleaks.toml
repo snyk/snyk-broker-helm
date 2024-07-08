@@ -6,6 +6,7 @@ description = "global allow list"
 paths = [
   'charts/snyk-broker/tests/__snapshot__/*',
   'charts/snyk-broker/tests/.*(.key)$',
+  'charts/snyk-broker/tests/fixtures/*'
 ]
 
 # ignoring historical secrets from past commits

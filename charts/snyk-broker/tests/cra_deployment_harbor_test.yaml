@@ -4,6 +4,8 @@ chart:
 templates:
   - cra_deployment.yaml
   - broker_deployment.yaml
+values:
+  - ./fixtures/default_values.yaml
 
 tests:
   - it: default values

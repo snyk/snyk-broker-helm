@@ -46,4 +46,4 @@ bitbucket.crt
 .dccache
 
 # Helm Unittest Debug
-charts/snyk-broker/helm/.debug
+charts/snyk-broker/.debug

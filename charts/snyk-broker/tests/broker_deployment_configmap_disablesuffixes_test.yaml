@@ -8,17 +8,17 @@ templates:
   - serviceaccount.yaml
   - cacert_configmap.yaml
 
+values:
+  - ./fixtures/default_values.yaml
+  - ./fixtures/default_values_disablesuffixes.yaml
+
 tests:
   - it: cacert
-    values:
-      - ./fixtures/default_values_disablesuffixes.yaml
     set:
       caCert: tests/dummy_ca_cert.pem
     asserts:
       - matchSnapshot: {}
   - it: cacertfile
-    values:
-      - ./fixtures/default_values_disablesuffixes.yaml
     set:
       caCertFile: testValueSetBySetFile
     asserts:

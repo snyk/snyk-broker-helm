@@ -397,10 +397,6 @@ spec:
          # Code Agent
             - name: GIT_CLIENT_URL
               value: {{ default (printf "http://code-agent-service:%s" (.Values.deployment.container.caSnykPort | toString)) .Values.gitClientUrl }}
-         {{- else if .Values.enableSnykCodeLocalEngine }}
-          # Snyk Code Local Engine
-            - name: GIT_CLIENT_URL
-              value: {{ tpl .Values.gitClientUrl . }}
          {{- end }}
          # Logging
             - name: LOG_LEVEL
@@ -465,10 +461,8 @@ spec:
           {{- if has .Values.scmType ( list "github-com" "github-enterprise" "bitbucket-server" "bitbucket-server-bearer-auth" "gitlab" "azure-repos") }}
           {{- if not .Values.disableAutoAcceptRules  }}
           # Default Values to allow Snyk Code Snippets and Snyk IaC
-            {{- if not .Values.enableSnykCodeLocalEngine }}
             - name: ACCEPT_CODE
               value: "true"
-            {{- end}}
             - name: ACCEPT_IAC
               value: "tf,yaml,yml,json,tpl"
           {{- end}}

@@ -121,12 +121,20 @@ HA mode on:
   3: |
     apiVersion: v1
     data:
-      github-com-broker-token-key: MTIz
+      github-com-broker-token-key: MTIzNDVhNmItNzhkOS0xZTJmLTNhYmMtNDU2ZGVmNzg5MTIz
     kind: Secret
     metadata:
       name: github-com-broker-token
     type: Opaque
   4: |
+    apiVersion: v1
+    data:
+      snyk-token-key: MTIzNDVhNmItNzhkOS0xZTJmLTNhYmMtNDU2ZGVmNzg5MTIz
+    kind: Secret
+    metadata:
+      name: snyk-token
+    type: Opaque
+  5: |
     apiVersion: v1
     kind: ServiceAccount
     metadata:
@@ -260,12 +268,20 @@ HA mode on with 4 replicas:
   3: |
     apiVersion: v1
     data:
-      github-com-broker-token-key: MTIz
+      github-com-broker-token-key: MTIzNDVhNmItNzhkOS0xZTJmLTNhYmMtNDU2ZGVmNzg5MTIz
     kind: Secret
     metadata:
       name: github-com-broker-token
     type: Opaque
   4: |
+    apiVersion: v1
+    data:
+      snyk-token-key: MTIzNDVhNmItNzhkOS0xZTJmLTNhYmMtNDU2ZGVmNzg5MTIz
+    kind: Secret
+    metadata:
+      name: snyk-token
+    type: Opaque
+  5: |
     apiVersion: v1
     kind: ServiceAccount
     metadata:
@@ -397,12 +413,20 @@ default values:
   3: |
     apiVersion: v1
     data:
-      github-com-broker-token-key: MTIz
+      github-com-broker-token-key: MTIzNDVhNmItNzhkOS0xZTJmLTNhYmMtNDU2ZGVmNzg5MTIz
     kind: Secret
     metadata:
       name: github-com-broker-token
     type: Opaque
   4: |
+    apiVersion: v1
+    data:
+      snyk-token-key: MTIzNDVhNmItNzhkOS0xZTJmLTNhYmMtNDU2ZGVmNzg5MTIz
+    kind: Secret
+    metadata:
+      name: snyk-token
+    type: Opaque
+  5: |
     apiVersion: v1
     kind: ServiceAccount
     metadata:
@@ -536,12 +560,20 @@ preflight checks off:
   3: |
     apiVersion: v1
     data:
-      github-com-broker-token-key: MTIz
+      github-com-broker-token-key: MTIzNDVhNmItNzhkOS0xZTJmLTNhYmMtNDU2ZGVmNzg5MTIz
     kind: Secret
     metadata:
       name: github-com-broker-token
     type: Opaque
   4: |
+    apiVersion: v1
+    data:
+      snyk-token-key: MTIzNDVhNmItNzhkOS0xZTJmLTNhYmMtNDU2ZGVmNzg5MTIz
+    kind: Secret
+    metadata:
+      name: snyk-token
+    type: Opaque
+  5: |
     apiVersion: v1
     kind: ServiceAccount
     metadata:

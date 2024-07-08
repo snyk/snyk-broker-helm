@@ -7,10 +7,11 @@ templates:
   - secrets.yaml
   - serviceaccount.yaml
   - accept_configmap.yaml
+values:
+  - ./fixtures/default_values.yaml
+  - ./fixtures/customaccept_values.yaml
 
 tests:
   - it: customaccept values
-    values:
-      - ./fixtures/customaccept_values.yaml
     asserts:
       - matchSnapshot: {}

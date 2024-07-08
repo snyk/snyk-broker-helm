@@ -1,94 +1,189 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/helm-unittest/helm-unittest/main/schema/helm-testsuite.json
 suite: broker deployment (nexus)
 chart:
   version: 0.0.0
 values:
   - ./fixtures/default_values.yaml
+templates:
+  - secrets.yaml
+  - broker_deployment.yaml
+set:
+  scmType: nexus
 
 tests:
-  - it: should create secret if brokerClientValidationUrl, baseNexusUrl and nexusUrl are defined
+  - it: should create secrets if brokerClientValidationUrl, baseNexusUrl and nexusUrl are defined
     template: secrets.yaml
-
     set:
-      scmType: nexus
       baseNexusUrl: https://username:password@your-domain.com
       nexusUrl: https://username:password@your-domain.com/repository
       brokerClientValidationUrl: https://username:password@your-domain.com/service/rest/v1/status/check
       disableSuffixes: true
-    documentIndex: 3
 
     asserts:
-      - containsDocument:
-          apiVersion: v1
-          kind: Secret
-          name: nexus-broker-client-validation-url
+
+      - isKind:
+          of: Secret
+        documentSelector:
+          path: metadata.name
+          value: nexus-broker-client-validation-url
       - equal:
           path: stringData.nexus-broker-client-validation-url
           value: https://username:password@your-domain.com/service/rest/v1/status/check
+        documentSelector:
+          path: metadata.name
+          value: nexus-broker-client-validation-url
 
-  - it: should create secret if brokerClientValidationUrl and nexusUrl are defined
+      - isKind:
+          of: Secret
+        documentSelector:
+          path: metadata.name
+          value: nexus-nexus-url
+      - equal:
+          path: data.nexus-nexus-url
+          value: aHR0cHM6Ly91c2VybmFtZTpwYXNzd29yZEB5b3VyLWRvbWFpbi5jb20vcmVwb3NpdG9yeQ==
+        documentSelector:
+          path: metadata.name
+          value: nexus-nexus-url
+
+      - isKind:
+          of: Secret
+        documentSelector:
+          path: metadata.name
+          value: nexus-base-nexus-url
+      - equal:
+          path: data.nexus-base-nexus-url
+          value: aHR0cHM6Ly91c2VybmFtZTpwYXNzd29yZEB5b3VyLWRvbWFpbi5jb20=
+        documentSelector:
+          path: metadata.name
+          value: nexus-base-nexus-url
+
+
+  - it: should create secrets if brokerClientValidationUrl and nexusUrl are defined
     template: secrets.yaml
 
     set:
-      scmType: nexus
       nexusUrl: https://username:password@your-domain.com/repository
       brokerClientValidationUrl: https://username:password@your-domain.com/service/rest/v1/status/check
       disableSuffixes: true
-    documentIndex: 2
 
     asserts:
-      - containsDocument:
-          apiVersion: v1
-          kind: Secret
-          name: nexus-broker-client-validation-url
+
+      - isKind:
+          of: Secret
+        documentSelector:
+          path: metadata.name
+          value: nexus-broker-client-validation-url
       - equal:
           path: stringData.nexus-broker-client-validation-url
           value: https://username:password@your-domain.com/service/rest/v1/status/check
+        documentSelector:
+          path: metadata.name
+          value: nexus-broker-client-validation-url
 
-  - it: should create secret if brokerClientValidationUrl and baseNexusUrl are defined
+      - isKind:
+          of: Secret
+        documentSelector:
+          path: metadata.name
+          value: nexus-nexus-url
+      - equal:
+          path: data.nexus-nexus-url
+          value: aHR0cHM6Ly91c2VybmFtZTpwYXNzd29yZEB5b3VyLWRvbWFpbi5jb20vcmVwb3NpdG9yeQ==
+        documentSelector:
+          path: metadata.name
+          value: nexus-nexus-url
+
+      - containsDocument:
+          kind: Secret
+          apiVersion: v1
+          name: nexus-nexus-base-url
+        not: true
+
+  - it: should create secrets if brokerClientValidationUrl and baseNexusUrl are defined
     template: secrets.yaml
 
     set:
-      scmType: nexus
       baseNexusUrl: https://username:password@your-domain.com
       brokerClientValidationUrl: https://username:password@your-domain.com/service/rest/v1/status/check
       disableSuffixes: true
-    documentIndex: 2
 
     asserts:
-      - containsDocument:
-          apiVersion: v1
-          kind: Secret
-          name: nexus-broker-client-validation-url
+
+      - isKind:
+          of: Secret
+        documentSelector:
+          path: metadata.name
+          value: nexus-broker-client-validation-url
       - equal:
           path: stringData.nexus-broker-client-validation-url
           value: https://username:password@your-domain.com/service/rest/v1/status/check
+        documentSelector:
+          path: metadata.name
+          value: nexus-broker-client-validation-url
+
+      - isKind:
+          of: Secret
+        documentSelector:
+          path: metadata.name
+          value: nexus-base-nexus-url
+      - equal:
+          path: data.nexus-base-nexus-url
+          value: aHR0cHM6Ly91c2VybmFtZTpwYXNzd29yZEB5b3VyLWRvbWFpbi5jb20=
+        documentSelector:
+          path: metadata.name
+          value: nexus-base-nexus-url
+
+      - containsDocument:
+          kind: Secret
+          apiVersion: v1
+          name: nexus-nexus-url
+        not: true
 
   - it: should not create secret for brokerClientValidationUrl if value is empty
     template: secrets.yaml
 
     set:
-      scmType: nexus
       nexusUrl: https://username:password@your-domain.com/repository
       baseNexusUrl: https://username:password@your-domain.com
       disableSuffixes: true
 
     asserts:
-      - notEqual:
-          path: metadata.name
-          value: nexus-broker-client-validation-url
+      - containsDocument:
+          kind: Secret
+          apiVersion: v1
+          name: nexus-broker-client-validation-url
+        not: true
 
-  - it: should render render nexusUrl, baseNexusUrl and brokerClientValidationUrl as secrets
-    templates:
-      - broker_deployment.yaml
-      - broker_service.yaml
-      - secrets.yaml
-      - serviceaccount.yaml
-
+  - it: references secrets in deployment
+    release:
+      name: unittest
+    template: broker_deployment.yaml
     set:
-      scmType: nexus
       baseNexusUrl: https://username:password@your-domain.com
       nexusUrl: https://username:password@your-domain.com/repository
       brokerClientValidationUrl: https://username:password@your-domain.com/service/rest/v1/status/check
 
     asserts:
-      - matchSnapshot: {}
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: BASE_NEXUS_URL
+            valueFrom:
+              secretKeyRef:
+                name: nexus-base-nexus-url-unittest
+                key: "nexus-base-nexus-url"
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: NEXUS_URL
+            valueFrom:
+              secretKeyRef:
+                name: nexus-nexus-url-unittest
+                key: "nexus-nexus-url"
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: BROKER_CLIENT_VALIDATION_URL
+            valueFrom:
+              secretKeyRef:
+                name: nexus-broker-client-validation-url-unittest
+                key: "nexus-broker-client-validation-url"

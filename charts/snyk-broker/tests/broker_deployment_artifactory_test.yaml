@@ -8,6 +8,7 @@ templates:
   - serviceaccount.yaml
 values:
   - ./fixtures/default_values.yaml
+  - ./fixtures/default_values.yaml
 
 tests:
   - it: should render artifactoryUrl and brokerClientValidationUrl as secrets

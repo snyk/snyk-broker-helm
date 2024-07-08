@@ -7,6 +7,8 @@ templates:
   - secrets.yaml
   - serviceaccount.yaml
   - broker_ingress.yaml
+values:
+  - ./fixtures/default_values.yaml
 
 tests:
   - it: ingress

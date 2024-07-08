@@ -7,18 +7,16 @@ templates:
   - secrets.yaml
   - serviceaccount.yaml
   - cacert_configmap.yaml
+values:
+  - ./fixtures/default_values.yaml
 
 tests:
   - it: cacert
-    values:
-      - ./fixtures/default_values.yaml
     set:
       caCert: tests/dummy_ca_cert.pem
     asserts:
       - matchSnapshot: {}
   - it: cacertfile
-    values:
-      - ./fixtures/default_values.yaml
     set:
       caCertFile: testValueSetBySetFile
     asserts:
