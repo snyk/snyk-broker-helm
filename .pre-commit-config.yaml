@@ -4,3 +4,10 @@ repos:
     hooks:
       - id: gitleaks
         stages: [ commit ]
+      - id: helm-unittest
+        name: Helm Unittest
+        entry: helm unittest charts/snyk-broker
+        language: system
+        files: ^charts/snyk-broker/
+        pass_filenames: false
+        stages: [pre-commit]

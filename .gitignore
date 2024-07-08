@@ -44,3 +44,6 @@ acceptcode.json
 acceptcontainer.json
 bitbucket.crt
 .dccache
+
+# Helm Unittest Debug
+charts/snyk-broker/helm/.debug
