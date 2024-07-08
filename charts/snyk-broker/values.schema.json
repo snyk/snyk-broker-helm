@@ -215,8 +215,16 @@
 
     },
     "snykToken":{
-      "type": "string",
-      "format": "uuid"
+      "anyOf": [
+        {
+          "type": "string",
+          "maxLength": 0
+        },
+        {
+          "type": "string",
+          "format": "uuid"
+        }
+      ]
     },
     "caImage": {
       "type": "string",
