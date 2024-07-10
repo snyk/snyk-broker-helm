@@ -11,17 +11,21 @@ brokerToken: ""
 # Ex: http://kubernetes-ingress.domain.com:8000
 brokerClientUrl: ""
 
-# Do not touch unless directed by a Snyk Representative
+# See https://docs.snyk.io/working-with-snyk/regional-hosting-and-data-residency#broker-urls for regional endpoints
+# Default endpoints are for the Snyk US tenant.
 brokerServerUrl: "https://broker.snyk.io"
+
+brokerDispatcherUrl: "https://api.snyk.io"
 
 preflightChecks:
   enabled: true
 
+# The Broker is designed to work with multiple replicas (min 2, max 4) with High Availability mode enabled.
+
 highAvailabilityMode:
   enabled: false
-brokerDispatcherUrl: "https://api.snyk.io"
 
-# This number if only used if enableHighAvailabilityMode is true
+# This number is only used if highAvailabilityMode.enabled is true
 replicaCount: 2
 
 # Adds additional labels to broker deployment
@@ -34,7 +38,8 @@ labels: {}
 # Allowed values for scmType:
 #   GitHub.com: github-com
 #   GitHub Enterprise: github-enterprise
-#   Bitbucket: bitbucket-server
+#   Bitbucket Server: bitbucket-server
+#   Bitbucket Server with Bearer Auth: bitbucket-server-bearer-auth
 #   GitLab: gitlab
 #   Azure Repos: azure-repos
 #   Artifactory: artifactory
@@ -431,18 +436,3 @@ extraPodSpecs:
 
 extraPodSpecsCr:
   # As above, for Container Registry Agent
-
-##### The Broker is designed to work with multiple replicas (min 2, max 4) only with High Availability mode enabled.
-
-autoscaling:
-  enabled: false
-  minReplicas: 2
-  maxReplicas: 4
-  cpu:
-    type: "Utilization"
-    value: 80
-    enabled: true
-  memory:
-    type: "Utilization"
-    value: 80
-    enabled: false

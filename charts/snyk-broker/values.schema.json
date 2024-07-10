@@ -458,63 +458,6 @@
     },
     "extraPodSpecsCr":{
       "nullable": true
-    },
-    "autoscaling": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties":{
-        "enabled": {
-          "type": "boolean"
-        },
-        "minReplicas": {
-          "type": "integer",
-          "minimum": 2,
-          "maximum": 4
-        },
-        "maxReplicas": {
-          "type": "integer",
-          "minimum": 2,
-          "maximum": 4
-        },
-        "cpu":{
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "type": {
-              "type": "string",
-              "enum": [
-                "Utilization",
-                "AverageValue"
-              ]
-            },
-            "value": {
-              "type": ["integer","string"]
-            },
-            "enabled": {
-              "type": "boolean"
-            }
-          }
-        },
-        "memory": {
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "type": {
-              "type": "string",
-              "enum": [
-                "Utilization",
-                "AverageValue"
-              ]
-            },
-            "value": {
-              "type": ["integer","string"]
-            },
-            "enabled": {
-              "type": "boolean"
-            }
-          }
-        }
-      }
     }
   },
   "additionalProperties": true

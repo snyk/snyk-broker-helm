@@ -6,7 +6,7 @@ metadata:
   labels:
     {{- include "snyk-broker.labels" . }}
 spec:
-  {{- if and (not .Values.autoscaling.enabled) (.Values.highAvailabilityMode.enabled) }}
+  {{- if .Values.highAvailabilityMode.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{ else }}
   replicas: 1
