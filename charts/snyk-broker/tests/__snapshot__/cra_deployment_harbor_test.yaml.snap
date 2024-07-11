@@ -38,7 +38,7 @@ default values:
                 - name: CR_AGENT_URL
                   value: http://cra-service-RELEASE-NAME:8081
                 - name: CR_TYPE
-                  value: harbor
+                  value: harbor-cr
                 - name: CR_BASE
                   value: crBaseValue
                 - name: CR_USERNAME

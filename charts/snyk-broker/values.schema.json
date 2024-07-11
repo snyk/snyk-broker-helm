@@ -1,0 +1,464 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "urlNoSchema": {
+      "type": "string",
+      "not": {
+        "pattern": "^http(s?):\/\/.*"
+      }
+    },
+    "urlWithSchema":{
+      "type":"string",
+      "pattern": "^$|^http(s?):\/\/.*"
+    }
+  },
+  "type": "object",
+  "properties": {
+    "brokerToken": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "brokerClientUrl": {
+      "type": "string",
+      "default": "",
+      "pattern": "^$|^http(s?):\/\/.*"
+    },
+    "brokerServerUrl": {
+      "type": "string",
+      "default": "https://broker.snyk.io",
+      "pattern": "^https:\/\/broker(.*)snyk.io"
+    },
+    "preflightChecks": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "highAvailabilityMode": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "brokerDispatcherUrl": {
+      "type": "string",
+      "default": "https://api.snyk.io",
+      "pattern": "^https:\/\/api(.*)snyk.io"
+    },
+    "replicaCount": {
+      "type": "integer",
+      "default": 2,
+      "minimum": 2,
+      "maximum": 4
+    },
+    "labels": {
+      "type": "object"
+    },
+    "scmType": {
+      "type": "string",
+      "enum": [
+        "github-com",
+        "github-enterprise",
+        "bitbucket-server",
+        "bitbucket-server-bearer-auth",
+        "gitlab",
+        "azure-repos",
+        "artifactory",
+        "nexus",
+        "nexus2",
+        "jira",
+        "jira-bearer-auth",
+        "container-registry-agent"
+      ]
+    },
+    "scmToken":{
+      "type": "string"
+    },
+    "scmTokenPool":{
+      "type":"string"
+    },
+    "useExternalSecretScmTokenPool":{
+      "type": "boolean"
+    },
+    "github":{
+      "$ref": "#/$defs/urlNoSchema"
+    },
+    "githubApi": {
+      "$ref": "#/$defs/urlNoSchema"
+    },
+    "githubGraphQl": {
+      "$ref": "#/$defs/urlNoSchema"
+    },
+    "bitbucketUsername": {
+      "type": "string"
+    },
+    "bitbucketPassword": {
+      "type": "string"
+    },
+    "bitbucketPat": {
+      "type": "string"
+    },
+    "bitbucket": {
+      "$ref": "#/$defs/urlNoSchema"
+    },
+    "bitbucketApi": {
+      "$ref": "#/$defs/urlNoSchema"
+    },
+    "gitlab":{
+      "$ref": "#/$defs/urlNoSchema"
+    },
+    "azureReposOrg": {
+      "type": "string"
+    },
+    "azureReposHost":{
+      "$ref": "#/$defs/urlNoSchema"
+    },
+    "azureReposToken":{
+      "type": "string"
+    },
+    "artifactoryUrl":{
+      "$ref": "#/$defs/urlNoSchema"
+    },
+    "baseNexusUrl":{
+      "$ref": "#/$defs/urlWithSchema"
+    },
+    "nexusUrl":{
+      "$ref": "#/$defs/urlWithSchema"
+    },
+    "brokerClientValidationUrl": {
+      "$ref": "#/$defs/urlWithSchema"
+    },
+    "jiraUsername": {
+      "type": "string"
+    },
+    "jiraPassword": {
+      "type": "string"
+    },
+    "jiraPat": {
+      "type": "string"
+    },
+    "jiraHostname": {
+      "$ref": "#/$defs/urlNoSchema"
+    },
+    "crType": {
+      "type": "string",
+      "enum":[
+        "",
+        "artifactory-cr",
+        "harbor-cr",
+        "acr",
+        "gcr",
+        "docker-hub",
+        "quay-cr",
+        "nexus-cr",
+        "github-cr",
+        "ecr",
+        "digitalocean-cr"
+      ]
+    },
+    "crBase": {
+      "$ref": "#/$defs/urlNoSchema"
+    },
+    "crUsername": {
+      "type": "string"
+    },
+    "crPassword": {
+      "type": "string"
+    },
+    "crRoleArn": {
+      "type": "string"
+    },
+    "crRegion": {
+      "type": "string"
+    },
+    "crExternalId": {
+      "type": "string"
+    },
+    "crToken": {
+      "type": "string"
+    },
+    "crImage": {
+      "type": "string",
+      "default": "latest"
+    },
+    "enableAppRisk": {
+      "type": [
+        "boolean",
+        "string"
+      ],
+      "enum": [
+        true,
+        "true",
+        false,
+        ""
+      ]
+    },
+    "enableCodeAgent":{
+      "type": [
+        "boolean",
+        "string"
+      ],
+      "enum": [
+        true,
+        "true",
+        false,
+        ""
+      ]
+    },
+    "upstreamUrlCodeAgent": {
+
+    },
+    "snykToken":{
+      "anyOf": [
+        {
+          "type": "string",
+          "maxLength": 0
+        },
+        {
+          "type": "string",
+          "format": "uuid"
+        }
+      ]
+    },
+    "caImage": {
+      "type": "string",
+      "default": "latest"
+    },
+    "gitClientUrl": {
+      "type": "string"
+    },
+    "logLevel":{
+      "type": "string",
+      "enum":[
+        "info",
+        "debug"
+      ]
+    },
+    "logEnableBody":{
+      "type": "string",
+      "enum":[
+        "false",
+        "true"
+      ]
+    },
+    "enableBrokerLocalWebserverOverHttps":{
+      "type": "boolean"
+    },
+    "httpsCert":{
+      "type": "string"
+    },
+    "httpsKey": {
+      "type": "string"
+    },
+    "caCert": {
+      "type": "string"
+    },
+    "caCertFile": {
+      "type": "string"
+    },
+    "tlsRejectUnauthorized":{
+      "type": "string",
+      "enum":[
+        "",
+        "0"
+      ]
+    },
+    "httpProxy":{
+      "$ref": "#/$defs/urlWithSchema"
+    },
+    "httpsProxy":{
+      "$ref": "#/$defs/urlWithSchema"
+    },
+    "noProxy": {
+      "$ref": "#/$defs/urlWithSchema"
+    },
+    "acceptJson":{
+      "type": "string"
+    },
+    "image": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties":{
+        "repository":{
+          "type": "string"
+        },
+        "crRepository":{
+          "type": "string"
+        },
+        "caRepository":{
+          "type": "string"
+        },
+        "pullPolicy":{
+          "type": "string",
+          "enum": [
+            "Always",
+            "IfNotPresent",
+            "Never"
+          ]
+        },
+        "tag": {
+          "type": "string"
+        }
+      }
+    },
+    "imagePullSecrets": {
+      "type": "array"
+    },
+    "healthCheckPath":{
+      "type": "string"
+    },
+    "systemCheckPath": {
+      "type": "string"
+    },
+    "brokerLivenessProbe": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "path": {
+          "type": "string"
+        },
+        "config": {
+          "type": "object"
+        }
+      }
+    },
+    "brokerReadinessProbe": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "path": {
+          "type": "string"
+        },
+        "config": {
+          "type": "object"
+        }
+      }
+    },
+    "brokerResources": {
+      "type": "object"
+    },
+    "crResources": {
+      "type": "object"
+    },
+    "caResources": {
+      "type": "object"
+    },
+    "deployment": {
+      "type": "object"
+    },
+    "serviceAccount":{
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "create": {
+          "type": "boolean"
+        },
+        "annotations": {
+          "type": "object"
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "podAnnotations": {
+      "type": "object"
+    },
+    "podSecurityContext": {
+      "type": "object"
+    },
+    "securityContext": {
+      "type": "object"
+    },
+    "securityContextCr": {
+      "type": "object"
+    },
+    "securityContextCa": {
+      "type": "object"
+    },
+    "service":{
+      "type": "object",
+      "additionalProperties": false,
+      "properties":{
+        "brokerType": {
+          "type": "string"
+        },
+        "crType": {
+          "type": "string"
+        },
+        "caType": {
+          "type": "string"
+        },
+        "port": {
+          "type": "integer"
+        },
+        "tls": {
+          "type" :"array"
+        }
+      }
+    },
+    "brokerIngress": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "ingressClassName":{
+          "type": "string"
+        },
+        "annotations": {
+          "type": "object"
+        },
+        "labels": {
+          "type": "object"
+        },
+        "path": {
+          "type": "string"
+        },
+        "pathType": {
+          "type": "string"
+        },
+        "hosts":{
+          "type": "array"
+        },
+        "extraPaths":{
+          "type": "array"
+        },
+        "tls":{
+          "type": "array"
+        }
+      }
+    },
+    "extraObjects":{
+      "type": "array"
+    },
+    "extraVolumes": {
+      "type": "array"
+    },
+    "extraVolumeMounts": {
+      "type": "array"
+    },
+    "extraContainerSpecs": {
+      "nullable": true
+    },
+    "extraPodSpecs": {
+      "nullable": true
+    },
+    "extraPodSpecsCr":{
+      "nullable": true
+    }
+  },
+  "additionalProperties": true
+}

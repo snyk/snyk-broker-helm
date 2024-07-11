@@ -10,6 +10,7 @@ templates:
 tests:
   - it: apprisk enabled
     values:
+      - ./fixtures/default_values.yaml
       - ./fixtures/default_values_with_apprisk_enabled.yaml
     asserts:
       - matchSnapshot: {}

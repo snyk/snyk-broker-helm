@@ -8,9 +8,7 @@ metadata:
     app.kubernetes.io/name: {{ .Release.Name }}-cr{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
     app.kubernetes.io/instance: {{ .Release.Name }}
 spec:
-  {{- if not .Values.autoscaling.enabled }}
   replicas: 1
-  {{- end }}
   selector:
     matchLabels:
       app.kubernetes.io/name: {{ .Release.Name }}-cr{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}

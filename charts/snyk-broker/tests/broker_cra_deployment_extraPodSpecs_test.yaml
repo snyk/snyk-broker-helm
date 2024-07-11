@@ -5,6 +5,7 @@ templates:
   - broker_deployment.yaml
   - cra_deployment.yaml
 values:
+  - ./fixtures/default_values.yaml
   - ./fixtures/default_values_cra.yaml
   - ./fixtures/extra_pod_spec_values.yaml
 

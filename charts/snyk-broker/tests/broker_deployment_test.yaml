@@ -6,6 +6,8 @@ templates:
   - broker_service.yaml
   - secrets.yaml
   - serviceaccount.yaml
+values:
+  - ./fixtures/default_values.yaml
 
 tests:
   - it: default values
