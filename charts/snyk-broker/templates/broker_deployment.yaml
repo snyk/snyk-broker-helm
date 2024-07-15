@@ -497,13 +497,13 @@ spec:
       {{- end }}
       {{- if or (.Values.caCert) (.Values.caCertFile) }}
       - name: {{ include "snyk-broker.fullname" . }}-cacert-volume
-        configMap:
-          name: {{ include "snyk-broker.fullname" . }}-cacert-configmap{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
+        secret:
+          name: {{ include "snyk-broker.caCertSecretName" . }}
       {{- end }}
       {{- if and (.Values.httpsCert) (.Values.httpsKey) }}
       - name: {{ include "snyk-broker.fullname" . }}-tls-secret-volume
         secret:
-          secretName: {{ include "tls-secret-name" . }}
+          secretName: {{ include "snyk-broker.tlsSecretName" . }}
       {{- end }}
 {{- if .Values.extraVolumes }}
 {{ tpl (toYaml .Values.extraVolumes | indent 6) . }}

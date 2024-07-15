@@ -212,9 +212,27 @@ httpsKey: ""
 
 ##### HTTPS Inspection #####
 
-# Not supported by Snyk Container Registry Agent or Snyk Code Agent (use tlsRejectUnauthorized instead). Location of mounted custom certificate. To allow visibility for SSL Inspection.
+# Not supported by Snyk Container Registry Agent or Snyk Code Agent (use tlsRejectUnauthorized instead)
+# Filename of custom certificate to allow visibility for SSL Inspection (e.g "ca.pem")
+# Include any/all certificates required for a full trust chain.
+# File must be within the Helm Chart directory.
 caCert: ""
 
+# Not supported by Snyk Container Registry Agent or Snyk Code Agent (use tlsRejectUnauthorized instead)
+# Set caCertFile to read certificate content from the values.yaml file as a multiline string:
+# Include any/all certificates required for a full trust chain.
+#
+# caCertFile: |-
+#   ----- BEGIN CERTIFICATE -----
+#   < certificate data >
+#   ----- END CERTIFICATE -----
+#   ----- BEGIN CERTIFICATE -----
+#   < another certificate >
+#   ----- END CERTIFICATE -----
+#
+# or
+#
+# caCertFile: "----- BEGIN CERTIFICATE -----\n.....\n----- END CERTIFICATE -----"
 caCertFile: ""
 
 # Set to "0" to disable trust validation when using self signed certificates.

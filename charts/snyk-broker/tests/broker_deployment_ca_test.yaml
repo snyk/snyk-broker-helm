@@ -1,0 +1,164 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/helm-unittest/helm-unittest/main/schema/helm-testsuite.json
+suite: test broker deployment with CA
+chart:
+  version: 0.0.0
+templates:
+  - broker_deployment.yaml
+  - secrets.yaml
+values:
+  - ./fixtures/default_values.yaml
+
+tests:
+  - it: mounts a CA certificate from file
+    set:
+      caCert: tests/dummy_ca_cert.pem
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: CA_CERT
+            value: "/home/node/cacert/tests/dummy_ca_cert.pem"
+        template: broker_deployment.yaml
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: NODE_EXTRA_CA_CERTS
+            value: "/home/node/cacert/tests/dummy_ca_cert.pem"
+        template: broker_deployment.yaml
+      - contains:
+          path: spec.template.spec.volumes
+          content:
+            name: RELEASE-NAME-snyk-broker-cacert-volume
+            secret:
+              name: RELEASE-NAME-snyk-broker-cacert-secret
+        template: broker_deployment.yaml
+      - contains:
+          path: spec.template.spec.containers[0].volumeMounts
+          content:
+            name: RELEASE-NAME-snyk-broker-cacert-volume
+            mountPath: /home/node/cacert
+            readOnly: true
+        template: broker_deployment.yaml
+      - exists:
+          path: data["dummy_ca_cert.pem"]
+        template: secrets.yaml
+        documentSelector:
+          path: metadata.name
+          value: RELEASE-NAME-snyk-broker-cacert-secret
+
+  - it: mounts a CA certificate from file without suffixes
+    set:
+      caCert: tests/dummy_ca_cert.pem
+      disableSuffixes: true
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: CA_CERT
+            value: "/home/node/cacert/tests/dummy_ca_cert.pem"
+        template: broker_deployment.yaml
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: NODE_EXTRA_CA_CERTS
+            value: "/home/node/cacert/tests/dummy_ca_cert.pem"
+        template: broker_deployment.yaml
+      - contains:
+          path: spec.template.spec.volumes
+          content:
+            name: RELEASE-NAME-snyk-broker-cacert-volume
+            secret:
+              name: snyk-broker-cacert-secret
+        template: broker_deployment.yaml
+      - contains:
+          path: spec.template.spec.containers[0].volumeMounts
+          content:
+            name: RELEASE-NAME-snyk-broker-cacert-volume
+            mountPath: /home/node/cacert
+            readOnly: true
+        template: broker_deployment.yaml
+      - exists:
+          path: data["dummy_ca_cert.pem"]
+        template: secrets.yaml
+        documentSelector:
+          path: metadata.name
+          value: snyk-broker-cacert-secret
+
+  - it: mounts a CA certificate from values file
+    set:
+      caCertFile: |-
+        -----BEGIN CERTIFICATE-----
+        CERTIFICATE GOES HERE
+        -----END CERTIFICATE-----
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: CA_CERT
+            value: "/home/node/cacert/cacert"
+        template: broker_deployment.yaml
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: NODE_EXTRA_CA_CERTS
+            value: "/home/node/cacert/cacert"
+        template: broker_deployment.yaml
+      - contains:
+          path: spec.template.spec.containers[0].volumeMounts
+          content:
+            name: RELEASE-NAME-snyk-broker-cacert-volume
+            mountPath: /home/node/cacert
+            readOnly: true
+        template: broker_deployment.yaml
+      - contains:
+          path: spec.template.spec.volumes
+          content:
+            name: RELEASE-NAME-snyk-broker-cacert-volume
+            secret:
+              name: RELEASE-NAME-snyk-broker-cacert-secret
+        template: broker_deployment.yaml
+      - equal:
+          path: data.cacert
+          value: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNFUlRJRklDQVRFIEdPRVMgSEVSRQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0t
+        template: secrets.yaml
+        documentSelector:
+          path: metadata.name
+          value: RELEASE-NAME-snyk-broker-cacert-secret
+
+  - it: mounts a CA certificate from values file (single line string)
+    set:
+      caCertFile: "-----BEGIN CERTIFICATE-----\nCERTIFICATE GOES HERE\n-----END CERTIFICATE-----"
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: CA_CERT
+            value: "/home/node/cacert/cacert"
+        template: broker_deployment.yaml
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: NODE_EXTRA_CA_CERTS
+            value: "/home/node/cacert/cacert"
+        template: broker_deployment.yaml
+      - contains:
+          path: spec.template.spec.containers[0].volumeMounts
+          content:
+            name: RELEASE-NAME-snyk-broker-cacert-volume
+            mountPath: /home/node/cacert
+            readOnly: true
+        template: broker_deployment.yaml
+      - contains:
+          path: spec.template.spec.volumes
+          content:
+            name: RELEASE-NAME-snyk-broker-cacert-volume
+            secret:
+              name: RELEASE-NAME-snyk-broker-cacert-secret
+        template: broker_deployment.yaml
+      - equal:
+          path: data.cacert
+          value: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNFUlRJRklDQVRFIEdPRVMgSEVSRQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0t
+        template: secrets.yaml
+        documentSelector:
+          path: metadata.name
+          value: RELEASE-NAME-snyk-broker-cacert-secret
