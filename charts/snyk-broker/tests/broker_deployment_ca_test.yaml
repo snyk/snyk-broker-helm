@@ -253,3 +253,15 @@ tests:
         documentSelector:
           path: metadata.name
           value: RELEASE-NAME-snyk-broker-cacert-secret
+
+  - it: handles extra whitespace
+    set:
+      caCertFile: "\n  \n-----BEGIN CERTIFICATE-----\nCERTIFICATE GOES HERE\n-----END CERTIFICATE-----\n\n\n"
+    asserts:
+      - equal:
+          path: data.cacert
+          value: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNFUlRJRklDQVRFIEdPRVMgSEVSRQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0t
+        template: secrets.yaml
+        documentSelector:
+          path: metadata.name
+          value: RELEASE-NAME-snyk-broker-cacert-secret
