@@ -162,3 +162,94 @@ tests:
         documentSelector:
           path: metadata.name
           value: RELEASE-NAME-snyk-broker-cacert-secret
+
+  - it: explicitly disables CA trust
+    set:
+      caCertFile: "-----BEGIN CERTIFICATE-----\nCERTIFICATE GOES HERE\n-----END CERTIFICATE-----"
+      disableCaCertTrust: true
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: CA_CERT
+            value: "/home/node/cacert/cacert"
+        template: broker_deployment.yaml
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: NODE_EXTRA_CA_CERTS
+            value: "/home/node/cacert/cacert"
+        template: broker_deployment.yaml
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: NODE_TLS_REJECT_UNAUTHORIZED
+            value: "0"
+        template: broker_deployment.yaml
+      - contains:
+          path: spec.template.spec.containers[0].volumeMounts
+          content:
+            name: RELEASE-NAME-snyk-broker-cacert-volume
+            mountPath: /home/node/cacert
+            readOnly: true
+        template: broker_deployment.yaml
+      - contains:
+          path: spec.template.spec.volumes
+          content:
+            name: RELEASE-NAME-snyk-broker-cacert-volume
+            secret:
+              name: RELEASE-NAME-snyk-broker-cacert-secret
+        template: broker_deployment.yaml
+      - equal:
+          path: data.cacert
+          value: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNFUlRJRklDQVRFIEdPRVMgSEVSRQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0t
+        template: secrets.yaml
+        documentSelector:
+          path: metadata.name
+          value: RELEASE-NAME-snyk-broker-cacert-secret
+
+
+  - it: does not disables CA trust if tlsRejectUnauthorized is true
+    set:
+      caCertFile: "-----BEGIN CERTIFICATE-----\nCERTIFICATE GOES HERE\n-----END CERTIFICATE-----"
+      tlsRejectUnauthorized: "0"
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: CA_CERT
+            value: "/home/node/cacert/cacert"
+        template: broker_deployment.yaml
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: NODE_EXTRA_CA_CERTS
+            value: "/home/node/cacert/cacert"
+        template: broker_deployment.yaml
+      - notContains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: NODE_TLS_REJECT_UNAUTHORIZED
+            value: "0"
+        template: broker_deployment.yaml
+      - contains:
+          path: spec.template.spec.containers[0].volumeMounts
+          content:
+            name: RELEASE-NAME-snyk-broker-cacert-volume
+            mountPath: /home/node/cacert
+            readOnly: true
+        template: broker_deployment.yaml
+      - contains:
+          path: spec.template.spec.volumes
+          content:
+            name: RELEASE-NAME-snyk-broker-cacert-volume
+            secret:
+              name: RELEASE-NAME-snyk-broker-cacert-secret
+        template: broker_deployment.yaml
+      - equal:
+          path: data.cacert
+          value: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNFUlRJRklDQVRFIEdPRVMgSEVSRQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0t
+        template: secrets.yaml
+        documentSelector:
+          path: metadata.name
+          value: RELEASE-NAME-snyk-broker-cacert-secret

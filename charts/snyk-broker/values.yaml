@@ -235,6 +235,9 @@ caCert: ""
 # caCertFile: "----- BEGIN CERTIFICATE -----\n.....\n----- END CERTIFICATE -----"
 caCertFile: ""
 
+# Set to `true` to disable trust validation when providing your own CA certificate.
+disableCaCertTrust: false
+
 # Set to "0" to disable trust validation when using self signed certificates.
 tlsRejectUnauthorized: ""
 
