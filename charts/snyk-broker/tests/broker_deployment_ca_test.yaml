@@ -30,7 +30,7 @@ tests:
           content:
             name: RELEASE-NAME-snyk-broker-cacert-volume
             secret:
-              name: RELEASE-NAME-snyk-broker-cacert-secret
+              secretName: RELEASE-NAME-snyk-broker-cacert-secret
         template: broker_deployment.yaml
       - contains:
           path: spec.template.spec.containers[0].volumeMounts
@@ -68,7 +68,7 @@ tests:
           content:
             name: RELEASE-NAME-snyk-broker-cacert-volume
             secret:
-              name: snyk-broker-cacert-secret
+              secretName: snyk-broker-cacert-secret
         template: broker_deployment.yaml
       - contains:
           path: spec.template.spec.containers[0].volumeMounts
@@ -115,7 +115,7 @@ tests:
           content:
             name: RELEASE-NAME-snyk-broker-cacert-volume
             secret:
-              name: RELEASE-NAME-snyk-broker-cacert-secret
+              secretName: RELEASE-NAME-snyk-broker-cacert-secret
         template: broker_deployment.yaml
       - equal:
           path: data.cacert
@@ -153,7 +153,7 @@ tests:
           content:
             name: RELEASE-NAME-snyk-broker-cacert-volume
             secret:
-              name: RELEASE-NAME-snyk-broker-cacert-secret
+              secretName: RELEASE-NAME-snyk-broker-cacert-secret
         template: broker_deployment.yaml
       - equal:
           path: data.cacert
@@ -198,7 +198,7 @@ tests:
           content:
             name: RELEASE-NAME-snyk-broker-cacert-volume
             secret:
-              name: RELEASE-NAME-snyk-broker-cacert-secret
+              secretName: RELEASE-NAME-snyk-broker-cacert-secret
         template: broker_deployment.yaml
       - equal:
           path: data.cacert
@@ -244,7 +244,7 @@ tests:
           content:
             name: RELEASE-NAME-snyk-broker-cacert-volume
             secret:
-              name: RELEASE-NAME-snyk-broker-cacert-secret
+              secretName: RELEASE-NAME-snyk-broker-cacert-secret
         template: broker_deployment.yaml
       - equal:
           path: data.cacert

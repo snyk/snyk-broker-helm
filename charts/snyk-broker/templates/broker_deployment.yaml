@@ -497,7 +497,7 @@ spec:
       {{- if or (.Values.caCert) (.Values.caCertFile) }}
       - name: {{ include "snyk-broker.fullname" . }}-cacert-volume
         secret:
-          name: {{ include "snyk-broker.caCertSecretName" . }}
+          secretName: {{ include "snyk-broker.caCertSecretName" . }}
       {{- end }}
       {{- if and (.Values.httpsCert) (.Values.httpsKey) }}
       - name: {{ include "snyk-broker.fullname" . }}-tls-secret-volume
