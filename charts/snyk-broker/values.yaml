@@ -335,24 +335,24 @@ nameOverride: ""
 fullnameOverride: ""
 
 
-##### Service Account Values. Nothing to change here #####
+##### Service Account #####
 
 serviceAccount:
+  # Specifies whether a service account should be used
+  enabled: true
   # Specifies whether a service account should be created
   create: true
   # Annotations to add to the service account
   annotations: {}
   # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
+  # If create==false, ensure this serviceAccount exists
   name: "snyk-broker"
-
-podAnnotations: {}
-
-podSecurityContext: {}
-
 
 ##### Security Context #####
 # These can be adjusted at your own risk.
+
+podSecurityContext: {}
 
 securityContext:
    capabilities:
@@ -457,3 +457,5 @@ extraPodSpecs:
 
 extraPodSpecsCr:
   # As above, for Container Registry Agent
+
+podAnnotations: {}
