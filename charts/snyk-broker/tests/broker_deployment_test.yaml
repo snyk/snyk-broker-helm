@@ -11,27 +11,25 @@ values:
 
 tests:
   - it: default values
-    values:
-      - ./fixtures/default_values.yaml
     asserts:
       - matchSnapshot: {}
   - it: HTTPS enabled
     values:
-      - ./fixtures/default_values_https_enabled.yaml
+      - ./fixtures/enable_https.yaml
     asserts:
       - matchSnapshot: {}
   - it: preflight checks off
     values:
-      - ./fixtures/default_values_preflight_off.yaml
+      - ./fixtures/disable_preflight.yaml
     asserts:
       - matchSnapshot: {}
   - it: HA mode on
     values:
-      - ./fixtures/default_values_ha_on.yaml
+      - ./fixtures/enable_ha.yaml
     asserts:
       - matchSnapshot: {}
   - it: HA mode on with 4 replicas
     values:
-      - ./fixtures/default_values_ha_on_4_replicas.yaml
+      - ./fixtures/enable_ha_replicacount.yaml
     asserts:
       - matchSnapshot: {}

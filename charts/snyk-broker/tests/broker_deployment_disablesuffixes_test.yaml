@@ -8,25 +8,24 @@ templates:
   - serviceaccount.yaml
 values:
   - ./fixtures/default_values.yaml
+  - ./fixtures/disable_suffixes.yaml
 
 tests:
   - it: default values
-    values:
-      - ./fixtures/default_values_disablesuffixes.yaml
     asserts:
       - matchSnapshot: {}
   - it: preflight checks off
     values:
-      - ./fixtures/default_values_preflight_off_disablesuffixes.yaml
+      - ./fixtures/disable_preflight.yaml
     asserts:
       - matchSnapshot: {}
   - it: HA mode on
     values:
-      - ./fixtures/default_values_ha_on_disablesuffixes.yaml
+      - ./fixtures/enable_ha.yaml
     asserts:
       - matchSnapshot: {}
   - it: HA mode on with 4 replicas
     values:
-      - ./fixtures/default_values_ha_on_4_replicas_disablesuffixes.yaml
+      - ./fixtures/enable_ha_replicacount.yaml
     asserts:
       - matchSnapshot: {}

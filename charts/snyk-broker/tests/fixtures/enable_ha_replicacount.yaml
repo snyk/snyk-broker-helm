@@ -1,0 +1,4 @@
+highAvailabilityMode:
+  enabled: true
+
+replicaCount: 4

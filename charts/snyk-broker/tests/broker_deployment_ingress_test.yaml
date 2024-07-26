@@ -9,10 +9,9 @@ templates:
   - broker_ingress.yaml
 values:
   - ./fixtures/default_values.yaml
+  - ./fixtures/enable_ingress.yaml
 
 tests:
   - it: ingress
-    values:
-      - ./fixtures/default_values_with_ingress.yaml
     asserts:
       - matchSnapshot: {}

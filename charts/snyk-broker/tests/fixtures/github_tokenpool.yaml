@@ -1,0 +1,3 @@
+# GitHub token pool, comma-separated
+scmType: "github-com"
+scmTokenPool: "gh_token1,gh_token2,gh_token3"

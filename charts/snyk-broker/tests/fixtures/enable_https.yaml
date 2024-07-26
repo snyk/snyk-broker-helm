@@ -1,0 +1,8 @@
+# To enable broker client to run a HTTPS server enable enableBrokerLocalWebserverOverHttps flag and also provide location of HTTPS_CERT and HTTPS_KEY
+enableBrokerLocalWebserverOverHttps: true
+
+# Location of mounted cert
+httpsCert: "dummy_tls_cert.crt"
+
+# Location of mounted HTTPS key
+httpsKey: "dummy_tls_key.key"

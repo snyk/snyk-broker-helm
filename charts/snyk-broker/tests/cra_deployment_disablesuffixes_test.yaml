@@ -6,10 +6,10 @@ templates:
   - broker_deployment.yaml
 values:
   - ./fixtures/default_values.yaml
+  - ./fixtures/default_values_cra.yaml
+  - ./fixtures/disable_suffixes.yaml
 
 tests:
   - it: default values
-    values:
-      - ./fixtures/default_values_cra_disablesuffixes.yaml
     asserts:
       - matchSnapshot: {}

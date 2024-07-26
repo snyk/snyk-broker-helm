@@ -9,7 +9,8 @@ templates:
   - accept_configmap.yaml
 values:
   - ./fixtures/default_values.yaml
-  - ./fixtures/customaccept_values_disablesuffixes.yaml
+  - ./fixtures/disable_suffixes.yaml
+  - ./fixtures/custom_accept.yaml
 
 tests:
   - it: customaccept values

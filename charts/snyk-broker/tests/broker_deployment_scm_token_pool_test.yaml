@@ -12,16 +12,16 @@ values:
 tests:
   - it: github token pool configured
     values:
-      - ./fixtures/default_values_with_github_scmtokenpool.yaml
+      - ./fixtures/github_tokenpool.yaml
     asserts:
       - matchSnapshot: {}
   - it: gitlab token pool configured
     values:
-      - ./fixtures/default_values_with_gitlab_scmtokenpool.yaml
+      - ./fixtures/gitlab_tokenpool.yaml
     asserts:
       - matchSnapshot: {}
   - it: github token pool configured with enabled useExternalSecretScmTokenPool
     values:
-      - ./fixtures/default_values_with_github_useexternalsecretscmtokenpool_true.yaml
+      - ./fixtures/github_tokenpool_external_secret.yaml
     asserts:
       - matchSnapshot: {}
