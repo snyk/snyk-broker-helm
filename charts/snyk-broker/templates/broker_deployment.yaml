@@ -428,8 +428,7 @@ spec:
             - name: HTTPS_KEY
               value: /home/node/tls-cert/tls.key
          {{- end }}
-
-         {{- if .Values.tlsRejectUnauthorized  }}
+         {{- if or ( and .Values.tlsRejectUnauthorized (not .Values.caCert ) (not .Values.caCertFile) ) ( and (or .Values.caCert .Values.caCertFile ) .Values.disableCaCertTrust ) }}
          # Troubleshooting - Set to 0 for SSL inspection testing
             - name: NODE_TLS_REJECT_UNAUTHORIZED
               value: "0"
@@ -497,13 +496,13 @@ spec:
       {{- end }}
       {{- if or (.Values.caCert) (.Values.caCertFile) }}
       - name: {{ include "snyk-broker.fullname" . }}-cacert-volume
-        configMap:
-          name: {{ include "snyk-broker.fullname" . }}-cacert-configmap{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
+        secret:
+          secretName: {{ include "snyk-broker.caCertSecretName" . }}
       {{- end }}
       {{- if and (.Values.httpsCert) (.Values.httpsKey) }}
       - name: {{ include "snyk-broker.fullname" . }}-tls-secret-volume
         secret:
-          secretName: {{ include "tls-secret-name" . }}
+          secretName: {{ include "snyk-broker.tlsSecretName" . }}
       {{- end }}
 {{- if .Values.extraVolumes }}
 {{ tpl (toYaml .Values.extraVolumes | indent 6) . }}

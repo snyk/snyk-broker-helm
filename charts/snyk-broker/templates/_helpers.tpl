@@ -116,12 +116,22 @@ Create the name of the broker service to use
 {{- end -}}
 
 {{/*
-Create TLS secret name
+Create a secret name.
+Pass a dict of Context ($) and secretName:
+include "snyk-broker.genericSecretName" (dict "Context" $ "secretName" "secret-name")
 */}}
-{{- define "tls-secret-name" -}}
-{{- if not .Values.disableSuffixes -}}
-{{ include "snyk-broker.fullname" .}}-tls-secret
+{{- define "snyk-broker.genericSecretName" -}}
+{{- if not .Context.Values.disableSuffixes -}}
+{{ printf "%s-%s" ( include "snyk-broker.fullname" .Context ) .secretName }}
 {{- else -}}
-tls-secret
+{{- printf "snyk-broker-%s" .secretName }}
 {{- end -}}
 {{- end -}}
+
+{{- define "snyk-broker.tlsSecretName" -}}
+{{- include "snyk-broker.genericSecretName" (dict "Context" . "secretName" "tls-secret" ) -}}
+{{- end }}
+
+{{- define "snyk-broker.caCertSecretName" -}}
+{{- include "snyk-broker.genericSecretName" (dict "Context" . "secretName" "cacert-secret" ) -}}
+{{- end }}
