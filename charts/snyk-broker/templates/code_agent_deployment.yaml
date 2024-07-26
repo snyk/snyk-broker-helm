@@ -8,9 +8,7 @@ metadata:
     app.kubernetes.io/name: {{ .Release.Name }}-ca
     app.kubernetes.io/instance: {{ .Release.Name }}
 spec:
-  {{- if not .Values.autoscaling.enabled }}
   replicas: 1
-  {{- end }}
   selector:
     matchLabels:
       app.kubernetes.io/name: {{ .Release.Name }}-ca
@@ -29,7 +27,9 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "snyk-broker.serviceAccountName" . }}{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
+      {{- if .Values.serviceAccount.enabled }}
+      serviceAccountName: {{ include "snyk-broker.serviceAccountName" . }}
+      {{- end }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
@@ -78,10 +78,10 @@ spec:
          {{- range .Values.env }}
          # custom env var in override.yaml
             - name: {{ .name }}
-              value: {{ .value | squote }} 
+              value: {{ .value | squote }}
         {{- end}}
-        
----                     
+
+---
 apiVersion: v1
 kind: Service
 metadata:

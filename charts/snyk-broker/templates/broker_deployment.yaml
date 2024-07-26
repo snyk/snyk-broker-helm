@@ -30,7 +30,9 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "snyk-broker.serviceAccountName" . }}{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
+      {{- if .Values.serviceAccount.enabled }}
+      serviceAccountName: {{ include "snyk-broker.serviceAccountName" . }}
+      {{- end }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
