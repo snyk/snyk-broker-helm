@@ -28,6 +28,42 @@ If release name contains chart name it will be used as a full name.
 {{- end }}
 
 {{/*
+Create a default fully qualified app name for CRA.
+We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
+If release name contains chart name it will be used as a full name.
+*/}}
+{{- define "container-registry-agent.fullname" -}}
+{{- if .Values.fullnameOverride }}
+{{- ( printf "%s-container-registry-agent" .Values.fullnameOverride ) | trunc 63 | trimSuffix "-" }}
+{{- else }}
+{{- $name := default "container-registry-agent" .Values.nameOverride }}
+{{- if .Values.disableSuffixes }}
+{{- printf "%s" $name | trunc 63 | trimSuffix "-" }}
+{{- else }}
+{{- printf "%s-%s" .Release.Name $name | trunc 63 | trimSuffix "-" }}
+{{- end }}
+{{- end }}
+{{- end }}
+
+{{/*
+Create a default fully qualified app name for CA.
+We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
+If release name contains chart name it will be used as a full name.
+*/}}
+{{- define "code-agent.fullname" -}}
+{{- if .Values.fullnameOverride }}
+{{- ( printf "%s-code-agent" .Values.fullnameOverride ) | trunc 63 | trimSuffix "-" }}
+{{- else }}
+{{- $name := default "code-agent" .Values.nameOverride }}
+{{- if .Values.disableSuffixes }}
+{{- printf "%s" $name | trunc 63 | trimSuffix "-" }}
+{{- else }}
+{{- printf "%s-%s" .Release.Name $name | trunc 63 | trimSuffix "-" }}
+{{- end }}
+{{- end }}
+{{- end }}
+
+{{/*
 Create chart name and version as used by the chart label.
 */}}
 {{- define "snyk-broker.chart" -}}
@@ -191,7 +227,7 @@ Create the name of the service account to use
 
 {{/* CRA */}}
 {{- define "container-registry-agent.url" -}}
-{{ printf "http://cra-service-%s:%d" (include "snyk-broker.fullname" . ) ( .Values.deployment.container.crSnykPort | int ) }}
+{{ printf "http://%s:%d" (include "container-registry-agent.fullname" . ) ( .Values.deployment.container.crSnykPort | int ) }}
 {{- end }}
 
 {{/**/}}

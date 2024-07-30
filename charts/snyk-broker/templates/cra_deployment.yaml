@@ -2,16 +2,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: cr-{{ include "snyk-broker.deploymentName" . }}
+  name: {{ include "container-registry-agent.fullname" . }}
   namespace: {{ .Release.Namespace }}
   labels:
-    app.kubernetes.io/name: cr-{{ include "snyk-broker.deploymentName" . }}
+    app.kubernetes.io/name: {{ include "container-registry-agent.fullname" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app.kubernetes.io/name: cr-{{ include "snyk-broker.deploymentName" . }}
+      app.kubernetes.io/name: {{ include "container-registry-agent.fullname" . }}
       app.kubernetes.io/instance: {{ .Release.Name }}
   template:
     metadata:
@@ -20,7 +20,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        app.kubernetes.io/name: cr-{{ include "snyk-broker.deploymentName" . }}
+        app.kubernetes.io/name: {{ include "container-registry-agent.fullname" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
       {{- if .Values.extraPodSpecsCr }}
@@ -50,6 +50,8 @@ spec:
             - name: http
               containerPort: {{ .Values.deployment.container.crSnykPort }}
           env:
+            - name: DEBUG
+              value: "*"
             - name: SNYK_PORT
               value: {{ .Values.deployment.container.crSnykPort | squote }}
          {{- if .Values.tlsRejectUnauthorized  }}
@@ -85,7 +87,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: cra-service-{{ include "snyk-broker.fullname" . }}
+  name: {{ include "container-registry-agent.fullname" . }}
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "snyk-broker.labels" . | nindent 4 }}
@@ -95,6 +97,6 @@ spec:
     - port: {{ .Values.deployment.container.crSnykPort }}
       targetPort: {{ .Values.deployment.container.crSnykPort}}
   selector:
-    app.kubernetes.io/name: cr-{{ include "snyk-broker.deploymentName" . }}
+    app.kubernetes.io/name: {{ include "container-registry-agent.fullname" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}

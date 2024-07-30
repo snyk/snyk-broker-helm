@@ -15,24 +15,24 @@ tests:
       - ./fixtures/default_values_cra.yaml
     asserts:
       - matchSnapshot: {}
-      - contains:
-          path: spec.template.spec.containers[0].env
-          content:
-            name: CR_AGENT_URL
-            value: "http://cra-service-RELEASE-NAME-snyk-broker:8081"
-        template:
-          broker_deployment.yaml
       - equal:
           path: metadata.name
-          value: "cra-service-RELEASE-NAME-snyk-broker"
+          value: &serviceName RELEASE-NAME-container-registry-agent
         template:
           cra_deployment.yaml
         documentSelector:
           path: kind
           value: Service
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: CR_AGENT_URL
+            value: "http://RELEASE-NAME-container-registry-agent:8081"
+        template:
+          broker_deployment.yaml
       - equal:
           path: spec.selector["app.kubernetes.io/name"]
-          value: cr-container-registry-agent-RELEASE-NAME-snyk-broker
+          value: RELEASE-NAME-container-registry-agent
         template: cra_deployment.yaml
         documentSelector:
           path: kind
@@ -62,12 +62,12 @@ tests:
           path: spec.template.spec.containers[0].env
           content:
             name: CR_AGENT_URL
-            value: "http://cra-service-snyk-broker:8081"
+            value: "http://container-registry-agent:8081"
         template:
           broker_deployment.yaml
       - equal:
           path: metadata.name
-          value: "cra-service-snyk-broker"
+          value: container-registry-agent
         template:
           cra_deployment.yaml
         documentSelector:
@@ -75,7 +75,7 @@ tests:
           value: Service
       - equal:
           path: spec.selector["app.kubernetes.io/name"]
-          value: cr-container-registry-agent-snyk-broker
+          value: container-registry-agent
         template: cra_deployment.yaml
         documentSelector:
           path: kind

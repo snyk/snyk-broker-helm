@@ -14,7 +14,7 @@ renders extraPodSpecs CRA:
                 key: container-registry-agent-broker-token-key
                 name: container-registry-agent-broker-token-RELEASE-NAME-snyk-broker
           - name: CR_AGENT_URL
-            value: http://cra-service-RELEASE-NAME-snyk-broker:8081
+            value: http://RELEASE-NAME-container-registry-agent:8081
           - name: CR_TYPE
             value: ecr
           - name: CR_ROLE_ARN
@@ -28,7 +28,7 @@ renders extraPodSpecs CRA:
           - name: BROKER_CLIENT_URL
             value: http://container-registry-agent-RELEASE-NAME-snyk-broker:8000
           - name: BROKER_CLIENT_VALIDATION_URL
-            value: http://cra-service-RELEASE-NAME-snyk-broker:8081/healthcheck
+            value: http://RELEASE-NAME-container-registry-agent:8081/healthcheck
           - name: LOG_LEVEL
             value: info
           - name: LOG_ENABLE_BODY
@@ -88,6 +88,8 @@ renders extraPodSpecs CRA:
   2: |
     containers:
       - env:
+          - name: DEBUG
+            value: '*'
           - name: SNYK_PORT
             value: "8081"
         image: snyk/container-registry-agent:latest
