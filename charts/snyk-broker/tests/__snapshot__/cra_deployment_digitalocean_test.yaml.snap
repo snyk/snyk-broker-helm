@@ -6,21 +6,21 @@ default values:
       labels:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
-        app.kubernetes.io/name: snyk-broker-RELEASE-NAME
+        app.kubernetes.io/name: RELEASE-NAME-snyk-broker
         helm.sh/chart: snyk-broker-0.0.0
-      name: container-registry-agent-broker-RELEASE-NAME
+      name: container-registry-agent-RELEASE-NAME-snyk-broker
       namespace: NAMESPACE
     spec:
       replicas: 1
       selector:
         matchLabels:
           app.kubernetes.io/instance: RELEASE-NAME
-          app.kubernetes.io/name: snyk-broker-RELEASE-NAME
+          app.kubernetes.io/name: RELEASE-NAME-snyk-broker
       template:
         metadata:
           labels:
             app.kubernetes.io/instance: RELEASE-NAME
-            app.kubernetes.io/name: snyk-broker-RELEASE-NAME
+            app.kubernetes.io/name: RELEASE-NAME-snyk-broker
         spec:
           containers:
             - env:
@@ -34,9 +34,9 @@ default values:
                   valueFrom:
                     secretKeyRef:
                       key: container-registry-agent-broker-token-key
-                      name: container-registry-agent-broker-token-RELEASE-NAME
+                      name: container-registry-agent-broker-token-RELEASE-NAME-snyk-broker
                 - name: CR_AGENT_URL
-                  value: http://cra-service-RELEASE-NAME:8081
+                  value: http://cra-service-RELEASE-NAME-snyk-broker:8081
                 - name: CR_TYPE
                   value: digitalocean-cr
                 - name: CR_BASE
@@ -45,13 +45,13 @@ default values:
                   valueFrom:
                     secretKeyRef:
                       key: container-registry-agent-token-key
-                      name: container-registry-agent-token-RELEASE-NAME
+                      name: container-registry-agent-token-RELEASE-NAME-snyk-broker
                 - name: PORT
                   value: "8000"
                 - name: BROKER_CLIENT_URL
-                  value: http://container-registry-agent-broker-service-RELEASE-NAME:8000
+                  value: http://container-registry-agent-RELEASE-NAME-snyk-broker:8000
                 - name: BROKER_CLIENT_VALIDATION_URL
-                  value: http://cra-service-RELEASE-NAME:8081/healthcheck
+                  value: http://cra-service-RELEASE-NAME-snyk-broker:8081/healthcheck
                 - name: LOG_LEVEL
                   value: info
                 - name: LOG_ENABLE_BODY
@@ -69,7 +69,7 @@ default values:
                 initialDelaySeconds: 3
                 periodSeconds: 10
                 timeoutSeconds: 1
-              name: container-registry-agent-broker-RELEASE-NAME
+              name: container-registry-agent-broker
               ports:
                 - containerPort: 8000
                   name: http
@@ -99,7 +99,7 @@ default values:
                 runAsUser: 1000
               volumeMounts: null
           securityContext: {}
-          serviceAccountName: snyk-broker-RELEASE-NAME
+          serviceAccountName: snyk-broker
           volumes: null
   2: |
     apiVersion: apps/v1
@@ -107,20 +107,20 @@ default values:
     metadata:
       labels:
         app.kubernetes.io/instance: RELEASE-NAME
-        app.kubernetes.io/name: RELEASE-NAME-cr-RELEASE-NAME
-      name: container-registry-agent-cra-RELEASE-NAME
+        app.kubernetes.io/name: cr-container-registry-agent-RELEASE-NAME-snyk-broker
+      name: cr-container-registry-agent-RELEASE-NAME-snyk-broker
       namespace: NAMESPACE
     spec:
       replicas: 1
       selector:
         matchLabels:
           app.kubernetes.io/instance: RELEASE-NAME
-          app.kubernetes.io/name: RELEASE-NAME-cr-RELEASE-NAME
+          app.kubernetes.io/name: cr-container-registry-agent-RELEASE-NAME-snyk-broker
       template:
         metadata:
           labels:
             app.kubernetes.io/instance: RELEASE-NAME
-            app.kubernetes.io/name: RELEASE-NAME-cr-RELEASE-NAME
+            app.kubernetes.io/name: cr-container-registry-agent-RELEASE-NAME-snyk-broker
         spec:
           containers:
             - env:
@@ -128,7 +128,7 @@ default values:
                   value: "8081"
               image: snyk/container-registry-agent:latest
               imagePullPolicy: Always
-              name: container-registry-agent-RELEASE-NAME
+              name: container-registry-agent
               ports:
                 - containerPort: 8081
                   name: http
@@ -148,7 +148,7 @@ default values:
                 runAsNonRoot: true
                 runAsUser: 1000
           securityContext: {}
-          serviceAccountName: snyk-broker-RELEASE-NAME
+          serviceAccountName: snyk-broker
   3: |
     apiVersion: v1
     kind: Service
@@ -156,9 +156,9 @@ default values:
       labels:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
-        app.kubernetes.io/name: snyk-broker-RELEASE-NAME
+        app.kubernetes.io/name: RELEASE-NAME-snyk-broker
         helm.sh/chart: snyk-broker-0.0.0
-      name: cra-service-RELEASE-NAME
+      name: cra-service-RELEASE-NAME-snyk-broker
       namespace: NAMESPACE
     spec:
       ports:
@@ -166,5 +166,5 @@ default values:
           targetPort: 8081
       selector:
         app.kubernetes.io/instance: RELEASE-NAME
-        app.kubernetes.io/name: RELEASE-NAME-cr-RELEASE-NAME
+        app.kubernetes.io/name: cr-container-registry-agent-RELEASE-NAME-snyk-broker
       type: ClusterIP

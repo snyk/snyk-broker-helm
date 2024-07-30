@@ -6,21 +6,21 @@ github token pool configured:
       labels:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
-        app.kubernetes.io/name: snyk-broker-RELEASE-NAME
+        app.kubernetes.io/name: RELEASE-NAME-snyk-broker
         helm.sh/chart: snyk-broker-0.0.0
-      name: github-com-broker-RELEASE-NAME
+      name: github-com-RELEASE-NAME-snyk-broker
       namespace: NAMESPACE
     spec:
       replicas: 1
       selector:
         matchLabels:
           app.kubernetes.io/instance: RELEASE-NAME
-          app.kubernetes.io/name: snyk-broker-RELEASE-NAME
+          app.kubernetes.io/name: RELEASE-NAME-snyk-broker
       template:
         metadata:
           labels:
             app.kubernetes.io/instance: RELEASE-NAME
-            app.kubernetes.io/name: snyk-broker-RELEASE-NAME
+            app.kubernetes.io/name: RELEASE-NAME-snyk-broker
         spec:
           containers:
             - env:
@@ -34,17 +34,17 @@ github token pool configured:
                   valueFrom:
                     secretKeyRef:
                       key: github-com-broker-token-key
-                      name: github-com-broker-token-RELEASE-NAME
+                      name: github-com-broker-token-RELEASE-NAME-snyk-broker
                 - name: GITHUB_TOKEN
                   valueFrom:
                     secretKeyRef:
                       key: github-com-token-key
-                      name: github-com-token-RELEASE-NAME
+                      name: github-com-token-RELEASE-NAME-snyk-broker
                 - name: GITHUB_TOKEN_POOL
                   valueFrom:
                     secretKeyRef:
                       key: github-com-token-key-pool
-                      name: github-com-token-pool-RELEASE-NAME
+                      name: github-com-token-pool-RELEASE-NAME-snyk-broker
                 - name: PORT
                   value: "8000"
                 - name: BROKER_CLIENT_URL
@@ -70,7 +70,7 @@ github token pool configured:
                 initialDelaySeconds: 3
                 periodSeconds: 10
                 timeoutSeconds: 1
-              name: github-com-broker-RELEASE-NAME
+              name: github-com-broker
               ports:
                 - containerPort: 8000
                   name: http
@@ -100,7 +100,7 @@ github token pool configured:
                 runAsUser: 1000
               volumeMounts: null
           securityContext: {}
-          serviceAccountName: snyk-broker-RELEASE-NAME
+          serviceAccountName: snyk-broker
           volumes: null
   2: |
     apiVersion: v1
@@ -109,9 +109,9 @@ github token pool configured:
       labels:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
-        app.kubernetes.io/name: snyk-broker-RELEASE-NAME
+        app.kubernetes.io/name: RELEASE-NAME-snyk-broker
         helm.sh/chart: snyk-broker-0.0.0
-      name: github-com-broker-service-RELEASE-NAME
+      name: github-com-RELEASE-NAME-snyk-broker
       namespace: NAMESPACE
     spec:
       ports:
@@ -119,7 +119,7 @@ github token pool configured:
           targetPort: 8000
       selector:
         app.kubernetes.io/instance: RELEASE-NAME
-        app.kubernetes.io/name: snyk-broker-RELEASE-NAME
+        app.kubernetes.io/name: RELEASE-NAME-snyk-broker
       type: ClusterIP
   3: |
     apiVersion: v1
@@ -127,7 +127,7 @@ github token pool configured:
       github-com-broker-token-key: MTIzNDVhNmItNzhkOS0xZTJmLTNhYmMtNDU2ZGVmNzg5MTIz
     kind: Secret
     metadata:
-      name: github-com-broker-token-RELEASE-NAME
+      name: github-com-broker-token-RELEASE-NAME-snyk-broker
     type: Opaque
   4: |
     apiVersion: v1
@@ -135,7 +135,7 @@ github token pool configured:
       github-com-token-key-pool: Z2hfdG9rZW4xLGdoX3Rva2VuMixnaF90b2tlbjM=
     kind: Secret
     metadata:
-      name: github-com-token-pool-RELEASE-NAME
+      name: github-com-token-pool-RELEASE-NAME-snyk-broker
     type: Opaque
   5: |
     apiVersion: v1
@@ -143,7 +143,7 @@ github token pool configured:
       snyk-token-key: MTIzNDVhNmItNzhkOS0xZTJmLTNhYmMtNDU2ZGVmNzg5MTIz
     kind: Secret
     metadata:
-      name: snyk-token-RELEASE-NAME
+      name: snyk-token-RELEASE-NAME-snyk-broker
     type: Opaque
   6: |
     apiVersion: v1
@@ -152,9 +152,9 @@ github token pool configured:
       labels:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
-        app.kubernetes.io/name: snyk-broker-RELEASE-NAME
+        app.kubernetes.io/name: RELEASE-NAME-snyk-broker
         helm.sh/chart: snyk-broker-0.0.0
-      name: snyk-broker-RELEASE-NAME
+      name: snyk-broker
       namespace: NAMESPACE
 github token pool configured with enabled useExternalSecretScmTokenPool:
   1: |
@@ -164,21 +164,21 @@ github token pool configured with enabled useExternalSecretScmTokenPool:
       labels:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
-        app.kubernetes.io/name: snyk-broker-RELEASE-NAME
+        app.kubernetes.io/name: RELEASE-NAME-snyk-broker
         helm.sh/chart: snyk-broker-0.0.0
-      name: github-com-broker-RELEASE-NAME
+      name: github-com-RELEASE-NAME-snyk-broker
       namespace: NAMESPACE
     spec:
       replicas: 1
       selector:
         matchLabels:
           app.kubernetes.io/instance: RELEASE-NAME
-          app.kubernetes.io/name: snyk-broker-RELEASE-NAME
+          app.kubernetes.io/name: RELEASE-NAME-snyk-broker
       template:
         metadata:
           labels:
             app.kubernetes.io/instance: RELEASE-NAME
-            app.kubernetes.io/name: snyk-broker-RELEASE-NAME
+            app.kubernetes.io/name: RELEASE-NAME-snyk-broker
         spec:
           containers:
             - env:
@@ -192,12 +192,12 @@ github token pool configured with enabled useExternalSecretScmTokenPool:
                   valueFrom:
                     secretKeyRef:
                       key: github-com-broker-token-key
-                      name: github-com-broker-token-RELEASE-NAME
+                      name: github-com-broker-token-RELEASE-NAME-snyk-broker
                 - name: GITHUB_TOKEN_POOL
                   valueFrom:
                     secretKeyRef:
                       key: github-com-token-key-pool
-                      name: github-com-token-pool-RELEASE-NAME
+                      name: github-com-token-pool-RELEASE-NAME-snyk-broker
                 - name: PORT
                   value: "8000"
                 - name: BROKER_CLIENT_URL
@@ -223,7 +223,7 @@ github token pool configured with enabled useExternalSecretScmTokenPool:
                 initialDelaySeconds: 3
                 periodSeconds: 10
                 timeoutSeconds: 1
-              name: github-com-broker-RELEASE-NAME
+              name: github-com-broker
               ports:
                 - containerPort: 8000
                   name: http
@@ -253,7 +253,7 @@ github token pool configured with enabled useExternalSecretScmTokenPool:
                 runAsUser: 1000
               volumeMounts: null
           securityContext: {}
-          serviceAccountName: snyk-broker-RELEASE-NAME
+          serviceAccountName: snyk-broker
           volumes: null
   2: |
     apiVersion: v1
@@ -262,9 +262,9 @@ github token pool configured with enabled useExternalSecretScmTokenPool:
       labels:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
-        app.kubernetes.io/name: snyk-broker-RELEASE-NAME
+        app.kubernetes.io/name: RELEASE-NAME-snyk-broker
         helm.sh/chart: snyk-broker-0.0.0
-      name: github-com-broker-service-RELEASE-NAME
+      name: github-com-RELEASE-NAME-snyk-broker
       namespace: NAMESPACE
     spec:
       ports:
@@ -272,7 +272,7 @@ github token pool configured with enabled useExternalSecretScmTokenPool:
           targetPort: 8000
       selector:
         app.kubernetes.io/instance: RELEASE-NAME
-        app.kubernetes.io/name: snyk-broker-RELEASE-NAME
+        app.kubernetes.io/name: RELEASE-NAME-snyk-broker
       type: ClusterIP
   3: |
     apiVersion: v1
@@ -280,7 +280,7 @@ github token pool configured with enabled useExternalSecretScmTokenPool:
       github-com-broker-token-key: MTIzNDVhNmItNzhkOS0xZTJmLTNhYmMtNDU2ZGVmNzg5MTIz
     kind: Secret
     metadata:
-      name: github-com-broker-token-RELEASE-NAME
+      name: github-com-broker-token-RELEASE-NAME-snyk-broker
     type: Opaque
   4: |
     apiVersion: v1
@@ -288,7 +288,7 @@ github token pool configured with enabled useExternalSecretScmTokenPool:
       snyk-token-key: MTIzNDVhNmItNzhkOS0xZTJmLTNhYmMtNDU2ZGVmNzg5MTIz
     kind: Secret
     metadata:
-      name: snyk-token-RELEASE-NAME
+      name: snyk-token-RELEASE-NAME-snyk-broker
     type: Opaque
   5: |
     apiVersion: v1
@@ -297,9 +297,9 @@ github token pool configured with enabled useExternalSecretScmTokenPool:
       labels:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
-        app.kubernetes.io/name: snyk-broker-RELEASE-NAME
+        app.kubernetes.io/name: RELEASE-NAME-snyk-broker
         helm.sh/chart: snyk-broker-0.0.0
-      name: snyk-broker-RELEASE-NAME
+      name: snyk-broker
       namespace: NAMESPACE
 gitlab token pool configured:
   1: |
@@ -309,21 +309,21 @@ gitlab token pool configured:
       labels:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
-        app.kubernetes.io/name: snyk-broker-RELEASE-NAME
+        app.kubernetes.io/name: RELEASE-NAME-snyk-broker
         helm.sh/chart: snyk-broker-0.0.0
-      name: gitlab-broker-RELEASE-NAME
+      name: gitlab-RELEASE-NAME-snyk-broker
       namespace: NAMESPACE
     spec:
       replicas: 1
       selector:
         matchLabels:
           app.kubernetes.io/instance: RELEASE-NAME
-          app.kubernetes.io/name: snyk-broker-RELEASE-NAME
+          app.kubernetes.io/name: RELEASE-NAME-snyk-broker
       template:
         metadata:
           labels:
             app.kubernetes.io/instance: RELEASE-NAME
-            app.kubernetes.io/name: snyk-broker-RELEASE-NAME
+            app.kubernetes.io/name: RELEASE-NAME-snyk-broker
         spec:
           containers:
             - env:
@@ -337,17 +337,17 @@ gitlab token pool configured:
                   valueFrom:
                     secretKeyRef:
                       key: gitlab-broker-token-key
-                      name: gitlab-broker-token-RELEASE-NAME
+                      name: gitlab-broker-token-RELEASE-NAME-snyk-broker
                 - name: GITLAB_TOKEN
                   valueFrom:
                     secretKeyRef:
                       key: gitlab-token-key
-                      name: gitlab-token-RELEASE-NAME
+                      name: gitlab-token-RELEASE-NAME-snyk-broker
                 - name: GITLAB_TOKEN_POOL
                   valueFrom:
                     secretKeyRef:
                       key: gitlab-token-key-pool
-                      name: gitlab-token-pool-RELEASE-NAME
+                      name: gitlab-token-pool-RELEASE-NAME-snyk-broker
                 - name: GITLAB
                   value: null
                 - name: PORT
@@ -375,7 +375,7 @@ gitlab token pool configured:
                 initialDelaySeconds: 3
                 periodSeconds: 10
                 timeoutSeconds: 1
-              name: gitlab-broker-RELEASE-NAME
+              name: gitlab-broker
               ports:
                 - containerPort: 8000
                   name: http
@@ -405,7 +405,7 @@ gitlab token pool configured:
                 runAsUser: 1000
               volumeMounts: null
           securityContext: {}
-          serviceAccountName: snyk-broker-RELEASE-NAME
+          serviceAccountName: snyk-broker
           volumes: null
   2: |
     apiVersion: v1
@@ -414,9 +414,9 @@ gitlab token pool configured:
       labels:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
-        app.kubernetes.io/name: snyk-broker-RELEASE-NAME
+        app.kubernetes.io/name: RELEASE-NAME-snyk-broker
         helm.sh/chart: snyk-broker-0.0.0
-      name: gitlab-broker-service-RELEASE-NAME
+      name: gitlab-RELEASE-NAME-snyk-broker
       namespace: NAMESPACE
     spec:
       ports:
@@ -424,7 +424,7 @@ gitlab token pool configured:
           targetPort: 8000
       selector:
         app.kubernetes.io/instance: RELEASE-NAME
-        app.kubernetes.io/name: snyk-broker-RELEASE-NAME
+        app.kubernetes.io/name: RELEASE-NAME-snyk-broker
       type: ClusterIP
   3: |
     apiVersion: v1
@@ -432,7 +432,7 @@ gitlab token pool configured:
       gitlab-broker-token-key: MTIzNDVhNmItNzhkOS0xZTJmLTNhYmMtNDU2ZGVmNzg5MTIz
     kind: Secret
     metadata:
-      name: gitlab-broker-token-RELEASE-NAME
+      name: gitlab-broker-token-RELEASE-NAME-snyk-broker
     type: Opaque
   4: |
     apiVersion: v1
@@ -440,7 +440,7 @@ gitlab token pool configured:
       gitlab-token-key-pool: Z2xfdG9rZW5fMSxnbF90b2tlbl8y
     kind: Secret
     metadata:
-      name: gitlab-token-pool-RELEASE-NAME
+      name: gitlab-token-pool-RELEASE-NAME-snyk-broker
     type: Opaque
   5: |
     apiVersion: v1
@@ -448,7 +448,7 @@ gitlab token pool configured:
       snyk-token-key: MTIzNDVhNmItNzhkOS0xZTJmLTNhYmMtNDU2ZGVmNzg5MTIz
     kind: Secret
     metadata:
-      name: snyk-token-RELEASE-NAME
+      name: snyk-token-RELEASE-NAME-snyk-broker
     type: Opaque
   6: |
     apiVersion: v1
@@ -457,7 +457,7 @@ gitlab token pool configured:
       labels:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
-        app.kubernetes.io/name: snyk-broker-RELEASE-NAME
+        app.kubernetes.io/name: RELEASE-NAME-snyk-broker
         helm.sh/chart: snyk-broker-0.0.0
-      name: snyk-broker-RELEASE-NAME
+      name: snyk-broker
       namespace: NAMESPACE

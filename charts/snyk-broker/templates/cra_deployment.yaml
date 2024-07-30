@@ -2,16 +2,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: "{{ .Values.scmType}}-cra{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}"
+  name: cr-{{ include "snyk-broker.deploymentName" . }}
   namespace: {{ .Release.Namespace }}
   labels:
-    app.kubernetes.io/name: {{ .Release.Name }}-cr{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
+    app.kubernetes.io/name: cr-{{ include "snyk-broker.deploymentName" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app.kubernetes.io/name: {{ .Release.Name }}-cr{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
+      app.kubernetes.io/name: cr-{{ include "snyk-broker.deploymentName" . }}
       app.kubernetes.io/instance: {{ .Release.Name }}
   template:
     metadata:
@@ -20,7 +20,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        app.kubernetes.io/name: {{ .Release.Name }}-cr{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
+        app.kubernetes.io/name: cr-{{ include "snyk-broker.deploymentName" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
       {{- if .Values.extraPodSpecsCr }}
@@ -30,11 +30,11 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "snyk-broker.serviceAccountName" . }}{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
+      serviceAccountName: {{ include "snyk-broker.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
-        - name: container-registry-agent{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
+        - name: container-registry-agent
           resources:
             limits:
               cpu: {{ .Values.crResources.limits.cpu }}
@@ -78,14 +78,14 @@ spec:
       {{- if .Values.caCert }}
       volumes:
       - name: {{ include "snyk-broker.fullname" . }}-cacert-volume
-        configMap:
-          name: {{ include "snyk-broker.fullname" . }}-cacert-configmap{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
+        secret:
+          secretName: {{ include "snyk-broker.caCertSecretName" . }}
       {{- end }}
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: "cra-service{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}"
+  name: cra-service-{{ include "snyk-broker.fullname" . }}
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "snyk-broker.labels" . | nindent 4 }}
@@ -95,6 +95,6 @@ spec:
     - port: {{ .Values.deployment.container.crSnykPort }}
       targetPort: {{ .Values.deployment.container.crSnykPort}}
   selector:
-    app.kubernetes.io/name: {{ .Release.Name }}-cr{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
+    app.kubernetes.io/name: cr-{{ include "snyk-broker.deploymentName" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}

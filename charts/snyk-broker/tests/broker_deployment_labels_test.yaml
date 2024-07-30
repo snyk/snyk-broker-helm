@@ -22,6 +22,6 @@ tests:
           value:
             app.kubernetes.io/instance: RELEASE-NAME
             app.kubernetes.io/managed-by: Helm
-            app.kubernetes.io/name: snyk-broker-RELEASE-NAME
+            app.kubernetes.io/name: RELEASE-NAME-snyk-broker
             helm.sh/chart: snyk-broker-0.0.0
             test: node1

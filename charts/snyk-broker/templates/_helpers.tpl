@@ -18,7 +18,11 @@ If release name contains chart name it will be used as a full name.
 {{- if contains $name .Release.Name }}
 {{- .Release.Name | trunc 63 | trimSuffix "-" }}
 {{- else }}
+{{- if .Values.disableSuffixes }}
+{{- printf "%s" $name | trunc 63 | trimSuffix "-" }}
+{{- else }}
 {{- printf "%s-%s" .Release.Name $name | trunc 63 | trimSuffix "-" }}
+{{- end }}
 {{- end }}
 {{- end }}
 {{- end }}
@@ -50,19 +54,8 @@ Common labels
 Selector labels
 */}}
 {{- define "snyk-broker.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "snyk-broker.name" . }}{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
+app.kubernetes.io/name: {{ include "snyk-broker.fullname" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
-{{- end }}
-
-{{/*
-Create the name of the service account to use
-*/}}
-{{- define "snyk-broker.serviceAccountName" -}}
-{{- if .Values.serviceAccount.create }}
-{{- default (include "snyk-broker.fullname" .) .Values.serviceAccount.name }}
-{{- else }}
-{{- default "default" .Values.serviceAccount.name }}
-{{- end }}
 {{- end }}
 
 {{/*
@@ -108,30 +101,100 @@ Return if ingress supports pathType.
 Create the name of the broker service to use
 */}}
 {{- define "snyk-broker.brokerServiceName" -}}
-{{- if not .Values.disableSuffixes -}}
-{{- .Values.scmType }}-broker-service-{{ .Release.Name }}
-{{- else }}
-{{- .Values.scmType}}-broker-service
-{{- end -}}
-{{- end -}}
-
-{{/*
-Create a secret name.
-Pass a dict of Context ($) and secretName:
-include "snyk-broker.genericSecretName" (dict "Context" $ "secretName" "secret-name")
-*/}}
-{{- define "snyk-broker.genericSecretName" -}}
-{{- if not .Context.Values.disableSuffixes -}}
-{{ printf "%s-%s" ( include "snyk-broker.fullname" .Context ) .secretName }}
-{{- else -}}
-{{- printf "snyk-broker-%s" .secretName }}
-{{- end -}}
-{{- end -}}
+{{ printf "%s-%s" .Values.scmType (include "snyk-broker.fullname" . ) | trunc 63 | trimSuffix "-" }}
+{{- end }}
 
 {{- define "snyk-broker.tlsSecretName" -}}
-{{- include "snyk-broker.genericSecretName" (dict "Context" . "secretName" "tls-secret" ) -}}
+{{ printf "%s-%s" (include "snyk-broker.fullname" . ) "tls-secret" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{- define "snyk-broker.caCertSecretName" -}}
-{{- include "snyk-broker.genericSecretName" (dict "Context" . "secretName" "cacert-secret" ) -}}
+{{ printf "%s-%s" (include "snyk-broker.fullname" . ) "cacert-secret" | trunc 63 | trimSuffix "-" }}
+{{- end }}
+
+{{/*
+*/}}
+{{- define "snyk-broker.acceptConfigmapName" -}}
+{{ printf "%s-%s" (include "snyk-broker.fullname" . ) "accept-configmap" | trunc 63 | trimSuffix "-" }}
+{{- end }}
+
+{{/*
+*/}}
+{{- define "snyk-broker.deploymentName" -}}
+{{ printf "%s-%s" .Values.scmType (include "snyk-broker.fullname" . ) | trunc 63 | trimSuffix "-" }}
+{{- end }}
+
+{{/*
+Create the name of the service account to use
+*/}}
+{{- define "snyk-broker.serviceAccountName" -}}
+{{- if .Values.serviceAccount.create }}
+{{- default (include "snyk-broker.fullname" . ) .Values.serviceAccount.name }}
+{{- else }}
+{{- default "default" .Values.serviceAccount.name }}
+{{- end }}
+{{- end }}
+
+{{/*
+*/}}
+{{- define "snyk-broker.snykTokenName" -}}
+{{ printf "snyk-token-%s" (include "snyk-broker.fullname" . ) | trunc 63 | trimSuffix "-" }}
+{{- end }}
+
+{{- define "snyk-broker.scmTokenName" -}}
+{{ printf "%s-token-%s" .Values.scmType (include "snyk-broker.fullname" . ) | trunc 63 | trimSuffix "-" }}
+{{- end }}
+
+{{/*
+*/}}
+{{- define "snyk-broker.scmTokenPoolName" -}}
+{{ printf "%s-token-pool-%s" .Values.scmType (include "snyk-broker.fullname" . ) | trunc 63 | trimSuffix "-" }}
+{{- end }}
+
+{{/*
+*/}}
+{{- define "snyk-broker.scmBrokerTokenName" -}}
+{{ printf "%s-broker-token-%s" .Values.scmType (include "snyk-broker.fullname" . ) | trunc 63 | trimSuffix "-" }}
+{{- end }}
+
+{{/*
+*/}}
+{{- define "snyk-broker.artifactoryUrlName" -}}
+{{ printf "artifactory-url-%s" (include "snyk-broker.fullname" . ) | trunc 63 | trimSuffix "-" }}
+{{- end }}
+
+{{/*
+*/}}
+{{- define "snyk-broker.artifactoryValidationUrlName" -}}
+{{ printf "artifactory-broker-validation-url-%s" (include "snyk-broker.fullname" . ) | trunc 63 | trimSuffix "-" }}
+{{- end }}
+
+{{/* NEXUS */}}
+
+{{/*
+*/}}
+{{- define "snyk-broker.nexusUrlName" -}}
+{{ printf "%s-url-%s" .Values.scmType (include "snyk-broker.fullname" . ) | trunc 63 | trimSuffix "-" }}
+{{- end }}
+
+{{/*
+*/}}
+{{- define "snyk-broker.nexusBaseUrlName" -}}
+{{ printf "%s-base-url-%s" .Values.scmType (include "snyk-broker.fullname" . ) | trunc 63 | trimSuffix "-" }}
+{{- end }}
+
+{{/*
+*/}}
+{{- define "snyk-broker.nexusValidationUrlName" -}}
+{{ printf "%s-broker-validation-url-%s" .Values.scmType (include "snyk-broker.fullname" . ) | trunc 63 | trimSuffix "-" }}
+{{- end }}
+
+{{/* CRA */}}
+{{- define "container-registry-agent.url" -}}
+{{ printf "http://cra-service-%s:%d" (include "snyk-broker.fullname" . ) ( .Values.deployment.container.crSnykPort | int ) }}
+{{- end }}
+
+{{/**/}}
+{{- define "snyk-broker.serviceUrl" -}}
+{{ printf "%s-broker-%s" .Values.scmType (include "snyk-broker.fullname" . ) | trunc 63 | trimSuffix "-" }}
 {{- end }}

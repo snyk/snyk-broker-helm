@@ -12,9 +12,9 @@ renders extraPodSpecs CRA:
             valueFrom:
               secretKeyRef:
                 key: container-registry-agent-broker-token-key
-                name: container-registry-agent-broker-token-RELEASE-NAME
+                name: container-registry-agent-broker-token-RELEASE-NAME-snyk-broker
           - name: CR_AGENT_URL
-            value: http://cra-service-RELEASE-NAME:8081
+            value: http://cra-service-RELEASE-NAME-snyk-broker:8081
           - name: CR_TYPE
             value: ecr
           - name: CR_ROLE_ARN
@@ -26,9 +26,9 @@ renders extraPodSpecs CRA:
           - name: PORT
             value: "8000"
           - name: BROKER_CLIENT_URL
-            value: http://container-registry-agent-broker-service-RELEASE-NAME:8000
+            value: http://container-registry-agent-RELEASE-NAME-snyk-broker:8000
           - name: BROKER_CLIENT_VALIDATION_URL
-            value: http://cra-service-RELEASE-NAME:8081/healthcheck
+            value: http://cra-service-RELEASE-NAME-snyk-broker:8081/healthcheck
           - name: LOG_LEVEL
             value: info
           - name: LOG_ENABLE_BODY
@@ -46,7 +46,7 @@ renders extraPodSpecs CRA:
           initialDelaySeconds: 3
           periodSeconds: 10
           timeoutSeconds: 1
-        name: container-registry-agent-broker-RELEASE-NAME
+        name: container-registry-agent-broker
         ports:
           - containerPort: 8000
             name: http
@@ -78,7 +78,7 @@ renders extraPodSpecs CRA:
     nodeSelector:
       corp.io/node-classification: snyk
     securityContext: {}
-    serviceAccountName: snyk-broker-RELEASE-NAME
+    serviceAccountName: snyk-broker
     tolerations:
       - effect: NoSchedule
         key: networking/something
@@ -92,7 +92,7 @@ renders extraPodSpecs CRA:
             value: "8081"
         image: snyk/container-registry-agent:latest
         imagePullPolicy: Always
-        name: container-registry-agent-RELEASE-NAME
+        name: container-registry-agent
         ports:
           - containerPort: 8081
             name: http
@@ -114,7 +114,7 @@ renders extraPodSpecs CRA:
     nodeSelector:
       corp.io/node-classification: snyk
     securityContext: {}
-    serviceAccountName: snyk-broker-RELEASE-NAME
+    serviceAccountName: snyk-broker
     tolerations:
       - effect: NoSchedule
         key: networking/something

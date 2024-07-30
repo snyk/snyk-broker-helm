@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: "{{ .Values.scmType}}-broker{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}"
+  name: {{ include "snyk-broker.deploymentName" . }}
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "snyk-broker.labels" . }}
@@ -30,11 +30,11 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "snyk-broker.serviceAccountName" . }}{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
+      serviceAccountName: {{ include "snyk-broker.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
-        - name: "{{ .Values.scmType}}-broker{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}"
+        - name: "{{ .Values.scmType}}-broker"
           resources:
             limits:
               cpu: {{ .Values.brokerResources.limits.cpu }}
@@ -111,20 +111,20 @@ spec:
             - name: BROKER_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.scmType}}-broker-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
+                  name: {{ include "snyk-broker.scmBrokerTokenName" . }}
                   key: "{{ .Values.scmType}}-broker-token-key"
             {{- if not .Values.useExternalSecretScmTokenPool }}
             - name: GITHUB_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.scmType}}-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
+                  name: {{ include "snyk-broker.scmTokenName" . }}
                   key: "{{ .Values.scmType}}-token-key"
             {{- end }}
             {{- if or (.Values.scmTokenPool) (.Values.useExternalSecretScmTokenPool) }}
             - name: GITHUB_TOKEN_POOL
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.scmType }}-token-pool{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
+                  name: {{ include "snyk-broker.scmTokenPoolName" . }}
                   key: "{{ .Values.scmType}}-token-key-pool"
                 {{- end }}
             - name: PORT
@@ -137,20 +137,20 @@ spec:
             - name: BROKER_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.scmType}}-broker-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
+                  name: {{ include "snyk-broker.scmBrokerTokenName" . }}
                   key: "{{ .Values.scmType}}-broker-token-key"
             {{- if not .Values.useExternalSecretScmTokenPool }}
             - name: GITHUB_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.scmType}}-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
+                  name: {{ include "snyk-broker.scmTokenName" . }}
                   key: "{{ .Values.scmType}}-token-key"
             {{- end }}
             {{- if or (.Values.scmTokenPool) (.Values.useExternalSecretScmTokenPool) }}
             - name: GITHUB_TOKEN_POOL
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.scmType }}-token-pool{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
+                  name: {{ include "snyk-broker.scmTokenPoolName" . }}
                   key: "{{ .Values.scmType}}-token-key-pool"
             {{- end }}
             - name: GITHUB
@@ -170,14 +170,14 @@ spec:
             - name: BROKER_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.scmType}}-broker-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
+                  name: {{ include "snyk-broker.scmBrokerTokenName" . }}
                   key: "{{ .Values.scmType}}-broker-token-key"
             - name: BITBUCKET_USERNAME
               value: {{ .Values.bitbucketUsername }}
             - name: BITBUCKET_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.scmType}}-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
+                  name: {{ include "snyk-broker.scmTokenName" . }}
                   key: "{{ .Values.scmType}}-token-key"
             - name: BITBUCKET
               value: {{ .Values.bitbucket }}
@@ -193,12 +193,12 @@ spec:
             - name: BROKER_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.scmType}}-broker-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
+                  name: {{ include "snyk-broker.scmBrokerTokenName" . }}
                   key: "{{ .Values.scmType}}-broker-token-key"
             - name: BITBUCKET_PAT
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.scmType}}-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
+                  name: {{ include "snyk-broker.scmTokenName" . }}
                   key: "{{ .Values.scmType}}-token-key"
             - name: BITBUCKET
               value: {{ .Values.bitbucket }}
@@ -214,20 +214,20 @@ spec:
             - name: BROKER_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.scmType}}-broker-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
+                  name: {{ include "snyk-broker.scmBrokerTokenName" . }}
                   key: "{{ .Values.scmType}}-broker-token-key"
             {{- if not .Values.useExternalSecretScmTokenPool }}
             - name: GITLAB_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.scmType}}-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
+                  name: {{ include "snyk-broker.scmTokenName" . }}
                   key: "{{ .Values.scmType}}-token-key"
             {{- end }}
             {{- if or (.Values.scmTokenPool) (.Values.useExternalSecretScmTokenPool) }}
             - name: GITLAB_TOKEN_POOL
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.scmType }}-token-pool{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
+                  name: {{ include "snyk-broker.scmTokenPoolName" . }}
                   key: "{{ .Values.scmType}}-token-key-pool"
                 {{- end }}
             - name: GITLAB
@@ -242,12 +242,12 @@ spec:
             - name: BROKER_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.scmType}}-broker-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
+                  name: {{ include "snyk-broker.scmBrokerTokenName" . }}
                   key: "{{ .Values.scmType}}-broker-token-key"
             - name: AZURE_REPOS_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.scmType}}-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
+                  name: {{ include "snyk-broker.scmTokenName" . }}
                   key: "{{ .Values.scmType}}-token-key"
             - name: AZURE_REPOS_ORG
               value: {{ .Values.azureReposOrg }}
@@ -263,12 +263,12 @@ spec:
             - name: BROKER_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.scmType}}-broker-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
+                  name: {{ include "snyk-broker.scmBrokerTokenName" . }}
                   key: "{{ .Values.scmType}}-broker-token-key"
             - name: ARTIFACTORY_URL
               valueFrom:
                 secretKeyRef:
-                  name: artifactory-url{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
+                  name: {{ include "snyk-broker.artifactoryUrlName" . }}
                   key: "artifactory-url"
             - name: PORT
               value: {{ .Values.deployment.container.containerPort | squote }}
@@ -278,7 +278,7 @@ spec:
             - name: BROKER_CLIENT_VALIDATION_URL
               valueFrom:
                 secretKeyRef:
-                  name: artifactory-broker-client-validation-url{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
+                  name: {{ include "snyk-broker.artifactoryValidationUrlName" . }}
                   key: "artifactory-broker-client-validation-url"
             {{- end }}
           {{- end }}
@@ -287,22 +287,22 @@ spec:
             - name: BROKER_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.scmType }}-broker-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
+                  name: {{ include "snyk-broker.scmBrokerTokenName" . }}
                   key: "{{ .Values.scmType}}-broker-token-key"
             - name: BASE_NEXUS_URL
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.scmType }}-base-nexus-url{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
+                  name: {{ include "snyk-broker.nexusBaseUrlName" . }}
                   key: "{{ .Values.scmType}}-base-nexus-url"
             - name: NEXUS_URL
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.scmType }}-nexus-url{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
+                  name: {{ include "snyk-broker.nexusUrlName" . }}
                   key: "{{ .Values.scmType}}-nexus-url"
             - name: BROKER_CLIENT_VALIDATION_URL
               valueFrom:
                 secretKeyRef:
-                  name: nexus-broker-client-validation-url{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
+                  name: {{ include "snyk-broker.nexusValidationUrlName" . }}
                   key: "nexus-broker-client-validation-url"
             - name: PORT
               value: {{ .Values.deployment.container.containerPort | squote }}
@@ -312,14 +312,14 @@ spec:
             - name: BROKER_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.scmType}}-broker-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
+                  name: {{ include "snyk-broker.scmBrokerTokenName" . }}
                   key: "{{ .Values.scmType}}-broker-token-key"
             - name: JIRA_USERNAME
               value: {{ .Values.jiraUsername }}
             - name: JIRA_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.scmType}}-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
+                  name: {{ include "snyk-broker.scmTokenName" . }}
                   key: "{{ .Values.scmType}}-token-key"
             - name: JIRA_HOSTNAME
               value: {{ .Values.jiraHostname }}
@@ -333,12 +333,12 @@ spec:
             - name: BROKER_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.scmType}}-broker-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
+                  name: {{ include "snyk-broker.scmBrokerTokenName" . }}
                   key: "{{ .Values.scmType}}-broker-token-key"
             - name: JIRA_PAT
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.scmType}}-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
+                  name: {{ include "snyk-broker.scmTokenName" . }}
                   key: "{{ .Values.scmType}}-token-key"
             - name: JIRA_HOSTNAME
               value: {{ .Values.jiraHostname }}
@@ -352,10 +352,10 @@ spec:
             - name: BROKER_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.scmType}}-broker-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
+                  name: {{ include "snyk-broker.scmBrokerTokenName" . }}
                   key: "{{ .Values.scmType}}-broker-token-key"
             - name: CR_AGENT_URL
-              value: http://cra-service{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}:{{ .Values.deployment.container.crSnykPort | toString }}
+              value: {{include "container-registry-agent.url" . }}
             - name: CR_TYPE
               value: {{ .Values.crType }}
             {{- if not (has .Values.crType (list "ecr")) }}
@@ -368,14 +368,14 @@ spec:
             - name: CR_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.scmType}}-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
+                  name: {{ include "snyk-broker.scmTokenName" . }}
                   key: "{{ .Values.scmType}}-token-key"
             {{- end }}
             {{- if has .Values.crType (list "digitalocean-cr") }}
             - name: CR_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.scmType}}-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
+                  name: {{ include "snyk-broker.scmTokenName" . }}
                   key: "{{ .Values.scmType}}-token-key"
             {{- end }}
             {{- if has .Values.crType (list "ecr") }}
@@ -391,7 +391,7 @@ spec:
             - name: BROKER_CLIENT_URL
               value: "http://{{ include "snyk-broker.brokerServiceName" . }}:{{ .Values.service.port }}"
             - name: BROKER_CLIENT_VALIDATION_URL
-              value: http://cra-service{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}:{{ .Values.deployment.container.crSnykPort | toString }}/healthcheck
+              value: {{include "container-registry-agent.url" . }}/healthcheck
           {{- end }}
          {{- if .Values.enableCodeAgent }}
          # Code Agent
@@ -492,7 +492,7 @@ spec:
       {{- if (include "snyk-broker.acceptJson" .)}}
       - name: {{ include "snyk-broker.fullname" . }}-accept-volume
         configMap:
-          name: {{ include "snyk-broker.fullname" . }}-accept-configmap{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
+          name: {{ include "snyk-broker.acceptConfigmapName" . }}
       {{- end }}
       {{- if or (.Values.caCert) (.Values.caCertFile) }}
       - name: {{ include "snyk-broker.fullname" . }}-cacert-volume

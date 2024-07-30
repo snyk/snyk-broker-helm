@@ -29,7 +29,7 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "snyk-broker.serviceAccountName" . }}{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
+      serviceAccountName: {{ include "snyk-broker.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
@@ -78,10 +78,10 @@ spec:
          {{- range .Values.env }}
          # custom env var in override.yaml
             - name: {{ .name }}
-              value: {{ .value | squote }} 
+              value: {{ .value | squote }}
         {{- end}}
-        
----                     
+
+---
 apiVersion: v1
 kind: Service
 metadata:

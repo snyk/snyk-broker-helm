@@ -9,11 +9,10 @@
 {{- $ingressPathType := .Values.brokerIngress.pathType -}}
 {{- $extraPaths := .Values.brokerIngress.extraPaths -}}
 {{- $releaseName := .Release.Name -}}
-{{- $disableSuffixes := .Values.disableSuffixes }}
 apiVersion: {{ include "snyk-broker.ingress.apiVersion" . }}
 kind: Ingress
 metadata:
-  name: {{ $fullName }}{{ if not $disableSuffixes}}-{{ .Release.Name }}{{ end }}
+  name: {{ include "snyk-broker.fullname" . }}
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "snyk-broker.labels" . | nindent 4 }}
@@ -54,7 +53,7 @@ spec:
                 port:
                   number: {{ $servicePort }}
               {{- else }}
-              serviceName: {{ $scmType }}-broker-service{{ if not $disableSuffixes}}-{{ $releaseName }}{{ end }}
+              serviceName: {{ include "snyk-broker.brokerServiceName" $ }}
               servicePort: {{ $servicePort }}
               {{- end }}
   {{- end }}
