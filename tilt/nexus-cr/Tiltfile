@@ -1,0 +1,71 @@
+allow_k8s_contexts('docker-desktop')
+load('ext://execute_in_pod', 'execute_in_pod')
+load('ext://helm_resource', 'helm_resource', 'helm_repo')
+load('ext://uibutton', 'cmd_button', 'text_input', 'location')
+## Add the Bitnami Helm Repo
+helm_repo('bitnami','https://charts.bitnami.com/bitnami')
+# Set up a PVC for Nexus
+k8s_yaml('nexuspvc.yaml')
+# Provision Nexus itself
+k8s_yaml('nexus3.yaml')
+# Bind the PVC to the Nexus object in Tilt
+k8s_resource(objects=['nexus3:persistentvolumeclaim'], new_name='nexus3-pvc', labels=['nexus3'],trigger_mode=TRIGGER_MODE_MANUAL)
+# NGINX
+helm_resource(
+  'nginx',
+  'bitnami/nginx',
+  flags=[
+    '--values=./nginx/values.yaml'
+  ],
+  resource_deps=[
+    'nexus3',
+    'nexus3-pvc'
+  ],
+  port_forwards=[8443, 8080]
+)
+k8s_resource(workload='nexus3',port_forwards=8083)
+local_resource(
+  name="nexus3 password reset",
+  cmd="./nexusPassword.sh",
+  resource_deps=[
+    'nexus3',
+    'nginx'
+  ],
+  labels=['nexus3'],
+)
+local_resource(
+  name="nexus3 setup",
+  cmd="./nexusSetup.sh",
+  resource_deps=[
+    "nexus3 password reset"
+  ],
+  labels=['nexus3']
+)
+# At this point you'll need to:
+# 1. add kubernetes.docker.internal to your insecure docker registries
+# 2. docker login kubernetes.docker.internal admin:admin123
+# 3. docker push 127.0.0.1 kubernetes.docker.internal/<repo>/<img>:<tag>
+# 4. attempt import
+helm_resource(
+  'snyk-broker',
+  '../../charts/snyk-broker',
+  release_name='snyk-general',
+  flags=[
+    '--set=brokerToken=<broker-token-goes-here>',
+    '--set=brokerServerUrl=https://broker.dev.snyk.io',
+    '--set=brokerDispatcherUrl=https://api.dev.snyk.io',
+    '--set=brokerResources.requests.cpu=256m',
+    '--set=brokerResources.requests.memory=128Mi',
+    '--set=scmType=container-registry-agent',
+    '--set=crType=nexus-cr',
+    '--set=crBase=nginx.default.svc.cluster.local',
+    '--set=crResources.requests.memory=256Mi',
+    '--set=crResources.requests.cpu=128m',
+    '--set=crUsername=admin',
+    '--set=crPassword=admin123',
+    '--set=tlsRejectUnauthorized=disable',
+    '--set=service.brokerType=LoadBalancer',
+    '--set=service.crType=LoadBalancer',
+    '--set=disableSuffixes=false'
+  ]
+)
