@@ -158,6 +158,8 @@
         "quay-cr",
         "nexus-cr",
         "github-cr",
+        "google-artifact-cr",
+        "gitlab-cr",
         "ecr",
         "digitalocean-cr"
       ]
