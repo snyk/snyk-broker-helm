@@ -31,6 +31,10 @@ replicaCount: 2
 # Adds additional labels to broker deployment
 labels: {}
 
+# Beginning with version 2.0.0, all created objects have a suffix based on the release name, allowing for multiple Brokers in the same namespace.
+# For backward compatibility, version 2.1.0 introduces a disableSuffixes flag to revert to the 1.x.x behavior.
+disableSuffixes: false
+
 ##### SCM Generic #####
 
 # scmType is used to define the Source Control that you are connecting to.
