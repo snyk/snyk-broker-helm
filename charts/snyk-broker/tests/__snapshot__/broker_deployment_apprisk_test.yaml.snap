@@ -6,21 +6,21 @@ apprisk enabled:
       labels:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
-        app.kubernetes.io/name: snyk-broker-RELEASE-NAME
+        app.kubernetes.io/name: RELEASE-NAME-snyk-broker
         helm.sh/chart: snyk-broker-0.0.0
-      name: github-com-broker-RELEASE-NAME
+      name: github-com-RELEASE-NAME-snyk-broker
       namespace: NAMESPACE
     spec:
       replicas: 1
       selector:
         matchLabels:
           app.kubernetes.io/instance: RELEASE-NAME
-          app.kubernetes.io/name: snyk-broker-RELEASE-NAME
+          app.kubernetes.io/name: RELEASE-NAME-snyk-broker
       template:
         metadata:
           labels:
             app.kubernetes.io/instance: RELEASE-NAME
-            app.kubernetes.io/name: snyk-broker-RELEASE-NAME
+            app.kubernetes.io/name: RELEASE-NAME-snyk-broker
         spec:
           containers:
             - env:
@@ -34,12 +34,12 @@ apprisk enabled:
                   valueFrom:
                     secretKeyRef:
                       key: github-com-broker-token-key
-                      name: github-com-broker-token-RELEASE-NAME
+                      name: github-com-broker-token-RELEASE-NAME-snyk-broker
                 - name: GITHUB_TOKEN
                   valueFrom:
                     secretKeyRef:
                       key: github-com-token-key
-                      name: github-com-token-RELEASE-NAME
+                      name: github-com-token-RELEASE-NAME-snyk-broker
                 - name: PORT
                   value: "8000"
                 - name: BROKER_CLIENT_URL
@@ -67,7 +67,7 @@ apprisk enabled:
                 initialDelaySeconds: 3
                 periodSeconds: 10
                 timeoutSeconds: 1
-              name: github-com-broker-RELEASE-NAME
+              name: github-com-broker
               ports:
                 - containerPort: 8000
                   name: http
@@ -97,7 +97,7 @@ apprisk enabled:
                 runAsUser: 1000
               volumeMounts: null
           securityContext: {}
-          serviceAccountName: snyk-broker-RELEASE-NAME
+          serviceAccountName: snyk-broker
           volumes: null
   2: |
     apiVersion: v1
@@ -106,9 +106,9 @@ apprisk enabled:
       labels:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
-        app.kubernetes.io/name: snyk-broker-RELEASE-NAME
+        app.kubernetes.io/name: RELEASE-NAME-snyk-broker
         helm.sh/chart: snyk-broker-0.0.0
-      name: github-com-broker-service-RELEASE-NAME
+      name: github-com-RELEASE-NAME-snyk-broker
       namespace: NAMESPACE
     spec:
       ports:
@@ -116,7 +116,7 @@ apprisk enabled:
           targetPort: 8000
       selector:
         app.kubernetes.io/instance: RELEASE-NAME
-        app.kubernetes.io/name: snyk-broker-RELEASE-NAME
+        app.kubernetes.io/name: RELEASE-NAME-snyk-broker
       type: ClusterIP
   3: |
     apiVersion: v1
@@ -124,7 +124,7 @@ apprisk enabled:
       github-com-broker-token-key: MTIzNDVhNmItNzhkOS0xZTJmLTNhYmMtNDU2ZGVmNzg5MTIz
     kind: Secret
     metadata:
-      name: github-com-broker-token-RELEASE-NAME
+      name: github-com-broker-token-RELEASE-NAME-snyk-broker
     type: Opaque
   4: |
     apiVersion: v1
@@ -132,7 +132,7 @@ apprisk enabled:
       snyk-token-key: MTIzNDVhNmItNzhkOS0xZTJmLTNhYmMtNDU2ZGVmNzg5MTIz
     kind: Secret
     metadata:
-      name: snyk-token-RELEASE-NAME
+      name: snyk-token-RELEASE-NAME-snyk-broker
     type: Opaque
   5: |
     apiVersion: v1
@@ -141,7 +141,7 @@ apprisk enabled:
       labels:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
-        app.kubernetes.io/name: snyk-broker-RELEASE-NAME
+        app.kubernetes.io/name: RELEASE-NAME-snyk-broker
         helm.sh/chart: snyk-broker-0.0.0
-      name: snyk-broker-RELEASE-NAME
+      name: snyk-broker
       namespace: NAMESPACE

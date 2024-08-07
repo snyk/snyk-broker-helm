@@ -25,37 +25,37 @@ tests:
           of: Secret
         documentSelector:
           path: metadata.name
-          value: nexus-broker-client-validation-url
+          value: &nexusBrokerClientValidationUrl nexus-broker-validation-url-snyk-broker
       - equal:
           path: stringData.nexus-broker-client-validation-url
           value: https://username:password@your-domain.com/service/rest/v1/status/check
         documentSelector:
           path: metadata.name
-          value: nexus-broker-client-validation-url
+          value: *nexusBrokerClientValidationUrl
 
       - isKind:
           of: Secret
         documentSelector:
           path: metadata.name
-          value: nexus-nexus-url
+          value: &nexusUrl nexus-url-snyk-broker
       - equal:
           path: data.nexus-nexus-url
           value: aHR0cHM6Ly91c2VybmFtZTpwYXNzd29yZEB5b3VyLWRvbWFpbi5jb20vcmVwb3NpdG9yeQ==
         documentSelector:
           path: metadata.name
-          value: nexus-nexus-url
+          value: *nexusUrl
 
       - isKind:
           of: Secret
         documentSelector:
           path: metadata.name
-          value: nexus-base-nexus-url
+          value: &nexusBaseUrl nexus-base-url-snyk-broker
       - equal:
           path: data.nexus-base-nexus-url
           value: aHR0cHM6Ly91c2VybmFtZTpwYXNzd29yZEB5b3VyLWRvbWFpbi5jb20=
         documentSelector:
           path: metadata.name
-          value: nexus-base-nexus-url
+          value: *nexusBaseUrl
 
 
   - it: should create secrets if brokerClientValidationUrl and nexusUrl are defined
@@ -72,30 +72,30 @@ tests:
           of: Secret
         documentSelector:
           path: metadata.name
-          value: nexus-broker-client-validation-url
+          value: *nexusBrokerClientValidationUrl
       - equal:
           path: stringData.nexus-broker-client-validation-url
           value: https://username:password@your-domain.com/service/rest/v1/status/check
         documentSelector:
           path: metadata.name
-          value: nexus-broker-client-validation-url
+          value: *nexusBrokerClientValidationUrl
 
       - isKind:
           of: Secret
         documentSelector:
           path: metadata.name
-          value: nexus-nexus-url
+          value: *nexusUrl
       - equal:
           path: data.nexus-nexus-url
           value: aHR0cHM6Ly91c2VybmFtZTpwYXNzd29yZEB5b3VyLWRvbWFpbi5jb20vcmVwb3NpdG9yeQ==
         documentSelector:
           path: metadata.name
-          value: nexus-nexus-url
+          value: *nexusUrl
 
       - containsDocument:
           kind: Secret
           apiVersion: v1
-          name: nexus-nexus-base-url
+          name: *nexusBaseUrl
         not: true
 
   - it: should create secrets if brokerClientValidationUrl and baseNexusUrl are defined
@@ -112,30 +112,30 @@ tests:
           of: Secret
         documentSelector:
           path: metadata.name
-          value: nexus-broker-client-validation-url
+          value: *nexusBrokerClientValidationUrl
       - equal:
           path: stringData.nexus-broker-client-validation-url
           value: https://username:password@your-domain.com/service/rest/v1/status/check
         documentSelector:
           path: metadata.name
-          value: nexus-broker-client-validation-url
+          value: *nexusBrokerClientValidationUrl
 
       - isKind:
           of: Secret
         documentSelector:
           path: metadata.name
-          value: nexus-base-nexus-url
+          value: *nexusBaseUrl
       - equal:
           path: data.nexus-base-nexus-url
           value: aHR0cHM6Ly91c2VybmFtZTpwYXNzd29yZEB5b3VyLWRvbWFpbi5jb20=
         documentSelector:
           path: metadata.name
-          value: nexus-base-nexus-url
+          value: *nexusBaseUrl
 
       - containsDocument:
           kind: Secret
           apiVersion: v1
-          name: nexus-nexus-url
+          name: *nexusUrl
         not: true
 
   - it: should not create secret for brokerClientValidationUrl if value is empty
@@ -150,7 +150,7 @@ tests:
       - containsDocument:
           kind: Secret
           apiVersion: v1
-          name: nexus-broker-client-validation-url
+          name: *nexusBrokerClientValidationUrl
         not: true
 
   - it: references secrets in deployment
@@ -169,7 +169,7 @@ tests:
             name: BASE_NEXUS_URL
             valueFrom:
               secretKeyRef:
-                name: nexus-base-nexus-url-unittest
+                name: nexus-base-url-unittest-snyk-broker
                 key: "nexus-base-nexus-url"
       - contains:
           path: spec.template.spec.containers[0].env
@@ -177,7 +177,7 @@ tests:
             name: NEXUS_URL
             valueFrom:
               secretKeyRef:
-                name: nexus-nexus-url-unittest
+                name: nexus-url-unittest-snyk-broker
                 key: "nexus-nexus-url"
       - contains:
           path: spec.template.spec.containers[0].env
@@ -185,5 +185,5 @@ tests:
             name: BROKER_CLIENT_VALIDATION_URL
             valueFrom:
               secretKeyRef:
-                name: nexus-broker-client-validation-url-unittest
+                name: nexus-broker-validation-url-unittest-snyk-broker
                 key: "nexus-broker-client-validation-url"

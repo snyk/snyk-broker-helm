@@ -66,14 +66,14 @@ tests:
       - contains:
           path: spec.template.spec.volumes
           content:
-            name: RELEASE-NAME-snyk-broker-cacert-volume
+            name: snyk-broker-cacert-volume
             secret:
               secretName: snyk-broker-cacert-secret
         template: broker_deployment.yaml
       - contains:
           path: spec.template.spec.containers[0].volumeMounts
           content:
-            name: RELEASE-NAME-snyk-broker-cacert-volume
+            name: snyk-broker-cacert-volume
             mountPath: /home/node/cacert
             readOnly: true
         template: broker_deployment.yaml
