@@ -9,9 +9,7 @@ metadata:
     app.kubernetes.io/name: {{ .Release.Name }}-ca
     app.kubernetes.io/instance: {{ .Release.Name }}
 spec:
-  {{- if not .Values.autoscaling.enabled }}
   replicas: 1
-  {{- end }}
   selector:
     matchLabels:
       app.kubernetes.io/name: {{ .Release.Name }}-ca
