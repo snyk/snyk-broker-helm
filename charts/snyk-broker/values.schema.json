@@ -262,7 +262,8 @@
       "type": "string"
     },
     "caCertFile": {
-      "type": "string"
+      "type": "string",
+      "pattern": "^$|^\\s*-----BEGIN CERTIFICATE-----(?:.|\\s)*-----END CERTIFICATE-----\\s*$"
     },
     "disableCaCertTrust": {
       "type": "boolean"
