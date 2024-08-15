@@ -268,6 +268,6 @@ tests:
 
   - it: rejects a non-PEM certificate
     set:
-      caCertFile: "\n  \n-----BEGIN RSA PRIVATE KEY-----\nCERTIFICATE GOES HERE\n-----END RSA PRIVATE KEY-----\n\n\n"
+      caCertFile: "\n  \n-----BEGIN RSA PRIVATE KEY-----\nCERTIFICATE GOES HERE\n-----END RSA PRIVATE KEY-----\n\n\n" #gitleaks:allow
     asserts:
       - failedTemplate: {}
