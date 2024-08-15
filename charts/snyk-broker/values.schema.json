@@ -373,6 +373,9 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
         "create": {
           "type": "boolean"
         },

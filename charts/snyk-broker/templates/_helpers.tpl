@@ -59,7 +59,12 @@ Create the name of the service account to use
 */}}
 {{- define "snyk-broker.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create }}
-{{- default (include "snyk-broker.fullname" .) .Values.serviceAccount.name }}
+{{- $saName := default (include "snyk-broker.fullname" .) .Values.serviceAccount.name -}}
+{{- if .Values.disableSuffixes }}
+{{- printf "%s" $saName }}
+{{- else }}
+{{- printf "%s-%s" $saName .Release.Name }}
+{{- end }}
 {{- else }}
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
