@@ -1,0 +1,78 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/helm-unittest/helm-unittest/main/schema/helm-testsuite.json
+suite: test broker deployment with CA
+chart:
+  version: 0.0.0
+templates:
+  - broker_deployment.yaml
+  - cra_deployment.yaml
+values:
+  - ./fixtures/default_values.yaml
+  - ./fixtures/default_values_cra.yaml
+
+tests:
+  - it: disables tls trust with "disable" (string)
+    set:
+      tlsRejectUnauthorized: "disable"
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: NODE_TLS_REJECT_UNAUTHORIZED
+            value: "0"
+        documentSelector:
+          path: kind
+          value: Deployment
+  - it: disables tls trust with "0" (string)
+    set:
+      tlsRejectUnauthorized: "0"
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: NODE_TLS_REJECT_UNAUTHORIZED
+            value: "0"
+        documentSelector:
+          path: kind
+          value: Deployment
+  - it: disables tls trust with "false" (string)
+    set:
+      tlsRejectUnauthorized: "false"
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: NODE_TLS_REJECT_UNAUTHORIZED
+            value: "0"
+        documentSelector:
+          path: kind
+          value: Deployment
+  - it: disables tls trust with false (boolean)
+    set:
+      tlsRejectUnauthorized: false
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: NODE_TLS_REJECT_UNAUTHORIZED
+            value: "0"
+        documentSelector:
+          path: kind
+          value: Deployment
+  - it: enables tls trust by default "" (string)
+    set:
+      tlsRejectUnauthorized: ""
+    asserts:
+      - notContains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: NODE_TLS_REJECT_UNAUTHORIZED
+            value: "0"
+        documentSelector:
+          path: kind
+          value: Deployment
+  - it: does not allow true (bool)
+    set:
+      tlsRejectUnauthorized: true
+    asserts:
+      - failedTemplate:
+          errorMessage: "values don't meet the specifications of the schema(s) in the following chart(s):\nsnyk-broker:\n- tlsRejectUnauthorized: tlsRejectUnauthorized must be one of the following: \"\", \"0\", \"false\", false, \"disable\"\n"

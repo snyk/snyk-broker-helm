@@ -135,3 +135,19 @@ include "snyk-broker.genericSecretName" (dict "Context" $ "secretName" "secret-n
 {{- define "snyk-broker.caCertSecretName" -}}
 {{- include "snyk-broker.genericSecretName" (dict "Context" . "secretName" "cacert-secret" ) -}}
 {{- end }}
+
+{{/*
+Handle tlsRejectUnauthorized.
+If this is set to `false` (bool) we _want_ to disable trust. We don't allow `true`.
+If this is set to "" we want to enable trust - any other allowed string value disables.
+Checking for definition is insufficient
+*/}}
+{{- define "snyk-broker.setTlsRejectUnauthorized" -}}
+{{- $tlsRejectUnauthorized := .Values.tlsRejectUnauthorized -}}
+{{- if eq (kindOf $tlsRejectUnauthorized ) "bool" -}}
+true
+{{- end }}
+{{- if ( and ( eq (kindOf $tlsRejectUnauthorized ) "string") ( not ( eq $tlsRejectUnauthorized "" ) ) ) -}}
+true
+{{- end }}
+{{- end }}
