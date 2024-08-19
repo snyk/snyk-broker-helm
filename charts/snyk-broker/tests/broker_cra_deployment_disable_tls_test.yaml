@@ -61,6 +61,18 @@ tests:
         documentSelector:
           path: kind
           value: Deployment
+  - it: disables tls trust with '0' (integer)
+    set:
+      tlsRejectUnauthorized: 0
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: NODE_TLS_REJECT_UNAUTHORIZED
+            value: "0"
+        documentSelector:
+          path: kind
+          value: Deployment
   - it: enables tls trust by default "" (string)
     set:
       tlsRejectUnauthorized: ""
@@ -78,4 +90,4 @@ tests:
       tlsRejectUnauthorized: true
     asserts:
       - failedTemplate:
-          errorMessage: "values don't meet the specifications of the schema(s) in the following chart(s):\nsnyk-broker:\n- tlsRejectUnauthorized: tlsRejectUnauthorized must be one of the following: \"\", \"0\", \"false\", false, \"disable\"\n"
+          errorMessage: "values don't meet the specifications of the schema(s) in the following chart(s):\nsnyk-broker:\n- tlsRejectUnauthorized: tlsRejectUnauthorized must be one of the following: \"\", 0, \"0\", \"false\", false, \"disable\"\n"

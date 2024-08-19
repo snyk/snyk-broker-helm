@@ -140,6 +140,7 @@ include "snyk-broker.genericSecretName" (dict "Context" $ "secretName" "secret-n
 Handle tlsRejectUnauthorized.
 If this is set to `false` (bool) we _want_ to disable trust. We don't allow `true`.
 If this is set to "" we want to enable trust - any other allowed string value disables.
+If this is set to `"0"` Helm might cast it as an integer - we need to catch that.
 Checking for definition is insufficient
 */}}
 {{- define "snyk-broker.setTlsRejectUnauthorized" -}}
@@ -148,6 +149,9 @@ Checking for definition is insufficient
 true
 {{- end }}
 {{- if ( and ( eq (kindOf $tlsRejectUnauthorized ) "string") ( not ( eq $tlsRejectUnauthorized "" ) ) ) -}}
+true
+{{- end }}
+{{- if eq (toString $tlsRejectUnauthorized) "0" -}}
 true
 {{- end }}
 {{- end }}
