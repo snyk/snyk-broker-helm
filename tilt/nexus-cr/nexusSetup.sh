@@ -7,10 +7,12 @@ fi
 
 ## Anonymous Access
 curl -X PUT \
-  'http://localhost/service/rest/v1/security/anonymous' \
+  'https://localhost:8443/service/rest/v1/security/anonymous' \
   -H 'accept: application/json' \
   -H 'Content-Type: application/json' \
   -u admin:admin123 \
+  -k \
+  --fail-with-body \
   -d '{
   "enabled": true,
   "userId": "admin",
@@ -19,9 +21,11 @@ curl -X PUT \
 
 # Create a docker repo
 curl -X POST \
-  http://localhost:80/service/rest/v1/repositories/docker/hosted \
+  https://localhost:8443/service/rest/v1/repositories/docker/hosted \
   -H "Content-Type: application/json" \
+  -k \
   -u admin:admin123 \
+  --fail-with-body \
   -d '{
     "name": "docker",
     "online": true,

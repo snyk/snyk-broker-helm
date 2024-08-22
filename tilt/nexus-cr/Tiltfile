@@ -1,7 +1,6 @@
 allow_k8s_contexts('docker-desktop')
 load('ext://execute_in_pod', 'execute_in_pod')
 load('ext://helm_resource', 'helm_resource', 'helm_repo')
-load('ext://uibutton', 'cmd_button', 'text_input', 'location')
 ## Add the Bitnami Helm Repo
 helm_repo('bitnami','https://charts.bitnami.com/bitnami')
 # Set up a PVC for Nexus
@@ -23,24 +22,24 @@ helm_resource(
   ],
   port_forwards=[8443, 8080]
 )
-k8s_resource(workload='nexus3',port_forwards=8083)
-local_resource(
-  name="nexus3 password reset",
-  cmd="./nexusPassword.sh",
-  resource_deps=[
-    'nexus3',
-    'nginx'
-  ],
-  labels=['nexus3'],
-)
-local_resource(
-  name="nexus3 setup",
-  cmd="./nexusSetup.sh",
-  resource_deps=[
-    "nexus3 password reset"
-  ],
-  labels=['nexus3']
-)
+if config.tilt_subcommand == 'up':
+  local_resource(
+    name="nexus3 password reset",
+    cmd="./nexusPassword.sh",
+    resource_deps=[
+      'nexus3',
+      'nginx'
+    ],
+    labels=['nexus3'],
+  )
+  local_resource(
+    name="nexus3 setup",
+    cmd="./nexusSetup.sh",
+    resource_deps=[
+      "nexus3 password reset"
+    ],
+    labels=['nexus3']
+  )
 # At this point you'll need to:
 # 1. add kubernetes.docker.internal to your insecure docker registries
 # 2. docker login kubernetes.docker.internal admin:admin123
