@@ -1,3 +1,4 @@
+{{ $setTlsRejectUnauthorized := include "snyk-broker.setTlsRejectUnauthorized" . }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -428,7 +429,7 @@ spec:
             - name: HTTPS_KEY
               value: /home/node/tls-cert/tls.key
          {{- end }}
-         {{- if or ( and .Values.tlsRejectUnauthorized (not .Values.caCert ) (not .Values.caCertFile) ) ( and (or .Values.caCert .Values.caCertFile ) .Values.disableCaCertTrust ) }}
+         {{- if or ( and $setTlsRejectUnauthorized (not .Values.caCert ) (not .Values.caCertFile) ) ( and (or .Values.caCert .Values.caCertFile ) .Values.disableCaCertTrust ) }}
          # Troubleshooting - Set to 0 for SSL inspection testing
             - name: NODE_TLS_REJECT_UNAUTHORIZED
               value: "0"
