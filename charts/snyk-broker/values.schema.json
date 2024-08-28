@@ -290,7 +290,7 @@
       "$ref": "#/$defs/urlWithSchema"
     },
     "noProxy": {
-      "$ref": "#/$defs/urlWithSchema"
+      "type": "string"
     },
     "acceptJson":{
       "type": "string"

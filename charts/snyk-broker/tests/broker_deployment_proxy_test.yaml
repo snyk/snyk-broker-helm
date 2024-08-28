@@ -1,0 +1,99 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/helm-unittest/helm-unittest/main/schema/helm-testsuite.json
+suite: test broker proxy configuration
+chart:
+  version: 0.0.0
+templates:
+  - broker_deployment.yaml
+values:
+  - ./fixtures/default_values.yaml
+
+tests:
+  - it: sets an https proxy
+    set:
+      httpsProxy: &proxy http://my.proxy:8080
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: HTTPS_PROXY
+            value: *proxy
+  - it: sets an http proxy
+    set:
+      httpProxy: *proxy
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: HTTP_PROXY
+            value: *proxy
+  - it: sets both https and http proxy
+    set:
+      httpProxy: *proxy
+      httpsProxy: *proxy
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: HTTP_PROXY
+            value: *proxy
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: HTTPS_PROXY
+            value: *proxy
+  - it: rejects proxy without protocol
+    set:
+      httpsProxy: no.protocol.proxy:8080
+    asserts:
+      - failedTemplate: {}
+  - it: sets noproxy without protocol
+    set:
+      noProxy: my.ghe.io
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: NO_PROXY
+            value: my.ghe.io
+  - it: corrects noproxy by removing protocol
+    set:
+      noProxy: https://my.ghe.io
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: NO_PROXY
+            value: my.ghe.io
+  - it: sets noproxy with multiple domains
+    set:
+      noProxy: my.ghe.io,my.other.host.tld
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: NO_PROXY
+            value: my.ghe.io,my.other.host.tld
+  - it: corrects noproxy with multiple domains, one with protocol
+    set:
+      noProxy: my.ghe.io,https://my.private.site
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: NO_PROXY
+            value: my.ghe.io,my.private.site
+  - it: corrects noproxy with multiple domains, one with protocol, with spaces
+    set:
+      noProxy: my.ghe.io, https://my.private.site
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: NO_PROXY
+            value: my.ghe.io,my.private.site
+  - it: rejects noproxy with multiple domains, one with protocol, one with a port
+    set:
+      noProxy: my.ghe.io, https://my.private.site,notadomain:12334
+    asserts:
+      - failedTemplate:
+          errorMessage: Entry notadomain:12334 for .Values.noProxy is invalid. Specify hostname only (no schema or port)
