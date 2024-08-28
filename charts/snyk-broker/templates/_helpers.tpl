@@ -155,3 +155,22 @@ true
 true
 {{- end }}
 {{- end }}
+
+{{/*
+NoProxy helper
+Ensure all values are trimmed, separated by comma, and do not contain protocol or port
+Validate against RFC 1123
+*/}}
+{{- define "snyk-broker.noProxy" -}}
+{{- $proxyUrls := .Values.noProxy | nospace -}}
+{{- $proxyUrlsWithoutProtocol := mustRegexReplaceAll "http(s?)://" $proxyUrls "" -}}
+{{- $sanitisedProxyUrls := "" -}}
+{{- range $proxyUrlsWithoutProtocol | split "," -}}
+{{- if ( mustRegexMatch "^[a-zA-Z0-9.-]+$" . ) -}}
+{{- $sanitisedProxyUrls = printf "%s,%s" $sanitisedProxyUrls . -}}
+{{- else }}
+{{- fail (printf "Entry %s for .Values.noProxy is invalid. Specify hostname only (no schema or port)" . ) -}}
+{{- end }}
+{{- end }}
+{{- $sanitisedProxyUrls |  trimPrefix "," -}}
+{{- end }}

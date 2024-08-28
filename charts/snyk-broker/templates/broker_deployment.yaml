@@ -450,7 +450,7 @@ spec:
          {{- if .Values.noProxy }}
          # No Proxy Settings
             - name: NO_PROXY
-              value: {{ .Values.noProxy }}
+              value: {{ include "snyk-broker.noProxy" . }}
          {{- end }}
 
          {{- if (include "snyk-broker.acceptJson" .)}}
