@@ -1,0 +1,16 @@
+suite: test broker servicename length
+chart:
+  version: 0.0.0
+templates:
+  - broker_service.yaml
+
+tests:
+  - it: should truncate scmType correctly when combined with release name and suffix
+    values:
+    - ./fixtures/default_values_cra.yaml
+    release:
+      name: "myrelease-really-long-release-name"
+    asserts:
+      - equal:
+          path: metadata.name
+          value: "container-reg-broker-service-myrelease-really-long-release-name"
