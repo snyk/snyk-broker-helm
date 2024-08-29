@@ -161,6 +161,8 @@
         "quay-cr",
         "nexus-cr",
         "github-cr",
+        "google-artifact-cr",
+        "gitlab-cr",
         "ecr",
         "digitalocean-cr"
       ]
@@ -263,7 +265,8 @@
       "type": "string"
     },
     "caCertFile": {
-      "type": "string"
+      "type": "string",
+      "pattern": "^$|^\\s*-----BEGIN CERTIFICATE-----(?:.|\\s)*-----END CERTIFICATE-----\\s*$"
     },
     "disableCaCertTrust": {
       "type": "boolean"
@@ -271,10 +274,12 @@
     "tlsRejectUnauthorized":{
       "type": [
         "string",
-        "boolean"
+        "boolean",
+        "integer"
       ],
       "enum":[
         "",
+        0,
         "0",
         "false",
         false,
@@ -288,7 +293,7 @@
       "$ref": "#/$defs/urlWithSchema"
     },
     "noProxy": {
-      "$ref": "#/$defs/urlWithSchema"
+      "type": "string"
     },
     "acceptJson":{
       "type": "string"

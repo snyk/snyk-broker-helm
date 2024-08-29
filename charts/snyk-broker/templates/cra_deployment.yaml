@@ -1,3 +1,4 @@
+{{ $setTlsRejectUnauthorized := include "snyk-broker.setTlsRejectUnauthorized" . }}
 {{- if eq .Values.scmType "container-registry-agent" }}
 apiVersion: apps/v1
 kind: Deployment
@@ -52,7 +53,7 @@ spec:
           env:
             - name: SNYK_PORT
               value: {{ .Values.deployment.container.crSnykPort | squote }}
-         {{- if .Values.tlsRejectUnauthorized  }}
+         {{- if $setTlsRejectUnauthorized }}
          # Troubleshooting - Set to 0 for SSL inspection testing
             - name: NODE_TLS_REJECT_UNAUTHORIZED
               value: "0"

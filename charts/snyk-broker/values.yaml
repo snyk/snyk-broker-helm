@@ -254,6 +254,9 @@ httpProxy: ""
 httpsProxy: ""
 
 # No Proxy URL - This will apply to both Snyk Broker and Snyk Code Agent
+# Do not specify protocol (http(s)://) or port
+# Separate multiple entries by a comma
+# e.g. my.first.host,my.second.host
 noProxy: ""
 
 # For custom accept.json, specify the path to the accept.json using the --set-file command when installing the chart

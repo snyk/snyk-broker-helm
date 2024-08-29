@@ -1,3 +1,4 @@
+{{ $setTlsRejectUnauthorized := include "snyk-broker.setTlsRejectUnauthorized" . }}
 {{- if .Values.enableCodeAgent }}
 apiVersion: apps/v1
 kind: Deployment
@@ -8,9 +9,7 @@ metadata:
     app.kubernetes.io/name: {{ .Release.Name }}-ca
     app.kubernetes.io/instance: {{ .Release.Name }}
 spec:
-  {{- if not .Values.autoscaling.enabled }}
   replicas: 1
-  {{- end }}
   selector:
     matchLabels:
       app.kubernetes.io/name: {{ .Release.Name }}-ca
@@ -60,7 +59,7 @@ spec:
                 secretKeyRef:
                   name: snyk-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
                   key: snyk-token-key
-         {{- if .Values.tlsRejectUnauthorized  }}
+         {{- if $setTlsRejectUnauthorized }}
          # Troubleshooting - Set to 0 for SSL inspection testing
             - name: NODE_TLS_REJECT_UNAUTHORIZED
               value: "0"
@@ -73,15 +72,14 @@ spec:
          {{- if .Values.noProxy }}
          # No Proxy Settings
             - name: NO_PROXY
-              value: {{ .Values.noProxy }}
+              value: {{ include "snyk-broker.noProxy" . }}
          {{- end }}
          {{- range .Values.env }}
          # custom env var in override.yaml
             - name: {{ .name }}
-              value: {{ .value | squote }} 
+              value: {{ .value | squote }}
         {{- end}}
-        
----                     
+---
 apiVersion: v1
 kind: Service
 metadata:
@@ -97,5 +95,4 @@ spec:
   selector:
     app.kubernetes.io/name: {{ .Release.Name }}-ca
     app.kubernetes.io/instance: {{ .Release.Name }}
-
 {{- end }}

@@ -139,3 +139,42 @@ include "snyk-broker.genericSecretName" (dict "Context" $ "secretName" "secret-n
 {{- define "snyk-broker.caCertSecretName" -}}
 {{- include "snyk-broker.genericSecretName" (dict "Context" . "secretName" "cacert-secret" ) -}}
 {{- end }}
+
+{{/*
+Handle tlsRejectUnauthorized.
+If this is set to `false` (bool) we _want_ to disable trust. We don't allow `true`.
+If this is set to "" we want to enable trust - any other allowed string value disables.
+If this is set to `"0"` Helm might cast it as an integer - we need to catch that.
+Checking for definition is insufficient
+*/}}
+{{- define "snyk-broker.setTlsRejectUnauthorized" -}}
+{{- $tlsRejectUnauthorized := .Values.tlsRejectUnauthorized -}}
+{{- if eq (kindOf $tlsRejectUnauthorized ) "bool" -}}
+true
+{{- end }}
+{{- if ( and ( eq (kindOf $tlsRejectUnauthorized ) "string") ( not ( eq $tlsRejectUnauthorized "" ) ) ) -}}
+true
+{{- end }}
+{{- if eq (toString $tlsRejectUnauthorized) "0" -}}
+true
+{{- end }}
+{{- end }}
+
+{{/*
+NoProxy helper
+Ensure all values are trimmed, separated by comma, and do not contain protocol or port
+Validate against RFC 1123
+*/}}
+{{- define "snyk-broker.noProxy" -}}
+{{- $proxyUrls := .Values.noProxy | nospace -}}
+{{- $proxyUrlsWithoutProtocol := mustRegexReplaceAll "http(s?)://" $proxyUrls "" -}}
+{{- $sanitisedProxyUrls := "" -}}
+{{- range $proxyUrlsWithoutProtocol | split "," -}}
+{{- if ( mustRegexMatch "^[a-zA-Z0-9.-]+$" . ) -}}
+{{- $sanitisedProxyUrls = printf "%s,%s" $sanitisedProxyUrls . -}}
+{{- else }}
+{{- fail (printf "Entry %s for .Values.noProxy is invalid. Specify hostname only (no schema or port)" . ) -}}
+{{- end }}
+{{- end }}
+{{- $sanitisedProxyUrls |  trimPrefix "," -}}
+{{- end }}
