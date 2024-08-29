@@ -31,6 +31,9 @@ replicaCount: 2
 # Adds additional labels to broker deployment
 labels: {}
 
+# Enable or disable inbuilt secrets - disable to provide your own pre-existing secrets.
+createSecrets: true
+
 ##### SCM Generic #####
 
 # scmType is used to define the Source Control that you are connecting to.
