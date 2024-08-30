@@ -1,3 +1,15 @@
 Thank you for installing the Snyk Broker
-
+{{- if eq .Values.brokerServerUrl "https://broker.snyk.io" }}
 Login to the Snyk UI to start onboarding projects: https://app.snyk.io
+{{ else }}
+{{ $tenant := regexFind "[a-z]+.snyk.io" .Values.brokerServerUrl }}
+{{ printf "Login to the Snyk UI to start onboarding projects: https://app.%s" $tenant }}
+{{ end }}
+{{- if not  .Values.useExternalSecrets}}
+### Secret Creation Disabled ###
+
+Ensure secrets are present on your cluster in the {{.Release.Namespace}} namespace:
+
+-> NAME:KEY <VALUE>
+{{- include "snyk-broker.requiredSecrets" . }}
+{{- end }}

@@ -6,6 +6,10 @@
 
 # Broker Token is a value from Snyk. Get this from the integration settings page or your Snyk Representative
 brokerToken: ""
+# If using external secrets specify the secret name and key to fetch the broker token from:
+brokerTokenSecret:
+  name: ""
+  key: ""
 
 # brokerClientUrl is the address of the broker. This needs to be the address of itself. In the case of Kubernetes, you need to ensure that you are pointing to the cluster ingress you have setup.
 # Ex: http://kubernetes-ingress.domain.com:8000
@@ -31,9 +35,6 @@ replicaCount: 2
 # Adds additional labels to broker deployment
 labels: {}
 
-# Enable or disable inbuilt secrets - disable to provide your own pre-existing secrets.
-createSecrets: true
-
 ##### SCM Generic #####
 
 # scmType is used to define the Source Control that you are connecting to.
@@ -57,8 +58,35 @@ scmType: "github-com"
 # scmToken is used for SCMs that require a personal Access Token: GitHub & Gitlab
 scmToken: ""
 
+# Enable or disable creating secrets - set to `true` to provide your own pre-existing secrets.
+useExternalSecrets: false
+
+# The following types are supported via externalCredentialSecret:
+#   GitHub.com: github-com
+#   GitHub Enterprise: github-enterprise
+#   Bitbucket Server: bitbucket-server
+#   Bitbucket Server with Bearer Auth: bitbucket-server-bearer-auth
+#   GitLab: gitlab
+#   Azure Repos: azure-repos
+#   Jira: jira
+#   Jira with bearer auth: jira-bearer-auth
+#   Container Registry Agent: container-registry-agent
+
+# For the following types, specify external secrets separately
+#   Artifactory: artifactory -> artifactoryUrlSecret, brokerClientValidationUrlSecret
+#   Nexus: nexus -> baseNexusUrlSecret, nexusUrlSecret, brokerClientValidationUrlSecret
+#   Nexus2: nexus2 -> baseNexusUrlSecret, nexusUrlSecret, brokerClientValidationUrlSecret
+
+externalCredentialSecret:
+  name: ""
+  key: ""
+
 # scmTokenPool is used by credential pooling for SCMs that require a personal Access Token: GitHub & Gitlab
 scmTokenPool: ""
+# If using external secrets specify the secret name and key to fetch the pool of scm tokens from:
+scmTokenPoolSecret:
+  name: ""
+  key: ""
 
 # useExternalSecretScmTokenPool forces credential pooling for SCMs, e.g. by using Secrets Store CSI Driver (default is false).
 useExternalSecretScmTokenPool: false
@@ -110,24 +138,36 @@ azureReposHost: ""
 # Azure Repos Token
 azureReposToken: ""
 
-
 ##### Artifactory #####
 
 # Artifactory URL - do not prepend HTTPS
 artifactoryUrl: ""
-
+artifactoryUrlSecret:
+  name: ""
+  key: ""
 
 ##### Nexus 2 & 3 #####
 
 # Nexus Base URL - include HTTPS
 baseNexusUrl: ""
+# If using external secrets specify the secret name and key to fetch the base nexus url from:
+baseNexusUrlSecret:
+  name: ""
+  key: ""
 
 # Nexus URL - include HTTPS
 nexusUrl: ""
+# If using external secrets specify the secret name and key to fetch the nexus url from:
+nexusUrlSecret:
+  name: ""
+  key: ""
 
-# Nexus Validation URL, checked by broker client systemcheck endpoint.
+# Nexus or Artifactory Validation URL, checked by broker client systemcheck endpoint.
 brokerClientValidationUrl: ""
-
+# If using external secrets specify the secret name and key to fetch the broker client validation url from:
+brokerClientValidationUrlSecret:
+  name: ""
+  key: ""
 
 ##### Jira #####
 
@@ -187,6 +227,10 @@ upstreamUrlCodeAgent: ""
 
 # Snyk API token. Allows Code Agent to upload source code. Group > Settings > Service Accounts
 snykToken: ""
+# If using external secrets specify the secret name and key to fetch the Snyk API token from:
+snykTokenSecret:
+  name: ""
+  key: ""
 
 #CA Image Tag. Do not touch unless instructed by Snyk Representative
 caImage: "latest"
@@ -213,6 +257,10 @@ httpsCert: ""
 # Location of mounted HTTPS key
 httpsKey: ""
 
+# Optionally provide an external tls-type certificate name.
+httpsSecret:
+  name: ""
+
 ##### HTTPS Inspection #####
 
 # Not supported by Snyk Container Registry Agent or Snyk Code Agent (use tlsRejectUnauthorized instead)
@@ -237,6 +285,9 @@ caCert: ""
 #
 # caCertFile: "----- BEGIN CERTIFICATE -----\n.....\n----- END CERTIFICATE -----"
 caCertFile: ""
+caCertFileSecret:
+  name: ""
+  key: ""
 
 # Set to `true` to disable trust validation when providing your own CA certificate.
 disableCaCertTrust: false

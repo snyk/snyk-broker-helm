@@ -35,3 +35,9 @@ tests:
       - ./fixtures/default_values_ha_on_4_replicas.yaml
     asserts:
       - matchSnapshot: {}
+  - it: Does not fail if no broker token is specified
+    set:
+      brokerToken: ""
+    asserts:
+      - notFailedTemplate: {}
+        template: broker_deployment.yaml

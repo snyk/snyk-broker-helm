@@ -7,21 +7,42 @@
         "pattern": "^http(s?):\/\/.*"
       }
     },
-    "urlWithSchema":{
-      "type":"string",
+    "urlWithSchema": {
+      "type": "string",
       "pattern": "^$|^http(s?):\/\/.*"
+    },
+    "secretNameKey": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "key": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
     }
   },
   "type": "object",
   "properties": {
     "brokerToken": {
-      "type": "string",
-      "format": "uuid"
+      "anyOf": [
+        {
+          "type": "string",
+          "maxLength": 0
+        },
+        {
+          "type": "string",
+          "format": "uuid"
+        }
+      ]
+    },
+    "brokerTokenSecret": {
+      "$ref": "#/$defs/secretNameKey"
     },
     "brokerClientUrl": {
-      "type": "string",
-      "default": "",
-      "pattern": "^$|^http(s?):\/\/.*"
+      "$ref": "#/$defs/urlWithSchema"
     },
     "brokerServerUrl": {
       "type": "string",
@@ -77,16 +98,22 @@
         "container-registry-agent"
       ]
     },
-    "scmToken":{
+    "scmToken": {
       "type": "string"
     },
-    "scmTokenPool":{
-      "type":"string"
+    "externalCredentialSecret": {
+      "$ref": "#/$defs/secretNameKey"
     },
-    "useExternalSecretScmTokenPool":{
+    "scmTokenPool": {
+      "type": "string"
+    },
+    "scmTokenPoolSecret": {
+      "$ref": "#/$defs/secretNameKey"
+    },
+    "useExternalSecretScmTokenPool": {
       "type": "boolean"
     },
-    "github":{
+    "github": {
       "$ref": "#/$defs/urlNoSchema"
     },
     "githubApi": {
@@ -110,29 +137,32 @@
     "bitbucketApi": {
       "$ref": "#/$defs/urlNoSchema"
     },
-    "gitlab":{
+    "gitlab": {
       "$ref": "#/$defs/urlNoSchema"
     },
     "azureReposOrg": {
       "type": "string"
     },
-    "azureReposHost":{
+    "azureReposHost": {
       "$ref": "#/$defs/urlNoSchema"
     },
-    "azureReposToken":{
+    "azureReposToken": {
       "type": "string"
     },
-    "artifactoryUrl":{
+    "artifactoryUrl": {
       "$ref": "#/$defs/urlNoSchema"
     },
-    "baseNexusUrl":{
+    "baseNexusUrl": {
       "$ref": "#/$defs/urlWithSchema"
     },
-    "nexusUrl":{
+    "nexusUrl": {
       "$ref": "#/$defs/urlWithSchema"
     },
     "brokerClientValidationUrl": {
       "$ref": "#/$defs/urlWithSchema"
+    },
+    "brokerClientValidationUrlSecret": {
+      "$ref": "#/$defs/secretNameKey"
     },
     "jiraUsername": {
       "type": "string"
@@ -148,7 +178,7 @@
     },
     "crType": {
       "type": "string",
-      "enum":[
+      "enum": [
         "",
         "artifactory-cr",
         "harbor-cr",
@@ -183,7 +213,17 @@
       "type": "string"
     },
     "crToken": {
-      "type": "string"
+      "if": {
+        "crType": {
+          "const": "digitalocean-cr"
+        }
+      },
+      "then": {
+        "type": "string",
+        "required": [
+          "crToken"
+        ]
+      }
     },
     "crImage": {
       "type": "string",
@@ -201,7 +241,7 @@
         ""
       ]
     },
-    "enableCodeAgent":{
+    "enableCodeAgent": {
       "type": [
         "boolean",
         "string"
@@ -214,9 +254,9 @@
       ]
     },
     "upstreamUrlCodeAgent": {
-
+      "type": "string"
     },
-    "snykToken":{
+    "snykToken": {
       "anyOf": [
         {
           "type": "string",
@@ -228,6 +268,9 @@
         }
       ]
     },
+    "snykTokenSecret": {
+      "$ref": "#/$defs/secretNameKey"
+    },
     "caImage": {
       "type": "string",
       "default": "latest"
@@ -235,28 +278,36 @@
     "gitClientUrl": {
       "type": "string"
     },
-    "logLevel":{
+    "logLevel": {
       "type": "string",
-      "enum":[
+      "enum": [
         "info",
         "debug"
       ]
     },
-    "logEnableBody":{
+    "logEnableBody": {
       "type": "string",
-      "enum":[
+      "enum": [
         "false",
         "true"
       ]
     },
-    "enableBrokerLocalWebserverOverHttps":{
+    "enableBrokerLocalWebserverOverHttps": {
       "type": "boolean"
     },
-    "httpsCert":{
+    "httpsCert": {
       "type": "string"
     },
     "httpsKey": {
       "type": "string"
+    },
+    "httpsSecret": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        }
+      }
     },
     "caCert": {
       "type": "string"
@@ -265,16 +316,19 @@
       "type": "string",
       "pattern": "^$|^\\s*-----BEGIN CERTIFICATE-----(?:.|\\s)*-----END CERTIFICATE-----\\s*$"
     },
+    "caCertFileSecret": {
+      "$ref": "#/$defs/secretNameKey"
+    },
     "disableCaCertTrust": {
       "type": "boolean"
     },
-    "tlsRejectUnauthorized":{
+    "tlsRejectUnauthorized": {
       "type": [
         "string",
         "boolean",
         "integer"
       ],
-      "enum":[
+      "enum": [
         "",
         0,
         "0",
@@ -283,32 +337,32 @@
         "disable"
       ]
     },
-    "httpProxy":{
+    "httpProxy": {
       "$ref": "#/$defs/urlWithSchema"
     },
-    "httpsProxy":{
+    "httpsProxy": {
       "$ref": "#/$defs/urlWithSchema"
     },
     "noProxy": {
       "type": "string"
     },
-    "acceptJson":{
+    "acceptJson": {
       "type": "string"
     },
     "image": {
       "type": "object",
       "additionalProperties": false,
-      "properties":{
-        "repository":{
+      "properties": {
+        "repository": {
           "type": "string"
         },
-        "crRepository":{
+        "crRepository": {
           "type": "string"
         },
-        "caRepository":{
+        "caRepository": {
           "type": "string"
         },
-        "pullPolicy":{
+        "pullPolicy": {
           "type": "string",
           "enum": [
             "Always",
@@ -324,7 +378,7 @@
     "imagePullSecrets": {
       "type": "array"
     },
-    "healthCheckPath":{
+    "healthCheckPath": {
       "type": "string"
     },
     "systemCheckPath": {
@@ -372,7 +426,7 @@
     "deployment": {
       "type": "object"
     },
-    "serviceAccount":{
+    "serviceAccount": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
@@ -402,10 +456,10 @@
     "securityContextCa": {
       "type": "object"
     },
-    "service":{
+    "service": {
       "type": "object",
       "additionalProperties": false,
-      "properties":{
+      "properties": {
         "brokerType": {
           "type": "string"
         },
@@ -419,7 +473,7 @@
           "type": "integer"
         },
         "tls": {
-          "type" :"array"
+          "type": "array"
         }
       }
     },
@@ -429,7 +483,7 @@
         "enabled": {
           "type": "boolean"
         },
-        "ingressClassName":{
+        "ingressClassName": {
           "type": "string"
         },
         "annotations": {
@@ -444,18 +498,18 @@
         "pathType": {
           "type": "string"
         },
-        "hosts":{
+        "hosts": {
           "type": "array"
         },
-        "extraPaths":{
+        "extraPaths": {
           "type": "array"
         },
-        "tls":{
+        "tls": {
           "type": "array"
         }
       }
     },
-    "extraObjects":{
+    "extraObjects": {
       "type": "array"
     },
     "extraVolumes": {
@@ -470,7 +524,7 @@
     "extraPodSpecs": {
       "nullable": true
     },
-    "extraPodSpecsCr":{
+    "extraPodSpecsCr": {
       "nullable": true
     }
   },
