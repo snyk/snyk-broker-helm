@@ -38,8 +38,8 @@ HA mode on:
                 - name: GITHUB_TOKEN
                   valueFrom:
                     secretKeyRef:
-                      key: github-com-token-key
-                      name: github-com-token-RELEASE-NAME
+                      key: token-key
+                      name: null
                 - name: PORT
                   value: "8000"
                 - name: BROKER_CLIENT_URL
@@ -185,8 +185,8 @@ HA mode on with 4 replicas:
                 - name: GITHUB_TOKEN
                   valueFrom:
                     secretKeyRef:
-                      key: github-com-token-key
-                      name: github-com-token-RELEASE-NAME
+                      key: token-key
+                      name: null
                 - name: PORT
                   value: "8000"
                 - name: BROKER_CLIENT_URL
@@ -332,8 +332,8 @@ HTTPS enabled:
                 - name: GITHUB_TOKEN
                   valueFrom:
                     secretKeyRef:
-                      key: github-com-token-key
-                      name: github-com-token-RELEASE-NAME
+                      key: token-key
+                      name: null
                 - name: PORT
                   value: "8000"
                 - name: BROKER_CLIENT_URL
@@ -496,8 +496,8 @@ default values:
                 - name: GITHUB_TOKEN
                   valueFrom:
                     secretKeyRef:
-                      key: github-com-token-key
-                      name: github-com-token-RELEASE-NAME
+                      key: token-key
+                      name: null
                 - name: PORT
                   value: "8000"
                 - name: BROKER_CLIENT_URL
@@ -641,8 +641,8 @@ preflight checks off:
                 - name: GITHUB_TOKEN
                   valueFrom:
                     secretKeyRef:
-                      key: github-com-token-key
-                      name: github-com-token-RELEASE-NAME
+                      key: token-key
+                      name: null
                 - name: PORT
                   value: "8000"
                 - name: BROKER_CLIENT_URL

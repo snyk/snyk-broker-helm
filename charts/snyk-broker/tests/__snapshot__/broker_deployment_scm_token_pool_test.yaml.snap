@@ -38,8 +38,8 @@ github token pool configured:
                 - name: GITHUB_TOKEN
                   valueFrom:
                     secretKeyRef:
-                      key: github-com-token-key
-                      name: github-com-token-RELEASE-NAME
+                      key: token-key
+                      name: null
                 - name: GITHUB_TOKEN_POOL
                   valueFrom:
                     secretKeyRef:
@@ -341,8 +341,8 @@ gitlab token pool configured:
                 - name: GITLAB_TOKEN
                   valueFrom:
                     secretKeyRef:
-                      key: gitlab-token-key
-                      name: gitlab-token-RELEASE-NAME
+                      key: token-key
+                      name: null
                 - name: GITLAB_TOKEN_POOL
                   valueFrom:
                     secretKeyRef:

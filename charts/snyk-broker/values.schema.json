@@ -15,8 +15,10 @@
   "type": "object",
   "properties": {
     "brokerToken": {
-      "type": "string",
-      "format": "uuid"
+      "anyOf": [
+        { "type": "string", "format": "uuid" },
+        { "type": "string", "format": "" }
+      ]
     },
     "brokerClientUrl": {
       "type": "string",

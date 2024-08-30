@@ -113,7 +113,7 @@ Create the name of the broker service to use
 {{- $serviceLength := len $service -}}
 {{- $releaseNameLength := len .Release.Name -}}
 {{- $truncatedLength := int (sub 63 (add $serviceLength $releaseNameLength)) -}}
-{{- .Values.scmType | trunc $truncatedLength }}{{ $service }}{{ .Release.Name }} 
+{{- .Values.scmType | trunc $truncatedLength }}{{ $service }}{{ .Release.Name }}
 {{- else }}
 {{- .Values.scmType | trunc 47 }}-broker-service
 {{- end -}}
@@ -178,3 +178,55 @@ Validate against RFC 1123
 {{- end }}
 {{- $sanitisedProxyUrls |  trimPrefix "," -}}
 {{- end }}
+
+{{/*
+  Secret Handling Configuration
+*/}}
+
+{{- define "brokerTokenSecret" -}}
+{{- if .Values.brokerToken }}
+{{- printf "%s-%s-%s" .Values.scmType "broker-token" .Release.Name }}
+{{- else if .Values.brokerTokenSecret }}
+{{- .Values.brokerTokenSecret }}
+{{- end}}
+{{- end}}
+
+{{- define "brokerTokenSecretKey" -}}
+{{- if .Values.brokerToken }}
+{{- printf "%s-%s" .Values.scmType "broker-token-key" }}
+{{- else if .Values.brokerTokenSecret }}
+{{- .Values.brokerTokenSecretKey }}
+{{- end}}
+{{- end}}
+
+{{- define "targetTokenSecret" -}}
+{{- if .Values.scmToken }}
+{{- printf "%s-%s-%s" .Values.scmType "token" .Release.Name }}
+{{- else if .Values.targetTokenSecret }}
+{{- .Values.targetTokenSecret }}
+{{- end}}
+{{- end}}
+
+{{- define "targetTokenSecretKey" -}}
+{{- if .Values.scmToken }}
+{{- printf "%s-%s" .Values.scmType "token-key" }}
+{{- else if .Values.targetTokenSecretKey }}
+{{- .Values.targetTokenSecretKey }}
+{{- end}}
+{{- end}}
+
+{{- define "snykTokenSecret" -}}
+{{- if .Values.snykToken }}
+{{- printf "%s-%s" "snyk-token" ".Release.Name" }}
+{{- else if .Values.snykTokenSecret }}
+{{- .Values.snykTokenSecret }}
+{{- end}}
+{{- end}}
+
+{{- define "snykTokenSecretKey" -}}
+{{- if .Values.snykToken }}
+{{- "snyk-token-key" }}
+{{- else if .Values.snykTokenSecretKey }}
+{{- .Values.snykTokenSecretKey }}
+{{- end}}
+{{- end}}

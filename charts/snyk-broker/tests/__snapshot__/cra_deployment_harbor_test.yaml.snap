@@ -46,8 +46,8 @@ default values:
                 - name: CR_PASSWORD
                   valueFrom:
                     secretKeyRef:
-                      key: container-registry-agent-token-key
-                      name: container-registry-agent-token-RELEASE-NAME
+                      key: token-key
+                      name: null
                 - name: PORT
                   value: "8000"
                 - name: BROKER_CLIENT_URL

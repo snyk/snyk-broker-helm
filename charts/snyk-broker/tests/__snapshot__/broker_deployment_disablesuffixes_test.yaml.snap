@@ -34,12 +34,12 @@ HA mode on:
                   valueFrom:
                     secretKeyRef:
                       key: github-com-broker-token-key
-                      name: github-com-broker-token
+                      name: github-com-broker-token-RELEASE-NAME
                 - name: GITHUB_TOKEN
                   valueFrom:
                     secretKeyRef:
-                      key: github-com-token-key
-                      name: github-com-token
+                      key: token-key
+                      name: null
                 - name: PORT
                   value: "8000"
                 - name: BROKER_CLIENT_URL
@@ -181,12 +181,12 @@ HA mode on with 4 replicas:
                   valueFrom:
                     secretKeyRef:
                       key: github-com-broker-token-key
-                      name: github-com-broker-token
+                      name: github-com-broker-token-RELEASE-NAME
                 - name: GITHUB_TOKEN
                   valueFrom:
                     secretKeyRef:
-                      key: github-com-token-key
-                      name: github-com-token
+                      key: token-key
+                      name: null
                 - name: PORT
                   value: "8000"
                 - name: BROKER_CLIENT_URL
@@ -328,12 +328,12 @@ default values:
                   valueFrom:
                     secretKeyRef:
                       key: github-com-broker-token-key
-                      name: github-com-broker-token
+                      name: github-com-broker-token-RELEASE-NAME
                 - name: GITHUB_TOKEN
                   valueFrom:
                     secretKeyRef:
-                      key: github-com-token-key
-                      name: github-com-token
+                      key: token-key
+                      name: null
                 - name: PORT
                   value: "8000"
                 - name: BROKER_CLIENT_URL
@@ -473,12 +473,12 @@ preflight checks off:
                   valueFrom:
                     secretKeyRef:
                       key: github-com-broker-token-key
-                      name: github-com-broker-token
+                      name: github-com-broker-token-RELEASE-NAME
                 - name: GITHUB_TOKEN
                   valueFrom:
                     secretKeyRef:
-                      key: github-com-token-key
-                      name: github-com-token
+                      key: token-key
+                      name: null
                 - name: PORT
                   value: "8000"
                 - name: BROKER_CLIENT_URL

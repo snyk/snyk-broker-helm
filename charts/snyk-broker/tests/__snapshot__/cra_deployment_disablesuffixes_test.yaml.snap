@@ -34,7 +34,7 @@ default values:
                   valueFrom:
                     secretKeyRef:
                       key: container-registry-agent-broker-token-key
-                      name: container-registry-agent-broker-token
+                      name: container-registry-agent-broker-token-RELEASE-NAME
                 - name: CR_AGENT_URL
                   value: http://cra-service:8081
                 - name: CR_TYPE

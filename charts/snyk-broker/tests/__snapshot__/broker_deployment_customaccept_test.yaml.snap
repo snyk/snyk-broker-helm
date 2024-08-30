@@ -51,8 +51,8 @@ customaccept values:
                 - name: GITHUB_TOKEN
                   valueFrom:
                     secretKeyRef:
-                      key: github-com-token-key
-                      name: github-com-token-RELEASE-NAME
+                      key: token-key
+                      name: null
                 - name: PORT
                   value: "8000"
                 - name: BROKER_CLIENT_URL

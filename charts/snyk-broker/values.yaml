@@ -6,6 +6,8 @@
 
 # Broker Token is a value from Snyk. Get this from the integration settings page or your Snyk Representative
 brokerToken: ""
+brokerTokenSecret: ""
+brokerTokenSecretKey: ""
 
 # brokerClientUrl is the address of the broker. This needs to be the address of itself. In the case of Kubernetes, you need to ensure that you are pointing to the cluster ingress you have setup.
 # Ex: http://kubernetes-ingress.domain.com:8000
@@ -58,6 +60,10 @@ scmType: "github-com"
 # scmToken is used for SCMs that require a personal Access Token: GitHub & Gitlab
 scmToken: ""
 
+# targetTokenSecret is used for: GitHub, GitLab, BitBucket, Azure Repos
+targetTokenSecret: ""
+targetTokenSecretKey: "token-key"
+
 # scmTokenPool is used by credential pooling for SCMs that require a personal Access Token: GitHub & Gitlab
 scmTokenPool: ""
 
@@ -82,9 +88,11 @@ githubGraphQl: ""
 bitbucketUsername: ""
 
 # Bitbucket Password (Bitbucket-server type only)
+# can also be set via targetTokenSecret + targetTokenSecretKey
 bitbucketPassword: ""
 
 # Bitbucket Pat (Bitbucket-server-bearer-auth type only)
+# can also be set via targetTokenSecret + targetTokenSecretKey
 bitbucketPat: ""
 
 # Bitbucket URL - do not prepend HTTPS
@@ -109,8 +117,8 @@ azureReposOrg: ""
 azureReposHost: ""
 
 # Azure Repos Token
+# can also be set via targetTokenSecret + targetTokenSecretKey
 azureReposToken: ""
-
 
 ##### Artifactory #####
 
@@ -136,9 +144,11 @@ brokerClientValidationUrl: ""
 jiraUsername: ""
 
 # Jira Password
+# can also be set via targetTokenSecret + targetTokenSecretKey
 jiraPassword: ""
 
 #Jira PAT (for Bearer auth):
+# can also be set via targetTokenSecret + targetTokenSecretKey
 jiraPat: ""
 
 # Jira Hostname - do not prepend HTTPS
@@ -157,6 +167,7 @@ crBase: ""
 crUsername: ""
 
 # Container Registry Password
+# can also be set via targetTokenSecret + targetTokenSecretKey
 crPassword: ""
 
 # Container Role ARN (Only for ECR)
@@ -169,6 +180,7 @@ crRegion: ""
 crExternalId: ""
 
 # Container Authentication Token (Only for DigitalOcean)
+# can also be set via targetTokenSecret + targetTokenSecretKey
 crToken: ""
 
 # CRA Image tag. Do not adjust unless instructed by Snyk Representative
@@ -188,6 +200,8 @@ upstreamUrlCodeAgent: ""
 
 # Snyk API token. Allows Code Agent to upload source code. Group > Settings > Service Accounts
 snykToken: ""
+snykTokenSecret: ""
+snykTokenSecretKey: ""
 
 #CA Image Tag. Do not touch unless instructed by Snyk Representative
 caImage: "latest"

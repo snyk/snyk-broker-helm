@@ -112,14 +112,14 @@ spec:
             - name: BROKER_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.scmType}}-broker-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
-                  key: "{{ .Values.scmType}}-broker-token-key"
+                  name: {{ include "brokerTokenSecret" . }}
+                  key: {{ include "brokerTokenSecretKey" . }}
             {{- if not .Values.useExternalSecretScmTokenPool }}
             - name: GITHUB_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.scmType}}-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
-                  key: "{{ .Values.scmType}}-token-key"
+                  name: {{ include "targetTokenSecret" . }}
+                  key: {{ include "targetTokenSecretKey" . }}
             {{- end }}
             {{- if or (.Values.scmTokenPool) (.Values.useExternalSecretScmTokenPool) }}
             - name: GITHUB_TOKEN_POOL
@@ -138,14 +138,14 @@ spec:
             - name: BROKER_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.scmType}}-broker-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
-                  key: "{{ .Values.scmType}}-broker-token-key"
+                  name: {{ include "brokerTokenSecret" . }}
+                  key: {{ include "brokerTokenSecretKey" . }}
             {{- if not .Values.useExternalSecretScmTokenPool }}
             - name: GITHUB_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.scmType}}-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
-                  key: "{{ .Values.scmType}}-token-key"
+                  name: {{ include "targetTokenSecret" . }}
+                  key: {{ include "targetTokenSecretKey" . }}
             {{- end }}
             {{- if or (.Values.scmTokenPool) (.Values.useExternalSecretScmTokenPool) }}
             - name: GITHUB_TOKEN_POOL
@@ -171,15 +171,15 @@ spec:
             - name: BROKER_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.scmType}}-broker-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
-                  key: "{{ .Values.scmType}}-broker-token-key"
+                  name: {{ include "brokerTokenSecret" . }}
+                  key: {{ include "brokerTokenSecretKey" . }}
             - name: BITBUCKET_USERNAME
               value: {{ .Values.bitbucketUsername }}
             - name: BITBUCKET_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.scmType}}-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
-                  key: "{{ .Values.scmType}}-token-key"
+                  name: {{ include "targetTokenSecret" . }}
+                  key: {{ include "targetTokenSecretKey" . }}
             - name: BITBUCKET
               value: {{ .Values.bitbucket }}
             - name: BITBUCKET_API
@@ -194,13 +194,13 @@ spec:
             - name: BROKER_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.scmType}}-broker-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
-                  key: "{{ .Values.scmType}}-broker-token-key"
+                  name: {{ include "brokerTokenSecret" . }}
+                  key: {{ include "brokerTokenSecretKey" . }}
             - name: BITBUCKET_PAT
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.scmType}}-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
-                  key: "{{ .Values.scmType}}-token-key"
+                  name: {{ include "targetTokenSecret" . }}
+                  key: {{ include "targetTokenSecretKey" . }}
             - name: BITBUCKET
               value: {{ .Values.bitbucket }}
             - name: BITBUCKET_API
@@ -215,14 +215,14 @@ spec:
             - name: BROKER_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.scmType}}-broker-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
-                  key: "{{ .Values.scmType}}-broker-token-key"
+                  name: {{ include "brokerTokenSecret" . }}
+                  key: {{ include "brokerTokenSecretKey" . }}
             {{- if not .Values.useExternalSecretScmTokenPool }}
             - name: GITLAB_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.scmType}}-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
-                  key: "{{ .Values.scmType}}-token-key"
+                  name: {{ include "targetTokenSecret" . }}
+                  key: {{ include "targetTokenSecretKey" . }}
             {{- end }}
             {{- if or (.Values.scmTokenPool) (.Values.useExternalSecretScmTokenPool) }}
             - name: GITLAB_TOKEN_POOL
@@ -243,13 +243,13 @@ spec:
             - name: BROKER_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.scmType}}-broker-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
-                  key: "{{ .Values.scmType}}-broker-token-key"
+                  name: {{ include "brokerTokenSecret" . }}
+                  key: {{ include "brokerTokenSecretKey" . }}
             - name: AZURE_REPOS_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.scmType}}-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
-                  key: "{{ .Values.scmType}}-token-key"
+                  name: {{ include "targetTokenSecret" . }}
+                  key: {{ include "targetTokenSecretKey" . }}
             - name: AZURE_REPOS_ORG
               value: {{ .Values.azureReposOrg }}
             - name: AZURE_REPOS_HOST
@@ -264,8 +264,8 @@ spec:
             - name: BROKER_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.scmType}}-broker-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
-                  key: "{{ .Values.scmType}}-broker-token-key"
+                  name: {{ include "brokerTokenSecret" . }}
+                  key: {{ include "brokerTokenSecretKey" . }}
             - name: ARTIFACTORY_URL
               valueFrom:
                 secretKeyRef:
@@ -288,8 +288,8 @@ spec:
             - name: BROKER_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.scmType }}-broker-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
-                  key: "{{ .Values.scmType}}-broker-token-key"
+                  name: {{ include "brokerTokenSecret" . }}
+                  key: {{ include "brokerTokenSecretKey" . }}
             - name: BASE_NEXUS_URL
               valueFrom:
                 secretKeyRef:
@@ -313,15 +313,15 @@ spec:
             - name: BROKER_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.scmType}}-broker-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
-                  key: "{{ .Values.scmType}}-broker-token-key"
+                  name: {{ include "brokerTokenSecret" . }}
+                  key: {{ include "brokerTokenSecretKey" . }}
             - name: JIRA_USERNAME
               value: {{ .Values.jiraUsername }}
             - name: JIRA_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.scmType}}-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
-                  key: "{{ .Values.scmType}}-token-key"
+                  name: {{ include "targetTokenSecret" . }}
+                  key: {{ include "targetTokenSecretKey" . }}
             - name: JIRA_HOSTNAME
               value: {{ .Values.jiraHostname }}
             - name: PORT
@@ -334,13 +334,13 @@ spec:
             - name: BROKER_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.scmType}}-broker-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
-                  key: "{{ .Values.scmType}}-broker-token-key"
+                  name: {{ include "brokerTokenSecret" . }}
+                  key: {{ include "brokerTokenSecretKey" . }}
             - name: JIRA_PAT
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.scmType}}-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
-                  key: "{{ .Values.scmType}}-token-key"
+                  name: {{ include "targetTokenSecret" . }}
+                  key: {{ include "targetTokenSecretKey" . }}
             - name: JIRA_HOSTNAME
               value: {{ .Values.jiraHostname }}
             - name: PORT
@@ -353,8 +353,8 @@ spec:
             - name: BROKER_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.scmType}}-broker-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
-                  key: "{{ .Values.scmType}}-broker-token-key"
+                  name: {{ include "brokerTokenSecret" . }}
+                  key: {{ include "brokerTokenSecretKey" . }}
             - name: CR_AGENT_URL
               value: http://cra-service{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}:{{ .Values.deployment.container.crSnykPort | toString }}
             - name: CR_TYPE
@@ -369,15 +369,15 @@ spec:
             - name: CR_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.scmType}}-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
-                  key: "{{ .Values.scmType}}-token-key"
+                  name: {{ include "targetTokenSecret" . }}
+                  key: {{ include "targetTokenSecretKey" . }}
             {{- end }}
             {{- if has .Values.crType (list "digitalocean-cr") }}
             - name: CR_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.scmType}}-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
-                  key: "{{ .Values.scmType}}-token-key"
+                  name: {{ include "targetTokenSecret" . }}
+                  key: {{ include "targetTokenSecretKey" . }}
             {{- end }}
             {{- if has .Values.crType (list "ecr") }}
             - name: CR_ROLE_ARN
