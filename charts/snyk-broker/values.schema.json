@@ -238,7 +238,7 @@
     },
     "upstreamUrlCodeAgent": {
     },
-    "snyTokenSecret": {
+    "snykTokenSecret": {
       "type": "string"
     },
     "snykTokenSecretKey": {
