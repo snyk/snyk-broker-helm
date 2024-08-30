@@ -7,17 +7,29 @@
         "pattern": "^http(s?):\/\/.*"
       }
     },
-    "urlWithSchema":{
-      "type":"string",
+    "urlWithSchema": {
+      "type": "string",
       "pattern": "^$|^http(s?):\/\/.*"
     }
   },
   "type": "object",
   "properties": {
+    "brokerTokenSecret": {
+      "type": "string"
+    },
+    "brokerTokenSecretKey": {
+      "type": "string"
+    },
     "brokerToken": {
       "anyOf": [
-        { "type": "string", "format": "uuid" },
-        { "type": "string", "format": "" }
+        {
+          "type": "string",
+          "format": "uuid"
+        },
+        {
+          "type": "string",
+          "format": ""
+        }
       ]
     },
     "brokerClientUrl": {
@@ -82,16 +94,22 @@
         "container-registry-agent"
       ]
     },
-    "scmToken":{
+    "scmToken": {
       "type": "string"
     },
-    "scmTokenPool":{
-      "type":"string"
+    "scmTokenSecret": {
+      "type": "string"
     },
-    "useExternalSecretScmTokenPool":{
+    "scmTokenSecretKey": {
+      "type": "string"
+    },
+    "scmTokenPool": {
+      "type": "string"
+    },
+    "useExternalSecretScmTokenPool": {
       "type": "boolean"
     },
-    "github":{
+    "github": {
       "$ref": "#/$defs/urlNoSchema"
     },
     "githubApi": {
@@ -115,25 +133,25 @@
     "bitbucketApi": {
       "$ref": "#/$defs/urlNoSchema"
     },
-    "gitlab":{
+    "gitlab": {
       "$ref": "#/$defs/urlNoSchema"
     },
     "azureReposOrg": {
       "type": "string"
     },
-    "azureReposHost":{
+    "azureReposHost": {
       "$ref": "#/$defs/urlNoSchema"
     },
-    "azureReposToken":{
+    "azureReposToken": {
       "type": "string"
     },
-    "artifactoryUrl":{
+    "artifactoryUrl": {
       "$ref": "#/$defs/urlNoSchema"
     },
-    "baseNexusUrl":{
+    "baseNexusUrl": {
       "$ref": "#/$defs/urlWithSchema"
     },
-    "nexusUrl":{
+    "nexusUrl": {
       "$ref": "#/$defs/urlWithSchema"
     },
     "brokerClientValidationUrl": {
@@ -153,7 +171,7 @@
     },
     "crType": {
       "type": "string",
-      "enum":[
+      "enum": [
         "",
         "artifactory-cr",
         "harbor-cr",
@@ -206,7 +224,7 @@
         ""
       ]
     },
-    "enableCodeAgent":{
+    "enableCodeAgent": {
       "type": [
         "boolean",
         "string"
@@ -219,9 +237,14 @@
       ]
     },
     "upstreamUrlCodeAgent": {
-
     },
-    "snykToken":{
+    "snyTokenSecret": {
+      "type": "string"
+    },
+    "snykTokenSecretKey": {
+      "type": "string"
+    },
+    "snykToken": {
       "anyOf": [
         {
           "type": "string",
@@ -240,24 +263,24 @@
     "gitClientUrl": {
       "type": "string"
     },
-    "logLevel":{
+    "logLevel": {
       "type": "string",
-      "enum":[
+      "enum": [
         "info",
         "debug"
       ]
     },
-    "logEnableBody":{
+    "logEnableBody": {
       "type": "string",
-      "enum":[
+      "enum": [
         "false",
         "true"
       ]
     },
-    "enableBrokerLocalWebserverOverHttps":{
+    "enableBrokerLocalWebserverOverHttps": {
       "type": "boolean"
     },
-    "httpsCert":{
+    "httpsCert": {
       "type": "string"
     },
     "httpsKey": {
@@ -273,13 +296,13 @@
     "disableCaCertTrust": {
       "type": "boolean"
     },
-    "tlsRejectUnauthorized":{
+    "tlsRejectUnauthorized": {
       "type": [
         "string",
         "boolean",
         "integer"
       ],
-      "enum":[
+      "enum": [
         "",
         0,
         "0",
@@ -288,32 +311,32 @@
         "disable"
       ]
     },
-    "httpProxy":{
+    "httpProxy": {
       "$ref": "#/$defs/urlWithSchema"
     },
-    "httpsProxy":{
+    "httpsProxy": {
       "$ref": "#/$defs/urlWithSchema"
     },
     "noProxy": {
       "type": "string"
     },
-    "acceptJson":{
+    "acceptJson": {
       "type": "string"
     },
     "image": {
       "type": "object",
       "additionalProperties": false,
-      "properties":{
-        "repository":{
+      "properties": {
+        "repository": {
           "type": "string"
         },
-        "crRepository":{
+        "crRepository": {
           "type": "string"
         },
-        "caRepository":{
+        "caRepository": {
           "type": "string"
         },
-        "pullPolicy":{
+        "pullPolicy": {
           "type": "string",
           "enum": [
             "Always",
@@ -329,7 +352,7 @@
     "imagePullSecrets": {
       "type": "array"
     },
-    "healthCheckPath":{
+    "healthCheckPath": {
       "type": "string"
     },
     "systemCheckPath": {
@@ -377,7 +400,7 @@
     "deployment": {
       "type": "object"
     },
-    "serviceAccount":{
+    "serviceAccount": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
@@ -407,10 +430,10 @@
     "securityContextCa": {
       "type": "object"
     },
-    "service":{
+    "service": {
       "type": "object",
       "additionalProperties": false,
-      "properties":{
+      "properties": {
         "brokerType": {
           "type": "string"
         },
@@ -424,7 +447,7 @@
           "type": "integer"
         },
         "tls": {
-          "type" :"array"
+          "type": "array"
         }
       }
     },
@@ -434,7 +457,7 @@
         "enabled": {
           "type": "boolean"
         },
-        "ingressClassName":{
+        "ingressClassName": {
           "type": "string"
         },
         "annotations": {
@@ -449,18 +472,18 @@
         "pathType": {
           "type": "string"
         },
-        "hosts":{
+        "hosts": {
           "type": "array"
         },
-        "extraPaths":{
+        "extraPaths": {
           "type": "array"
         },
-        "tls":{
+        "tls": {
           "type": "array"
         }
       }
     },
-    "extraObjects":{
+    "extraObjects": {
       "type": "array"
     },
     "extraVolumes": {
@@ -475,7 +498,7 @@
     "extraPodSpecs": {
       "nullable": true
     },
-    "extraPodSpecsCr":{
+    "extraPodSpecsCr": {
       "nullable": true
     }
   },
