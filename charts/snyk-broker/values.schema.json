@@ -67,6 +67,9 @@
       },
       "additionalProperties": false
     },
+    "disableSuffixes": {
+      "type": "boolean"
+    },
     "brokerDispatcherUrl": {
       "type": "string",
       "default": "https://api.snyk.io",

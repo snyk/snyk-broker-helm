@@ -109,9 +109,13 @@ Create the name of the broker service to use
 */}}
 {{- define "snyk-broker.brokerServiceName" -}}
 {{- if not .Values.disableSuffixes -}}
-{{- .Values.scmType }}-broker-service-{{ .Release.Name }}
+{{- $service := "-broker-service-" -}}
+{{- $serviceLength := len $service -}}
+{{- $releaseNameLength := len .Release.Name -}}
+{{- $truncatedLength := int (sub 63 (add $serviceLength $releaseNameLength)) -}}
+{{- .Values.scmType | trunc $truncatedLength }}{{ $service }}{{ .Release.Name }} 
 {{- else }}
-{{- .Values.scmType}}-broker-service
+{{- .Values.scmType | trunc 47 }}-broker-service
 {{- end -}}
 {{- end -}}
 
