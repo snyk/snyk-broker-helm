@@ -35,15 +35,15 @@ should render artifactoryUrl and brokerClientValidationUrl as secrets:
                     secretKeyRef:
                       key: artifactory-broker-token-key
                       name: artifactory-broker-token-RELEASE-NAME
+                - name: PORT
+                  value: "8000"
+                - name: BROKER_CLIENT_URL
+                  value: http://brokerclient
                 - name: ARTIFACTORY_URL
                   valueFrom:
                     secretKeyRef:
                       key: artifactory-url
                       name: artifactory-url-RELEASE-NAME
-                - name: PORT
-                  value: "8000"
-                - name: BROKER_CLIENT_URL
-                  value: http://brokerclient
                 - name: BROKER_CLIENT_VALIDATION_URL
                   valueFrom:
                     secretKeyRef:
@@ -135,19 +135,19 @@ should render artifactoryUrl and brokerClientValidationUrl as secrets:
     type: Opaque
   5: |
     apiVersion: v1
+    data:
+      artifactory-url: dXNlcm5hbWU6cGFzc3dvcmRAeW91ci1kb21haW4uY29tL2FydGlmYWN0b3J5
     kind: Secret
     metadata:
       name: artifactory-url-RELEASE-NAME
-    stringData:
-      artifactory-url: username:password@your-domain.com/artifactory
     type: Opaque
   6: |
     apiVersion: v1
+    data:
+      artifactory-broker-client-validation-url: aHR0cHM6Ly91c2VybmFtZTpwYXNzd29yZEB5b3VyLWRvbWFpbi5jb20vYXJ0aWZhY3RvcnkvYXBpL3N5c3RlbS9waW5n
     kind: Secret
     metadata:
       name: artifactory-broker-client-validation-url-RELEASE-NAME
-    stringData:
-      artifactory-broker-client-validation-url: https://username:password@your-domain.com/artifactory/api/system/ping
     type: Opaque
   7: |
     apiVersion: v1

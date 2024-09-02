@@ -43,7 +43,7 @@ github token pool configured:
                 - name: GITHUB_TOKEN_POOL
                   valueFrom:
                     secretKeyRef:
-                      key: github-com-token-key-pool
+                      key: github-com-token-pool-key
                       name: github-com-token-pool-RELEASE-NAME
                 - name: PORT
                   value: "8000"
@@ -132,7 +132,7 @@ github token pool configured:
   4: |
     apiVersion: v1
     data:
-      github-com-token-key-pool: Z2hfdG9rZW4xLGdoX3Rva2VuMixnaF90b2tlbjM=
+      github-com-token-pool-key: Z2hfdG9rZW4xLGdoX3Rva2VuMixnaF90b2tlbjM=
     kind: Secret
     metadata:
       name: github-com-token-pool-RELEASE-NAME
@@ -193,10 +193,15 @@ github token pool configured with enabled useExternalSecretScmTokenPool:
                     secretKeyRef:
                       key: github-com-broker-token-key
                       name: github-com-broker-token-RELEASE-NAME
+                - name: GITHUB_TOKEN
+                  valueFrom:
+                    secretKeyRef:
+                      key: github-com-token-key
+                      name: github-com-token-RELEASE-NAME
                 - name: GITHUB_TOKEN_POOL
                   valueFrom:
                     secretKeyRef:
-                      key: github-com-token-key-pool
+                      key: github-com-token-pool-key
                       name: github-com-token-pool-RELEASE-NAME
                 - name: PORT
                   value: "8000"
@@ -346,7 +351,7 @@ gitlab token pool configured:
                 - name: GITLAB_TOKEN_POOL
                   valueFrom:
                     secretKeyRef:
-                      key: gitlab-token-key-pool
+                      key: gitlab-token-pool-key
                       name: gitlab-token-pool-RELEASE-NAME
                 - name: GITLAB
                   value: null
@@ -437,7 +442,7 @@ gitlab token pool configured:
   4: |
     apiVersion: v1
     data:
-      gitlab-token-key-pool: Z2xfdG9rZW5fMSxnbF90b2tlbl8y
+      gitlab-token-pool-key: Z2xfdG9rZW5fMSxnbF90b2tlbl8y
     kind: Secret
     metadata:
       name: gitlab-token-pool-RELEASE-NAME

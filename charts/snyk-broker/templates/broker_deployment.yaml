@@ -107,293 +107,17 @@ spec:
               value: {{ .Values.healthCheckPath }}
             - name: BROKER_SYSTEMCHECK_PATH
               value: {{ .Values.systemCheckPath }}
-          {{- if eq .Values.scmType "github-com" }}
-          # GitHub
-            - name: BROKER_TOKEN
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.scmType}}-broker-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
-                  key: "{{ .Values.scmType}}-broker-token-key"
-            {{- if not .Values.useExternalSecretScmTokenPool }}
-            - name: GITHUB_TOKEN
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.scmType}}-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
-                  key: "{{ .Values.scmType}}-token-key"
-            {{- end }}
-            {{- if or (.Values.scmTokenPool) (.Values.useExternalSecretScmTokenPool) }}
-            - name: GITHUB_TOKEN_POOL
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.scmType }}-token-pool{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
-                  key: "{{ .Values.scmType}}-token-key-pool"
-                {{- end }}
-            - name: PORT
-              value: {{ .Values.deployment.container.containerPort | squote }}
-            - name: BROKER_CLIENT_URL
-              value: {{ .Values.brokerClientUrl }}
-          {{- end }}
-          {{- if eq .Values.scmType "github-enterprise" }}
-          # GitHub Enterprise
-            - name: BROKER_TOKEN
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.scmType}}-broker-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
-                  key: "{{ .Values.scmType}}-broker-token-key"
-            {{- if not .Values.useExternalSecretScmTokenPool }}
-            - name: GITHUB_TOKEN
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.scmType}}-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
-                  key: "{{ .Values.scmType}}-token-key"
-            {{- end }}
-            {{- if or (.Values.scmTokenPool) (.Values.useExternalSecretScmTokenPool) }}
-            - name: GITHUB_TOKEN_POOL
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.scmType }}-token-pool{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
-                  key: "{{ .Values.scmType}}-token-key-pool"
-            {{- end }}
-            - name: GITHUB
-              value: {{ .Values.github }}
-            - name: GITHUB_API
-              value: {{ .Values.githubApi }}
-            - name: GITHUB_GRAPHQL
-              value: {{ .Values.githubGraphQl}}
-            - name: PORT
-              value: {{ .Values.deployment.container.containerPort | squote }}
-            - name: BROKER_CLIENT_URL
-              value: {{ .Values.brokerClientUrl }}
-
-          {{- end }}
-          {{- if eq .Values.scmType "bitbucket-server" }}
-          # Bitbucket
-            - name: BROKER_TOKEN
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.scmType}}-broker-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
-                  key: "{{ .Values.scmType}}-broker-token-key"
-            - name: BITBUCKET_USERNAME
-              value: {{ .Values.bitbucketUsername }}
-            - name: BITBUCKET_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.scmType}}-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
-                  key: "{{ .Values.scmType}}-token-key"
-            - name: BITBUCKET
-              value: {{ .Values.bitbucket }}
-            - name: BITBUCKET_API
-              value: {{ .Values.bitbucketApi }}
-            - name: PORT
-              value: {{ .Values.deployment.container.containerPort | squote }}
-            - name: BROKER_CLIENT_URL
-              value: {{ .Values.brokerClientUrl }}
-          {{- end }}
-          {{- if eq .Values.scmType "bitbucket-server-bearer-auth" }}
-          # Bitbucket Bearer Auth
-            - name: BROKER_TOKEN
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.scmType}}-broker-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
-                  key: "{{ .Values.scmType}}-broker-token-key"
-            - name: BITBUCKET_PAT
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.scmType}}-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
-                  key: "{{ .Values.scmType}}-token-key"
-            - name: BITBUCKET
-              value: {{ .Values.bitbucket }}
-            - name: BITBUCKET_API
-              value: {{ .Values.bitbucketApi }}
-            - name: PORT
-              value: {{ .Values.deployment.container.containerPort | squote }}
-            - name: BROKER_CLIENT_URL
-              value: {{ .Values.brokerClientUrl }}
-          {{- end }}
-          {{- if eq .Values.scmType "gitlab" }}
-          # GitLab
-            - name: BROKER_TOKEN
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.scmType}}-broker-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
-                  key: "{{ .Values.scmType}}-broker-token-key"
-            {{- if not .Values.useExternalSecretScmTokenPool }}
-            - name: GITLAB_TOKEN
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.scmType}}-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
-                  key: "{{ .Values.scmType}}-token-key"
-            {{- end }}
-            {{- if or (.Values.scmTokenPool) (.Values.useExternalSecretScmTokenPool) }}
-            - name: GITLAB_TOKEN_POOL
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.scmType }}-token-pool{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
-                  key: "{{ .Values.scmType}}-token-key-pool"
-                {{- end }}
-            - name: GITLAB
-              value: {{ .Values.gitlab }}
-            - name: PORT
-              value: {{ .Values.deployment.container.containerPort | squote }}
-            - name: BROKER_CLIENT_URL
-              value: {{ .Values.brokerClientUrl }}
-          {{- end }}
-          {{- if eq .Values.scmType "azure-repos" }}
-          # Azure Repos
-            - name: BROKER_TOKEN
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.scmType}}-broker-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
-                  key: "{{ .Values.scmType}}-broker-token-key"
-            - name: AZURE_REPOS_TOKEN
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.scmType}}-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
-                  key: "{{ .Values.scmType}}-token-key"
-            - name: AZURE_REPOS_ORG
-              value: {{ .Values.azureReposOrg }}
-            - name: AZURE_REPOS_HOST
-              value: {{ .Values.azureReposHost }}
-            - name: PORT
-              value: {{ .Values.deployment.container.containerPort | squote }}
-            - name: BROKER_CLIENT_URL
-              value: {{ .Values.brokerClientUrl }}
-          {{- end }}
-          {{- if eq .Values.scmType "artifactory" }}
-          # Artifactory
-            - name: BROKER_TOKEN
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.scmType}}-broker-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
-                  key: "{{ .Values.scmType}}-broker-token-key"
-            - name: ARTIFACTORY_URL
-              valueFrom:
-                secretKeyRef:
-                  name: artifactory-url{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
-                  key: "artifactory-url"
-            - name: PORT
-              value: {{ .Values.deployment.container.containerPort | squote }}
-            - name: BROKER_CLIENT_URL
-              value: {{ .Values.brokerClientUrl }}
-            {{- if .Values.brokerClientValidationUrl }}
-            - name: BROKER_CLIENT_VALIDATION_URL
-              valueFrom:
-                secretKeyRef:
-                  name: artifactory-broker-client-validation-url{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
-                  key: "artifactory-broker-client-validation-url"
-            {{- end }}
-          {{- end }}
-          {{- if or (eq .Values.scmType "nexus") (eq .Values.scmType "nexus2") }}
-          # Nexus (3 or 2)
-            - name: BROKER_TOKEN
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.scmType }}-broker-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
-                  key: "{{ .Values.scmType}}-broker-token-key"
-            - name: BASE_NEXUS_URL
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.scmType }}-base-nexus-url{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
-                  key: "{{ .Values.scmType}}-base-nexus-url"
-            - name: NEXUS_URL
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.scmType }}-nexus-url{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
-                  key: "{{ .Values.scmType}}-nexus-url"
-            - name: BROKER_CLIENT_VALIDATION_URL
-              valueFrom:
-                secretKeyRef:
-                  name: nexus-broker-client-validation-url{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
-                  key: "nexus-broker-client-validation-url"
-            - name: PORT
-              value: {{ .Values.deployment.container.containerPort | squote }}
-          {{- end }}
-          {{- if eq .Values.scmType "jira" }}
-          # Jira
-            - name: BROKER_TOKEN
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.scmType}}-broker-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
-                  key: "{{ .Values.scmType}}-broker-token-key"
-            - name: JIRA_USERNAME
-              value: {{ .Values.jiraUsername }}
-            - name: JIRA_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.scmType}}-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
-                  key: "{{ .Values.scmType}}-token-key"
-            - name: JIRA_HOSTNAME
-              value: {{ .Values.jiraHostname }}
-            - name: PORT
-              value: {{ .Values.deployment.container.containerPort | squote }}
-            - name: BROKER_CLIENT_URL
-              value: {{ .Values.brokerClientUrl }}
-          {{- end }}
-          {{- if eq .Values.scmType "jira-bearer-auth" }}
-          # Jira
-            - name: BROKER_TOKEN
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.scmType}}-broker-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
-                  key: "{{ .Values.scmType}}-broker-token-key"
-            - name: JIRA_PAT
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.scmType}}-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
-                  key: "{{ .Values.scmType}}-token-key"
-            - name: JIRA_HOSTNAME
-              value: {{ .Values.jiraHostname }}
-            - name: PORT
-              value: {{ .Values.deployment.container.containerPort | squote }}
-            - name: BROKER_CLIENT_URL
-              value: {{ .Values.brokerClientUrl }}
-          {{- end }}
-          {{- if eq .Values.scmType "container-registry-agent" }}
-          # Container Registry Agent
-            - name: BROKER_TOKEN
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.scmType}}-broker-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
-                  key: "{{ .Values.scmType}}-broker-token-key"
-            - name: CR_AGENT_URL
-              value: http://cra-service{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}:{{ .Values.deployment.container.crSnykPort | toString }}
-            - name: CR_TYPE
-              value: {{ .Values.crType }}
-            {{- if not (has .Values.crType (list "ecr")) }}
-            - name: CR_BASE
-              value: {{ .Values.crBase }}
-            {{- end }}
-            {{- if not (has .Values.crType (list "ecr" "digitalocean-cr")) }}
-            - name: CR_USERNAME
-              value: {{ .Values.crUsername }}
-            - name: CR_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.scmType}}-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
-                  key: "{{ .Values.scmType}}-token-key"
-            {{- end }}
-            {{- if has .Values.crType (list "digitalocean-cr") }}
-            - name: CR_TOKEN
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.scmType}}-token{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
-                  key: "{{ .Values.scmType}}-token-key"
-            {{- end }}
-            {{- if has .Values.crType (list "ecr") }}
-            - name: CR_ROLE_ARN
-              value: {{ .Values.crRoleArn }}
-            - name: CR_REGION
-              value: {{ .Values.crRegion }}
-            - name: CR_EXTERNAL_ID
-              value: {{ .Values.crExternalId }}
-            {{- end }}
-            - name: PORT
-              value: {{ .Values.deployment.container.containerPort | squote }}
-            - name: BROKER_CLIENT_URL
-              value: "http://{{ include "snyk-broker.brokerServiceName" . }}:{{ .Values.service.port }}"
-            - name: BROKER_CLIENT_VALIDATION_URL
-              value: http://cra-service{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}:{{ .Values.deployment.container.crSnykPort | toString }}/healthcheck
-          {{- end }}
+{{- include "snyk-broker.githubCom" . | indent 12 }}
+{{- include "snyk-broker.githubEnterprise" . | indent 12 }}
+{{- include "snyk-broker.gitlab" . | indent 12 }}
+{{- include "snyk-broker.bitbucketServer" . | indent 12 }}
+{{- include "snyk-broker.bitbucketServerBearerAuth" . | indent 12 }}
+{{- include "snyk-broker.azureRepos" . | indent 12 }}
+{{- include "snyk-broker.artifactory" . | indent 12 }}
+{{- include "snyk-broker.nexus" . | indent 12 }}
+{{- include "snyk-broker.jira" . | indent 12 }}
+{{- include "snyk-broker.jiraBearerAuth" . | indent 12 }}
+{{- include "snyk-broker.containerRegistryAgent" . | indent 12 }}
          {{- if .Values.enableCodeAgent }}
          # Code Agent
             - name: GIT_CLIENT_URL
@@ -476,7 +200,7 @@ spec:
         {{- if not .Values.preflightChecks.enabled }}
             - name: PREFLIGHT_CHECKS_ENABLED
               value: "false"
-        {{- end}}
+        {{- end }}
         {{- if .Values.highAvailabilityMode.enabled }}
             - name: BROKER_HA_MODE_ENABLED
               value: "true"
@@ -495,12 +219,12 @@ spec:
         configMap:
           name: {{ include "snyk-broker.fullname" . }}-accept-configmap{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
       {{- end }}
-      {{- if or (.Values.caCert) (.Values.caCertFile) }}
+      {{- if or (.Values.caCert) ( or ( and .Values.caCertFileSecret.name .Values.caCertFileSecret.key ) .Values.caCertFile) }}
       - name: {{ include "snyk-broker.fullname" . }}-cacert-volume
         secret:
           secretName: {{ include "snyk-broker.caCertSecretName" . }}
       {{- end }}
-      {{- if and (.Values.httpsCert) (.Values.httpsKey) }}
+      {{- if or .Values.httpsSecret.name ( and (.Values.httpsCert) (.Values.httpsKey) ) }}
       - name: {{ include "snyk-broker.fullname" . }}-tls-secret-volume
         secret:
           secretName: {{ include "snyk-broker.tlsSecretName" . }}

@@ -25,6 +25,7 @@ tests:
         documentSelector:
           path: kind
           value: Deployment
+          matchMany: true
   - it: disables tls trust with "0" (string)
     set:
       tlsRejectUnauthorized: "0"
@@ -37,6 +38,7 @@ tests:
         documentSelector:
           path: kind
           value: Deployment
+          matchMany: true
   - it: disables tls trust with "false" (string)
     set:
       tlsRejectUnauthorized: "false"
@@ -49,6 +51,7 @@ tests:
         documentSelector:
           path: kind
           value: Deployment
+          matchMany: true
   - it: disables tls trust with false (boolean)
     set:
       tlsRejectUnauthorized: false
@@ -61,6 +64,7 @@ tests:
         documentSelector:
           path: kind
           value: Deployment
+          matchMany: true
   - it: disables tls trust with '0' (integer)
     set:
       tlsRejectUnauthorized: 0
@@ -73,6 +77,7 @@ tests:
         documentSelector:
           path: kind
           value: Deployment
+          matchMany: true
   - it: enables tls trust by default "" (string)
     set:
       tlsRejectUnauthorized: ""
@@ -85,6 +90,7 @@ tests:
         documentSelector:
           path: kind
           value: Deployment
+          matchMany: true
   - it: does not allow true (bool)
     set:
       tlsRejectUnauthorized: true

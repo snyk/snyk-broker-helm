@@ -27,8 +27,8 @@ tests:
           path: metadata.name
           value: nexus-broker-client-validation-url
       - equal:
-          path: stringData.nexus-broker-client-validation-url
-          value: https://username:password@your-domain.com/service/rest/v1/status/check
+          path: data.nexus-broker-client-validation-url
+          value: aHR0cHM6Ly91c2VybmFtZTpwYXNzd29yZEB5b3VyLWRvbWFpbi5jb20vc2VydmljZS9yZXN0L3YxL3N0YXR1cy9jaGVjaw==
         documentSelector:
           path: metadata.name
           value: nexus-broker-client-validation-url
@@ -74,8 +74,8 @@ tests:
           path: metadata.name
           value: nexus-broker-client-validation-url
       - equal:
-          path: stringData.nexus-broker-client-validation-url
-          value: https://username:password@your-domain.com/service/rest/v1/status/check
+          path: data.nexus-broker-client-validation-url
+          value: aHR0cHM6Ly91c2VybmFtZTpwYXNzd29yZEB5b3VyLWRvbWFpbi5jb20vc2VydmljZS9yZXN0L3YxL3N0YXR1cy9jaGVjaw==
         documentSelector:
           path: metadata.name
           value: nexus-broker-client-validation-url
@@ -114,8 +114,8 @@ tests:
           path: metadata.name
           value: nexus-broker-client-validation-url
       - equal:
-          path: stringData.nexus-broker-client-validation-url
-          value: https://username:password@your-domain.com/service/rest/v1/status/check
+          path: data.nexus-broker-client-validation-url
+          value: aHR0cHM6Ly91c2VybmFtZTpwYXNzd29yZEB5b3VyLWRvbWFpbi5jb20vc2VydmljZS9yZXN0L3YxL3N0YXR1cy9jaGVjaw==
         documentSelector:
           path: metadata.name
           value: nexus-broker-client-validation-url
