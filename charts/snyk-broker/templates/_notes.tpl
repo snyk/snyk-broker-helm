@@ -7,6 +7,9 @@
 {{- $containerRegistryAgentTemplates := (list "scmToken" )}}
 {{- $templatesPerType := (dict "github-com" $scmTemplates "github-enterprise" $scmTemplates "gitlab" $scmTemplates "bitbucket-server" $scmTemplates "bitbucket-server-bearer-auth" $scmTemplates "azure-repos" $scmTemplates "artifactory" $artifactoryTemplates "nexus" $nexusTemplates "jira" $scmTemplates "jira-bearer-auth" $scmTemplates "container-registry-agent" $containerRegistryAgentTemplates ) }}
 {{- if not .Values.useExternalSecrets -}}
+{{- if not .Values.brokerToken }}
+{{ printf "-> %s:%s <your-broker-token>" (include "snyk-broker.brokerTokenSecretName" . ) (include "snyk-broker.brokerTokenSecretKey" . ) }}
+{{- end }}
 {{- range (get $templatesPerType .Values.scmType ) }}
 {{- $secretObject :=  (first (fromYamlArray (include (printf "snyk-broker.%s" . ) $ ))) }}
 {{- $envName := $secretObject.name }}
