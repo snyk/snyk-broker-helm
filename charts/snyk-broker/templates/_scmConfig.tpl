@@ -343,7 +343,7 @@ Define artifactory values
 {{- include "snyk-broker.brokerClientPort" . }}
 {{- include "snyk-broker.brokerClientUrl" . }}
 {{- include "snyk-broker.artifactoryUrl" . }}
-{{- if .Values.brokerClientValidationUrl }}
+{{- if or .Values.brokerClientValidationUrl .Values.brokerClientValidationUrlSecret.key .Values.brokerClientValidationUrlSecret.name }}
 {{- include "snyk-broker.brokerClientValidationUrl" . }}
 {{- end }}
 {{- end }}
@@ -354,16 +354,16 @@ Define Nexus 3/2 values
 */}}
 {{- define "snyk-broker.nexus" -}}
 {{- if contains "nexus" .Values.scmType }}
-{{- if and .Values.nexusUrlSecret.name .Values.baseNexusUrlSecret.name -}}
-{{- if eq .Values.nexusUrlSecret.name .Values.baseNexusUrlSecret.name -}}
-{{- fail "Secret names for nexusUrlSecret and baseNexusUrlSecret must be unique" -}}
+{{- if and .Values.nexusUrlSecret.key .Values.baseNexusUrlSecret.key -}}
+{{- if eq .Values.nexusUrlSecret.key .Values.baseNexusUrlSecret.key -}}
+{{- fail "Secret keys for nexusUrlSecret and baseNexusUrlSecret must be unique" -}}
 {{- end }}
 {{- end }}
 {{- include "snyk-broker.brokerToken" . }}
 {{- include "snyk-broker.brokerClientPort" . }}
 {{- include "snyk-broker.baseNexusUrl" . }}
 {{- include "snyk-broker.nexusUrl" . }}
-{{- if .Values.brokerClientValidationUrl }}
+{{- if or .Values.brokerClientValidationUrl .Values.brokerClientValidationUrlSecret.key .Values.brokerClientValidationUrlSecret.name }}
 {{- include "snyk-broker.brokerClientValidationUrl" . }}
 {{- end }}
 {{- end }}
