@@ -87,12 +87,12 @@ spec:
                 mountPath: /home/node/private
                 readOnly: true
               {{- end }}
-              {{- if or (.Values.caCert) (.Values.caCertFile) }}
+              {{- if or (.Values.caCert) (.Values.caCertFile) (and .Values.caCertFileSecret.key .Values.caCertFileSecret.name ) }}
               - name: {{ include "snyk-broker.fullname" . }}-cacert-volume
                 mountPath: /home/node/cacert
                 readOnly: true
               {{- end }}
-              {{- if and (.Values.httpsCert) (.Values.httpsKey) }}
+              {{- if or ( and (.Values.httpsCert) (.Values.httpsKey) )  (and .Values.httpsSecret.key .Values.httpsSecret.name ) }}
               - name: {{ include "snyk-broker.fullname" . }}-tls-secret-volume
                 mountPath: /home/node/tls-cert/
                 readOnly: true
