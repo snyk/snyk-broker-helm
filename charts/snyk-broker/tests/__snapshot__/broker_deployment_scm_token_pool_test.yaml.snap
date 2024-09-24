@@ -20,7 +20,9 @@ github token pool configured:
         metadata:
           labels:
             app.kubernetes.io/instance: RELEASE-NAME
+            app.kubernetes.io/managed-by: Helm
             app.kubernetes.io/name: snyk-broker-RELEASE-NAME
+            helm.sh/chart: snyk-broker-0.0.0
         spec:
           containers:
             - env:
@@ -178,7 +180,9 @@ github token pool configured with enabled useExternalSecretScmTokenPool:
         metadata:
           labels:
             app.kubernetes.io/instance: RELEASE-NAME
+            app.kubernetes.io/managed-by: Helm
             app.kubernetes.io/name: snyk-broker-RELEASE-NAME
+            helm.sh/chart: snyk-broker-0.0.0
         spec:
           containers:
             - env:
@@ -328,7 +332,9 @@ gitlab token pool configured:
         metadata:
           labels:
             app.kubernetes.io/instance: RELEASE-NAME
+            app.kubernetes.io/managed-by: Helm
             app.kubernetes.io/name: snyk-broker-RELEASE-NAME
+            helm.sh/chart: snyk-broker-0.0.0
         spec:
           containers:
             - env:
