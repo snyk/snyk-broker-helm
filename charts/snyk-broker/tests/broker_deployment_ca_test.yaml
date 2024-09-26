@@ -296,3 +296,28 @@ tests:
             mountPath: /home/node/cacert
             readOnly: true
         template: broker_deployment.yaml
+
+
+  - it: correctly mounts an external CA secret with default key
+    set:
+      useExternalSecrets: true
+      caCertFileSecret:
+        name: my-secret
+    asserts:
+      - contains:
+          path: spec.template.spec.volumes
+          content:
+            name: RELEASE-NAME-snyk-broker-cacert-volume
+            secret:
+              secretName: my-secret
+        template: broker_deployment.yaml
+      - exists:
+          path: spec.template.spec.containers[0].volumeMounts
+        template: broker_deployment.yaml
+      - contains:
+          path: spec.template.spec.containers[0].volumeMounts
+          content:
+            name: RELEASE-NAME-snyk-broker-cacert-volume
+            mountPath: /home/node/cacert
+            readOnly: true
+        template: broker_deployment.yaml
