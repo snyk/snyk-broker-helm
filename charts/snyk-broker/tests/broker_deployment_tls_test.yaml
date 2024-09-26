@@ -1,0 +1,49 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/helm-unittest/helm-unittest/main/schema/helm-testsuite.json
+suite: Broker with TLS
+chart:
+  version: 0.0.0
+templates:
+  - broker_deployment.yaml
+  - ingress.yaml
+values:
+  - ./fixtures/default_values.yaml
+  - ./fixtures/default_values_https_enabled.yaml
+
+tests:
+  - it: sets https correctly
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: HTTPS_CERT
+            value: /home/node/tls-cert/tls.crt
+        template: broker_deployment.yaml
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: HTTPS_KEY
+            value: /home/node/tls-cert/tls.key
+        template: broker_deployment.yaml
+  - it: uses an external tls secret
+    set:
+      useExternalSecrets: true
+      httpsSecret:
+        name: my-ingress-cert
+    asserts:
+      - contains:
+          path: spec.template.spec.volumes
+          content:
+            name: RELEASE-NAME-snyk-broker-tls-secret-volume
+            secret:
+              secretName: my-ingress-cert
+        template: broker_deployment.yaml
+      - exists:
+          path: spec.template.spec.containers[0].volumeMounts
+        template: broker_deployment.yaml
+      - contains:
+          path: spec.template.spec.containers[0].volumeMounts
+          content:
+            name: RELEASE-NAME-snyk-broker-tls-secret-volume
+            mountPath: /home/node/tls-cert/
+            readOnly: true
+        template: broker_deployment.yaml
