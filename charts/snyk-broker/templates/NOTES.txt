@@ -5,7 +5,7 @@ Login to the Snyk UI to start onboarding projects: https://app.snyk.io
 {{ $tenant := regexFind "[a-z]+.snyk.io" .Values.brokerServerUrl }}
 {{ printf "Login to the Snyk UI to start onboarding projects: https://app.%s" $tenant }}
 {{ end }}
-{{- if not  .Values.useExternalSecrets}}
+{{- if .Values.useExternalSecrets }}
 ### Secret Creation Disabled ###
 
 Ensure secrets are present on your cluster in the {{.Release.Namespace}} namespace:
