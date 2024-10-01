@@ -296,6 +296,18 @@ tests:
             mountPath: /home/node/cacert
             readOnly: true
         template: broker_deployment.yaml
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: NODE_EXTRA_CA_CERTS
+            value: "/home/node/cacert/caCert"
+        template: broker_deployment.yaml
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: CA_CERT
+            value: "/home/node/cacert/caCert"
+        template: broker_deployment.yaml
 
 
   - it: correctly mounts an external CA secret with default key
