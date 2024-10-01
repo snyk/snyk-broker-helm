@@ -55,6 +55,13 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
+Pod labels (merge normal labels and selectors)
+*/}}
+{{- define "snyk-broker.podLabels" -}}
+{{- merge (include "snyk-broker.labels" . | fromYaml ) (include "snyk-broker.selectorLabels" . | fromYaml) | toYaml -}}
+{{- end }}
+
+{{/*
 Create the name of the service account to use
 */}}
 {{- define "snyk-broker.serviceAccountName" -}}
@@ -113,7 +120,7 @@ Create the name of the broker service to use
 {{- $serviceLength := len $service -}}
 {{- $releaseNameLength := len .Release.Name -}}
 {{- $truncatedLength := int (sub 63 (add $serviceLength $releaseNameLength)) -}}
-{{- .Values.scmType | trunc $truncatedLength }}{{ $service }}{{ .Release.Name }} 
+{{- .Values.scmType | trunc $truncatedLength }}{{ $service }}{{ .Release.Name }}
 {{- else }}
 {{- .Values.scmType | trunc 47 }}-broker-service
 {{- end -}}

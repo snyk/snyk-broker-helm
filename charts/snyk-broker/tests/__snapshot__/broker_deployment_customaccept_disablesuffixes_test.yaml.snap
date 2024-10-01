@@ -33,7 +33,9 @@ customaccept values:
         metadata:
           labels:
             app.kubernetes.io/instance: RELEASE-NAME
+            app.kubernetes.io/managed-by: Helm
             app.kubernetes.io/name: snyk-broker
+            helm.sh/chart: snyk-broker-0.0.0
         spec:
           containers:
             - env:

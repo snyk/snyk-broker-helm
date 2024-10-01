@@ -20,7 +20,9 @@ HA mode on:
         metadata:
           labels:
             app.kubernetes.io/instance: RELEASE-NAME
+            app.kubernetes.io/managed-by: Helm
             app.kubernetes.io/name: snyk-broker-RELEASE-NAME
+            helm.sh/chart: snyk-broker-0.0.0
         spec:
           containers:
             - env:
@@ -167,7 +169,9 @@ HA mode on with 4 replicas:
         metadata:
           labels:
             app.kubernetes.io/instance: RELEASE-NAME
+            app.kubernetes.io/managed-by: Helm
             app.kubernetes.io/name: snyk-broker-RELEASE-NAME
+            helm.sh/chart: snyk-broker-0.0.0
         spec:
           containers:
             - env:
@@ -314,7 +318,9 @@ HTTPS enabled:
         metadata:
           labels:
             app.kubernetes.io/instance: RELEASE-NAME
+            app.kubernetes.io/managed-by: Helm
             app.kubernetes.io/name: snyk-broker-RELEASE-NAME
+            helm.sh/chart: snyk-broker-0.0.0
         spec:
           containers:
             - env:
@@ -478,7 +484,9 @@ default values:
         metadata:
           labels:
             app.kubernetes.io/instance: RELEASE-NAME
+            app.kubernetes.io/managed-by: Helm
             app.kubernetes.io/name: snyk-broker-RELEASE-NAME
+            helm.sh/chart: snyk-broker-0.0.0
         spec:
           containers:
             - env:
@@ -623,7 +631,9 @@ preflight checks off:
         metadata:
           labels:
             app.kubernetes.io/instance: RELEASE-NAME
+            app.kubernetes.io/managed-by: Helm
             app.kubernetes.io/name: snyk-broker-RELEASE-NAME
+            helm.sh/chart: snyk-broker-0.0.0
         spec:
           containers:
             - env:

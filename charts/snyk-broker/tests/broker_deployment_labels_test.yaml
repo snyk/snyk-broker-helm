@@ -10,8 +10,6 @@ values:
 
 tests:
   - it: handles duplicative labels and adds new labels
-    values:
-      - ./fixtures/default_values.yaml
     set:
       labels:
         app.kubernetes.io/name: "my duplicated label"
@@ -25,3 +23,29 @@ tests:
             app.kubernetes.io/name: snyk-broker-RELEASE-NAME
             helm.sh/chart: snyk-broker-0.0.0
             test: node1
+  - it: sets a label
+    set:
+      labels:
+        costCenter: prodsec
+    asserts:
+      - equal:
+          path: metadata.labels.costCenter
+          value: prodsec
+  - it: sets a label on the broker pod
+    set:
+      labels:
+        costCenter: prodsec
+    asserts:
+      - equal:
+          path: spec.template.metadata.labels.costCenter
+          value: prodsec
+    template: broker_deployment.yaml
+  - it: does not override a default label on the broker pod
+    set:
+      labels:
+        app.kubernetes.io/name: fake
+    asserts:
+      - equal:
+          path: spec.template.metadata.labels["app.kubernetes.io/name"]
+          value: snyk-broker-RELEASE-NAME
+    template: broker_deployment.yaml
