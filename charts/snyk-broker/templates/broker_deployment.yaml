@@ -144,6 +144,14 @@ spec:
               value: /home/node/cacert/cacert
          {{- end }}
 
+         {{- if .Values.caCertFileSecret.name }}
+          # HTTPS Inspection
+            - name: CA_CERT
+              value: /home/node/cacert/{{ .Values.caCertFileSecret.key }}
+            - name: NODE_EXTRA_CA_CERTS
+              value: /home/node/cacert/{{ .Values.caCertFileSecret.key }}
+         {{- end }}
+
          {{- if .Values.httpsCert }}
          # HTTPS Config
             - name: HTTPS_CERT
