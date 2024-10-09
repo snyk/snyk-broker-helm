@@ -1,6 +1,6 @@
 * @snyk/hybrid
 
-charts/snyk-broker/templates/cra_deployment.yaml @snyk/container-integration
-charts/snyk-broker/tests/broker_cra_deployment_test.yaml @snyk/container-integration
-charts/snyk-broker/tests/cra_deployment_test.yaml @snyk/container-integration
-charts/snyk-broker/tests/fixtures/default_values_cra.yaml @snyk/container-integration
+charts/snyk-broker/templates/cra_deployment.yaml @snyk/test-enrichment
+charts/snyk-broker/tests/broker_cra_deployment_test.yaml @snyk/test-enrichment
+charts/snyk-broker/tests/cra_deployment_test.yaml @snyk/test-enrichment
+charts/snyk-broker/tests/fixtures/default_values_cra.yaml @snyk/test-enrichment
