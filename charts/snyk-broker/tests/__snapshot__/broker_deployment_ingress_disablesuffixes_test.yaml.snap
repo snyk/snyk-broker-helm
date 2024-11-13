@@ -54,6 +54,8 @@ ingress:
                   value: "true"
                 - name: ACCEPT_IAC
                   value: tf,yaml,yml,json,tpl
+                - name: ACCEPT_APPRISK
+                  value: "true"
                 - name: BROKER_DISPATCHER_BASE_URL
                   value: https://api.test.snyk.io
               image: snyk/broker:github-com
