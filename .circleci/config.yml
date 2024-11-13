@@ -2,6 +2,7 @@ version: 2.1
 
 orbs:
   prodsec: snyk/prodsec-orb@1.0
+  helm: circleci/helm@3
 
 executors:
   k8s:
@@ -26,6 +27,10 @@ jobs:
     executor: node
     steps:
       - checkout
+      - helm/install_helm_client
+      - run:
+          name: install semantic-release
+          command: sudo npm i -g semantic-release @semantic-release/exec
       - run:
           name: publish
           command: npx semantic-release
