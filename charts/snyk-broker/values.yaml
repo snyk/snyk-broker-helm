@@ -219,7 +219,7 @@ crImage: "latest"
 
 ##### AppRisk #####
 # Set to 'true' to enable AppRisk
-enableAppRisk: ""
+enableAppRisk: "true"
 
 ##### Code Agent #####
 

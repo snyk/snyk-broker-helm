@@ -54,6 +54,8 @@ HA mode on:
                   value: "true"
                 - name: ACCEPT_IAC
                   value: tf,yaml,yml,json,tpl
+                - name: ACCEPT_APPRISK
+                  value: "true"
                 - name: BROKER_HA_MODE_ENABLED
                   value: "true"
                 - name: BROKER_DISPATCHER_BASE_URL
@@ -203,6 +205,8 @@ HA mode on with 4 replicas:
                   value: "true"
                 - name: ACCEPT_IAC
                   value: tf,yaml,yml,json,tpl
+                - name: ACCEPT_APPRISK
+                  value: "true"
                 - name: BROKER_HA_MODE_ENABLED
                   value: "true"
                 - name: BROKER_DISPATCHER_BASE_URL
@@ -352,6 +356,8 @@ default values:
                   value: "true"
                 - name: ACCEPT_IAC
                   value: tf,yaml,yml,json,tpl
+                - name: ACCEPT_APPRISK
+                  value: "true"
                 - name: BROKER_DISPATCHER_BASE_URL
                   value: https://api.test.snyk.io
               image: snyk/broker:github-com
@@ -499,6 +505,8 @@ preflight checks off:
                   value: "true"
                 - name: ACCEPT_IAC
                   value: tf,yaml,yml,json,tpl
+                - name: ACCEPT_APPRISK
+                  value: "true"
                 - name: PREFLIGHT_CHECKS_ENABLED
                   value: "false"
                 - name: BROKER_DISPATCHER_BASE_URL
