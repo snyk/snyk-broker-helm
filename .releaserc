@@ -1,0 +1,31 @@
+{
+  "branches": [
+    {
+      "name": "main"
+    }
+  ],
+  "repositoryUrl": "git@github.com:snyk/snyk-broker-helm.git",
+  "tagFormat": "snyk-broker-${version}",
+  "plugins": [
+    "@semantic-release/commit-analyzer",
+    [
+      "@semantic-release/exec",
+      {
+        "prepareCmd": "helm package --version ${nextRelease.version} .",
+        "execCwd": "charts/snyk-broker"
+      }
+    ],
+    [
+      "@semantic-release/github",
+      {
+        "assets": [
+          {
+            "path": "charts/snyk-broker/snyk-broker-*.tgz"
+          }
+        ],
+        "successCommentCondition": false,
+        "failCommentCondition": false
+      }
+    ]
+  ]
+}
