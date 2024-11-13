@@ -1,0 +1,116 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/helm-unittest/helm-unittest/main/schema/helm-testsuite.json
+suite: broker deployment (apprisk type)
+chart:
+  version: 0.0.0
+values:
+  - ./fixtures/default_values.yaml
+templates:
+  - secrets.yaml
+  - broker_deployment.yaml
+scmType: apprisk
+
+tests:
+  - it: should create secrets if sonarqubeHostUrl is defined
+    template: secrets.yaml
+    set:
+      sonarqubeHostUrl: https://mysonarqube
+      sonarqubeApiToken: abc123
+      # disableSuffixes: true
+      scmType: apprisk
+    asserts:
+
+      - isKind:
+          of: Secret
+        documentIndex: 2
+        documentSelector:
+          path: metadata.name
+          value: apprisk-sonarqube-api-token-RELEASE-NAME
+      - equal:
+          path: data.apprisk-sonarqube-api-token
+          value: YWJjMTIz
+        documentIndex: 2
+        documentSelector:
+          path: metadata.name
+          value: apprisk-sonarqube-api-token-RELEASE-NAME
+      - hasDocuments:
+          count: 3
+
+  - it: should not create secrets if checkmarx only is defined
+    template: secrets.yaml
+    set:
+      checkmarx: https://checkmarx
+      scmType: apprisk
+    asserts:
+      - hasDocuments:
+          count: 2
+      - notEqual:
+          path: metadata.name
+          value: apprisk-sonarqube-api-token-RELEASE-NAME
+        documentIndex: 0
+      - notEqual:
+          path: metadata.name
+          value: apprisk-sonarqube-api-token-RELEASE-NAME
+        documentIndex: 1
+
+  - it: should create secrets if sonarqubeHostUrl is defined and checkmarx is set
+    template: secrets.yaml
+    set:
+      sonarqubeHostUrl: https://mysonarqube
+      sonarqubeApiToken: abc123
+      checkmarx: https://checkmarx
+      scmType: apprisk
+    asserts:
+
+      - isKind:
+          of: Secret
+        documentSelector:
+          path: metadata.name
+          value: apprisk-sonarqube-api-token-RELEASE-NAME
+      - equal:
+          path: data.apprisk-sonarqube-api-token
+          value: YWJjMTIz
+        documentIndex: 2
+        documentSelector:
+          path: metadata.name
+          value: apprisk-sonarqube-api-token-RELEASE-NAME
+      - hasDocuments:
+          count: 3
+
+
+  - it: references secrets in deployment and correct image
+    release:
+      name: unittest
+    template: broker_deployment.yaml
+    set:
+      sonarqubeHostUrl: https://mysonarqube
+      sonarqubeApiToken: abc123
+      checkmarx: https://checkmarx
+      disableSuffixes: true
+      scmType: apprisk
+
+    asserts:
+      - equal:
+          path: metadata.name
+          value: apprisk-broker
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: CHECKMARX
+            value: https://checkmarx
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: SONARQUBE_HOST_URL
+            value: https://mysonarqube
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: SONARQUBE_API_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: apprisk-sonarqube-api-token
+                key: "apprisk-sonarqube-api-token"
+      - equal:
+          path: spec.template.spec.containers[0].image
+          value: snyk/broker:apprisk
+            

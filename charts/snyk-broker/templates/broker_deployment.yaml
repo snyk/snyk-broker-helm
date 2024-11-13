@@ -107,6 +107,7 @@ spec:
               value: {{ .Values.healthCheckPath }}
             - name: BROKER_SYSTEMCHECK_PATH
               value: {{ .Values.systemCheckPath }}
+{{- include "snyk-broker.apprisk" . | indent 12 }}
 {{- include "snyk-broker.githubCom" . | indent 12 }}
 {{- include "snyk-broker.githubEnterprise" . | indent 12 }}
 {{- include "snyk-broker.gitlab" . | indent 12 }}
