@@ -3,11 +3,27 @@ version: 2.1
 orbs:
   prodsec: snyk/prodsec-orb@1.0
 
+executors:
+  k8s:
+    docker:
+      - image: alpine/k8s:1.28.14
+    resource_class: small
+
+jobs:
+  unittest:
+    executor: k8s
+    steps:
+      - checkout
+      - run:
+          name: helm unittest
+          command: helm unittest charts/snyk-broker
+
 workflows:
-  scans:
+  validate_and_publish:
     jobs:
       - prodsec/secrets-scan:
           name: Scan repository for secrets
           context:
             - snyk-bot-slack
           channel: broker-alerts
+      - unittest
