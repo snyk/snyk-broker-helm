@@ -8,6 +8,10 @@ executors:
     docker:
       - image: alpine/k8s:1.28.14
     resource_class: small
+  node:
+    docker:
+      - image: cimg/node:lts
+    resource_class: small
 
 jobs:
   unittest:
@@ -18,6 +22,14 @@ jobs:
           name: helm unittest
           command: helm unittest charts/snyk-broker
 
+  publish:
+    executor: node
+    steps:
+      - checkout
+      - run:
+          name: publish
+          command: npx semantic-release
+
 workflows:
   validate_and_publish:
     jobs:
@@ -27,3 +39,10 @@ workflows:
             - snyk-bot-slack
           channel: broker-alerts
       - unittest
+      - publish:
+          context:
+            - team-hybrid-common
+          filters:
+            branches:
+              only:
+                - main
