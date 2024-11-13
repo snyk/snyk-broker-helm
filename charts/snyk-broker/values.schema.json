@@ -87,6 +87,7 @@
     "scmType": {
       "type": "string",
       "enum": [
+        "apprisk",
         "github-com",
         "github-enterprise",
         "bitbucket-server",

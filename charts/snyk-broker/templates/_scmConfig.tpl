@@ -172,6 +172,44 @@ Return the Nexus URL secret name and key
       key: {{ include "snyk-broker.nexusUrlSecretKey" . }}
 {{- end }}
 
+
+{{/*
+Return Sonarqube url
+*/}}
+{{- define "snyk-broker.sonarqubeHostUrl" }}
+- name: SONARQUBE_HOST_URL
+  value: {{ .Values.sonarqubeHostUrl }}
+{{- end }}
+{{/*
+Return the Sonarqube API Token secret name and key
+*/}}
+{{- define "snyk-broker.sonarqubeApiTokenSecretName" -}}
+{{- $suffix := ( .Values.disableSuffixes | default false ) | ternary "" ( printf "-%s" .Release.Name ) }}
+{{- .Values.sonarqubeApiTokenSecret.name | default (printf "apprisk-sonarqube-api-token%s" $suffix) }}
+{{- end }}
+
+{{- define "snyk-broker.sonarqubeApiTokenSecretKey" -}}
+{{- $suffix := ( .Values.disableSuffixes | default false ) | ternary "" ( printf "-%s" .Release.Name ) }}
+{{- .Values.sonarqubeApiTokenSecret.key | default "apprisk-sonarqube-api-token" }}
+{{- end }}
+
+{{- define "snyk-broker.sonarqubeApiToken" }}
+{{- $suffix := ( .Values.disableSuffixes | default false ) | ternary "" ( printf "-%s" .Release.Name ) }}
+- name: SONARQUBE_API_TOKEN
+  valueFrom:
+    secretKeyRef:
+      name: {{ include "snyk-broker.sonarqubeApiTokenSecretName" . }}
+      key: {{ include "snyk-broker.sonarqubeApiTokenSecretKey" . }}
+{{- end }}
+
+{{/*
+Return checkmarx host
+*/}}
+{{- define "snyk-broker.checkmarx" }}
+- name: CHECKMARX
+  value: {{ .Values.checkmarx }}
+{{- end }}
+
 {{/*
 Return the Broker Client Validation URL secret name and key
 */}}
@@ -238,6 +276,33 @@ GITLAB_TOKEN (gitlab)
 {{- include "snyk-broker.scmToken" . }}
 {{- include "snyk-broker.scmTokenPool" . }}
 {{- end }}
+
+{{/*
+Return sonarqube config for apprisk
+*/}}
+{{- define "snyk-broker.apprisktype" }}
+{{- if or (and .Values.sonarqubeHostUrl (ne .Values.sonarqubeHostUrl "")) (and .Values.checkmarx (ne .Values.checkmarx "")) }}
+{{- if and .Values.sonarqubeHostUrl (ne .Values.sonarqubeHostUrl "") }}
+{{- include "snyk-broker.sonarqubeHostUrl" . }}
+{{- include "snyk-broker.sonarqubeApiToken" . }}
+{{- end}}
+{{- if and .Values.checkmarx (ne .Values.checkmarx "") }}
+{{- include "snyk-broker.checkmarx" . }}
+{{- end}}
+{{- else}}
+{{- fail "Error: Either or both .Values.sonarqubeHostUrl or .Values.checkmarx must be defined and not empty." }}
+{{- end }}
+{{- end }}
+
+
+{{/*
+  Define apprisk values
+  */}}
+  {{- define "snyk-broker.apprisk" -}}
+  {{- if eq .Values.scmType "apprisk" }}
+  {{- include "snyk-broker.apprisktype" . }}
+  {{- end }}
+  {{- end }}
 
 {{/*
 Define github-com values

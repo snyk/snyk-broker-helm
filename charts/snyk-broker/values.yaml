@@ -221,6 +221,13 @@ crImage: "latest"
 # Set to 'true' to enable AppRisk
 enableAppRisk: ""
 
+checkmarx: ""
+sonarqubeHostUrl: ""
+sonarqubeApiToken: ""
+sonarqubeApiTokenSecret:
+  name: ""
+  key: ""
+
 ##### Code Agent #####
 
 # Set to 'true' to enable Code Agent
