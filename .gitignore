@@ -47,3 +47,6 @@ bitbucket.crt
 
 # Helm Unittest Debug
 charts/snyk-broker/.debug
+
+# Tiltfile local resources
+tilt/nexus-cr/admin.txt
