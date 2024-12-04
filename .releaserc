@@ -15,7 +15,7 @@
         "execCwd": "charts/snyk-broker"
       },
       {
-        "publishCmd": "cr index -r snyk-broker-helm -o snyk --packages-with-index --index-path . --package-path charts/snyk-broker --push"
+        "publishCmd": "cr index -r snyk-broker-helm -o snyk --packages-with-index --index-path . --package-path charts/snyk-broker -t $GH_TOKEN --push"
       }
     ],
     [
