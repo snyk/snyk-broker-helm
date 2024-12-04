@@ -13,6 +13,9 @@
       {
         "prepareCmd": "helm package --version ${nextRelease.version} .",
         "execCwd": "charts/snyk-broker"
+      },
+      {
+        "publishCmd": "cr index -r snyk-broker-helm -o snyk --packages-with-index --index-path . --package-path charts/snyk-broker --push"
       }
     ],
     [
