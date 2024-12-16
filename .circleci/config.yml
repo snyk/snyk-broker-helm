@@ -14,6 +14,29 @@ executors:
       - image: cimg/node:lts
     resource_class: small
 
+commands:
+  install-chart-releaser:
+    parameters:
+      cr-version:
+        type: string
+        default: "1.6.1"
+    steps:
+      - restore_cache:
+          key: chart-releaser-<<parameters.cr-version>>
+      - run:
+          name: install chart-releaser
+          command: |
+            if [[ ! -f cr.tar.gz ]]; then
+              curl -sSLo cr.tar.gz "https://github.com/helm/chart-releaser/releases/download/v<<parameters.cr-version>>/chart-releaser_<<parameters.cr-version>>_linux_amd64.tar.gz"
+            fi
+            tar -xzvf cr.tar.gz cr
+            sudo mv cr /usr/local/bin/cr
+            cr version
+      - save_cache:
+          paths:
+            - cr.tar.gz
+          key: chart-releaser-<<parameters.cr-version>>
+
 jobs:
   unittest:
     executor: k8s
@@ -28,6 +51,7 @@ jobs:
     steps:
       - checkout
       - helm/install_helm_client
+      - install-chart-releaser
       - run:
           name: install semantic-release
           command: sudo npm i -g semantic-release @semantic-release/exec
