@@ -5,7 +5,7 @@ metadata:
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "snyk-broker.labels" . }}
-  {{- if .Values.service.annotations }}
+  {{- if .Values.serviceAnnotations }}
   annotations:
     {{- toYaml .Values.serviceAnnotations | nindent 4 }}
   {{- end }}
