@@ -19,7 +19,7 @@ commands:
     parameters:
       cr-version:
         type: string
-        default: "1.6.1"
+        default: "1.7.0"
     steps:
       - restore_cache:
           key: chart-releaser-<<parameters.cr-version>>
