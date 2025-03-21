@@ -53,8 +53,14 @@ jobs:
       - helm/install_helm_client
       - install-chart-releaser
       - run:
-          name: install semantic-release
-          command: sudo npm i -g semantic-release @semantic-release/exec
+          name: install semantic-release and plugins
+          command: sudo npm ci
+      - run:
+          # this is required by chart-releaser
+          name: ensure that git uses https origin
+          command: |
+            git config url."https://github.com/".insteadOf "git@github.com:"
+            git remote get-url --push origin
       - run:
           name: publish
           command: npx semantic-release
