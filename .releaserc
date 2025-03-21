@@ -4,7 +4,7 @@
       "name": "main"
     }
   ],
-  "repositoryUrl": "git@github.com:snyk/snyk-broker-helm.git",
+  "repositoryUrl": "https://github.com:snyk/snyk-broker-helm",
   "tagFormat": "snyk-broker-${version}",
   "plugins": [
     "@semantic-release/commit-analyzer",
