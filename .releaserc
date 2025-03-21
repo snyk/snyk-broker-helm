@@ -4,7 +4,7 @@
       "name": "main"
     }
   ],
-  "repositoryUrl": "https://github.com:snyk/snyk-broker-helm",
+  "repositoryUrl": "https://github.com/snyk/snyk-broker-helm",
   "tagFormat": "snyk-broker-${version}",
   "plugins": [
     "@semantic-release/commit-analyzer",
@@ -30,7 +30,6 @@
     [
       "@semantic-release/exec",
       {
-        "prepareCmd": "git remote set-url origin https://github.com/snyk/snyk-broker-helm.git",
         "publishCmd": "cr index -r snyk-broker-helm -o snyk --packages-with-index --index-path . --package-path charts/snyk-broker -t $GH_TOKEN --push"
       }
     ]
