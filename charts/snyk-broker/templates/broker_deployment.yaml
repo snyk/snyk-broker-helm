@@ -153,12 +153,12 @@ spec:
               value: /home/node/cacert/{{ .Values.caCertFileSecret.key }}
          {{- end }}
 
-         {{- if .Values.httpsCert }}
+         {{- if or .Values.httpsCert (.Values.httpsSecret.name) }}
          # HTTPS Config
             - name: HTTPS_CERT
               value: /home/node/tls-cert/tls.crt
          {{- end }}
-         {{- if .Values.httpsKey }}
+         {{- if or .Values.httpsKey (.Values.httpsSecret.name) }}
             - name: HTTPS_KEY
               value: /home/node/tls-cert/tls.key
          {{- end }}

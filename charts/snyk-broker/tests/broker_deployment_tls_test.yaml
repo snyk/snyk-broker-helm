@@ -37,6 +37,18 @@ tests:
             secret:
               secretName: my-ingress-cert
         template: broker_deployment.yaml
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+              name: HTTPS_CERT
+              value: /home/node/tls-cert/tls.crt
+        template: broker_deployment.yaml
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+              name: HTTPS_KEY
+              value: /home/node/tls-cert/tls.key
+        template: broker_deployment.yaml
       - exists:
           path: spec.template.spec.containers[0].volumeMounts
         template: broker_deployment.yaml
