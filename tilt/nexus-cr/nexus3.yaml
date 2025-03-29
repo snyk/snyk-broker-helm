@@ -1,0 +1,75 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nexus3
+spec:
+  selector:
+    matchLabels:
+      app: nexus3
+  template:
+    metadata:
+      labels:
+        app: nexus3
+    spec:
+      volumes:
+        - name: nexus3-vol
+          persistentVolumeClaim:
+            claimName: nexus3
+      initContainers:
+      - name: nexus3-init
+        image: registry.hub.docker.com/library/alpine:3.12.0
+        command: ["chown", "-R", "200:200", "/nexus-data"]
+        volumeMounts:
+          - mountPath: /nexus-data
+            name: nexus3-vol
+      containers:
+      - name: nexus3
+        image: sonatype/nexus3
+        resources:
+          requests:
+            memory: "2048Mi"
+            cpu: "1000m"
+          limits:
+            memory: "4096Mi"
+            cpu: "2000m"
+        volumeMounts:
+          - mountPath: /nexus-data
+            name: nexus3-vol
+        ports:
+        - containerPort: 8081
+          name: ui
+        - containerPort: 8083
+          name: docker
+        livenessProbe:
+          httpGet:
+            path: /service/rest/v1/status/writable
+            port: 8081
+          failureThreshold: 5
+          periodSeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /service/rest/v1/status/writable
+            port: 8081
+          failureThreshold: 5
+          periodSeconds: 30
+        startupProbe:
+          httpGet:
+            path: /service/rest/v1/status/writable
+            port: 8081
+          failureThreshold: 30
+          periodSeconds: 10
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nexus3
+spec:
+  selector:
+    app: nexus3
+  ports:
+  - port: 8081
+    targetPort: 8081
+    name: ui
+  - port: 8083
+    targetPort: 8083
+    name: docker
