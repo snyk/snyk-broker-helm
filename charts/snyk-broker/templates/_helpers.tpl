@@ -202,6 +202,6 @@ readOnlyRootFilesystem: {{ .Values.securityContext.readOnlyRootFilesystem | defa
 allowPrivilegeEscalation: {{ .Values.securityContext.allowPrivilegeEscalation | default false }}
 runAsNonRoot: {{ .Values.securityContext.runAsNonRoot | default true }}
 {{- if not .Values.openshift }}
-runAsUser: {{ .Values.securityContext.runAsUser | default 1000 }}
+runAsUser: {{ .Values.securityContext.runAsUser }}
 {{- end }}
 {{- end }}
