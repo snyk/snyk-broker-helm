@@ -8,7 +8,7 @@ entries:
     name: snyk-broker
     type: application
     urls:
-    - snyk-broker-2.11.8.tgz
+    - https://github.com/snyk/snyk-broker-helm/releases/download/snyk-broker-2.11.8/snyk-broker-2.11.8.tgz
     version: 2.11.8
   - apiVersion: v2
     created: "2025-03-26T17:35:09.290468393Z"
