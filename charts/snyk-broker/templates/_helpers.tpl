@@ -185,3 +185,14 @@ Validate against RFC 1123
 {{- end }}
 {{- $sanitisedProxyUrls |  trimPrefix "," -}}
 {{- end }}
+
+{{/*
+Values are taken from .Values.securityContext.
+When .Values.openshift is true, the runAsUser field is omitted.
+*/}}
+{{- define "snyk-broker.securityContext" -}}
+{{- $root := . -}}
+{{- $csc := $root.Values.securityContext | default dict -}}
+{{- $sc := ternary (omit $csc "runAsUser" "runAsGroup") $csc $root.Values.openshift -}}
+{{ toYaml $sc | nindent 2 }}
+{{- end }}
