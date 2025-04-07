@@ -1,0 +1,37 @@
+suite: test openshift broker deployment securityContext
+chart:
+  version: 0.0.0
+templates:
+  - broker_deployment.yaml
+
+tests:
+  - it: "should include runAsUser when openshift is false"
+    set:
+      securityContext:
+        capabilities:
+          drop:
+            - ALL
+        readOnlyRootFilesystem: true
+        allowPrivilegeEscalation: false
+        runAsNonRoot: true
+        runAsUser: 1000
+      openshift: false
+    asserts:
+      - equal:
+          path: "spec.template.spec.containers[0].securityContext.runAsUser"
+          value: 1000
+
+  - it: "should omit runAsUser when openshift is true"
+    set:
+      securityContext:
+        capabilities:
+          drop:
+            - ALL
+        readOnlyRootFilesystem: true
+        allowPrivilegeEscalation: false
+        runAsNonRoot: true
+        runAsUser: 1000
+      openshift: true
+    asserts:
+      - notExists:
+          path: "spec.template.spec.containers[0].securityContext.runAsUser"

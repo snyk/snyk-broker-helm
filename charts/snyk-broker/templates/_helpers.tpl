@@ -185,3 +185,23 @@ Validate against RFC 1123
 {{- end }}
 {{- $sanitisedProxyUrls |  trimPrefix "," -}}
 {{- end }}
+
+{{/*
+Values are taken from .Values.securityContext.
+When .Values.openshift is true, the runAsUser field is omitted.
+*/}}
+{{- define "snyk-broker.securityContext" -}}
+capabilities:
+  {{- if .Values.securityContext.capabilities.drop }}
+  drop:
+    {{- range .Values.securityContext.capabilities.drop }}
+    - {{ . }}
+    {{- end }}
+  {{- end }}
+readOnlyRootFilesystem: {{ .Values.securityContext.readOnlyRootFilesystem | default true }}
+allowPrivilegeEscalation: {{ .Values.securityContext.allowPrivilegeEscalation | default false }}
+runAsNonRoot: {{ .Values.securityContext.runAsNonRoot | default true }}
+{{- if not .Values.openshift }}
+runAsUser: {{ .Values.securityContext.runAsUser | default 1000 }}
+{{- end }}
+{{- end }}

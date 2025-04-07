@@ -44,7 +44,7 @@ spec:
               cpu: {{ .Values.brokerResources.requests.cpu }}
               memory: {{ .Values.brokerResources.requests.memory}}
           securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
+            {{ include "snyk-broker.securityContext" . | nindent 12 }}
           {{- if .Values.image.tag }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}-{{ .Values.scmType }}"
           {{- else }}
