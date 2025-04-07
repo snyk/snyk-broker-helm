@@ -191,17 +191,8 @@ Values are taken from .Values.securityContext.
 When .Values.openshift is true, the runAsUser field is omitted.
 */}}
 {{- define "snyk-broker.securityContext" -}}
-capabilities:
-  {{- if .Values.securityContext.capabilities.drop }}
-  drop:
-    {{- range .Values.securityContext.capabilities.drop }}
-    - {{ . }}
-    {{- end }}
-  {{- end }}
-readOnlyRootFilesystem: {{ .Values.securityContext.readOnlyRootFilesystem | default true }}
-allowPrivilegeEscalation: {{ .Values.securityContext.allowPrivilegeEscalation | default false }}
-runAsNonRoot: {{ .Values.securityContext.runAsNonRoot | default true }}
-{{- if not .Values.openshift }}
-runAsUser: {{ .Values.securityContext.runAsUser }}
-{{- end }}
+{{- $root := . -}}
+{{- $csc := $root.Values.securityContext | default dict -}}
+{{- $sc := ternary (omit $csc "runAsUser" "runAsGroup") $csc $root.Values.openshift -}}
+{{ toYaml $sc | nindent 2 }}
 {{- end }}
