@@ -3,6 +3,7 @@ version: 2.1
 orbs:
   prodsec: snyk/prodsec-orb@1.0
   helm: circleci/helm@3
+  commitlint: conventional-changelog/commitlint@1.0
 
 executors:
   k8s:
@@ -73,6 +74,12 @@ workflows:
           context:
             - snyk-bot-slack
           channel: broker-alerts
+      - commitlint/lint:
+          name: Conventional Commit Lint
+          filters:
+            branches:
+              ignore: [main]
+          node-version: 20.11.1
       - unittest
       - publish:
           context:
