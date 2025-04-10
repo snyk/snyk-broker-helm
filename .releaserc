@@ -11,26 +11,29 @@
     [
       "@semantic-release/exec",
       {
-        "prepareCmd": "helm package --version ${nextRelease.version} .",
-        "execCwd": "charts/snyk-broker"
-      }
-    ],
-    [
-      "@semantic-release/github",
-      {
-        "assets": [
-          {
-            "path": "charts/snyk-broker/snyk-broker-*.tgz"
-          }
-        ],
-        "successCommentCondition": false,
-        "failCommentCondition": false
+        # prepare folders for charts and index file (needed for chart-releaser)
+        "prepareCmd": "mkdir -p .cr-release-packages/ && mkdir -p .cr-index/"
       }
     ],
     [
       "@semantic-release/exec",
       {
-        "publishCmd": "cr index -r snyk-broker-helm -o snyk --packages-with-index --index-path . --package-path charts/snyk-broker -t $GH_TOKEN --push"
+        # package the chart into a versioned chart archive file
+        "prepareCmd": "helm package charts/snyk-broker/ --destination .cr-release-packages/ --version ${nextRelease.version}"
+      }
+    ],
+    [
+      "@semantic-release/exec",
+      {
+        # upload the chart package to GitHub Releases
+        "publishCmd": "cr upload --owner snyk --git-repo snyk-broker-helm --push --skip-existing --token $GH_TOKEN"
+      },
+    ],
+    [
+      "@semantic-release/exec",
+      {
+        # update the chart repository index.yaml file based on given GitHub release
+        "publishCmd": "cr index --owner snyk --git-repo snyk-broker-helm --push --token $GH_TOKEN"
       }
     ]
   ]
