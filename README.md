@@ -10,4 +10,4 @@ This is a Helm Chart to deploy the [Snyk Broker](https://docs.snyk.io/enterprise
 
 ## Usage
 
-Please refer to our [extensive documentation](https://docs.snyk.io/enterprise-setup/snyk-broker/install-and-configure-snyk-broker/install-and-configure-broker-using-helm)
+Please refer to our [extensive documentation](https://docs.snyk.io/enterprise-setup/snyk-broker/classic-broker/install-and-configure-snyk-broker/install-and-configure-broker-using-helm)
