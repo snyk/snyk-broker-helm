@@ -37,12 +37,7 @@ spec:
       containers:
         - name: "{{ .Values.scmType}}-broker{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}"
           resources:
-            limits:
-              cpu: {{ .Values.brokerResources.limits.cpu }}
-              memory: {{ .Values.brokerResources.limits.memory }}
-            requests:
-              cpu: {{ .Values.brokerResources.requests.cpu }}
-              memory: {{ .Values.brokerResources.requests.memory}}
+            {{- toYaml .Values.brokerResources | nindent 12 }}
           securityContext:
             {{ include "snyk-broker.securityContext" . | nindent 12 }}
           {{- if .Values.image.tag }}
