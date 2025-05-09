@@ -1,4 +1,4 @@
-* @snyk/hybrid
+* @snyk/access
 
 charts/snyk-broker/templates/cra_deployment.yaml @snyk/test-enrichment
 charts/snyk-broker/tests/broker_cra_deployment_test.yaml @snyk/test-enrichment
