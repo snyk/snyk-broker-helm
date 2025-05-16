@@ -109,6 +109,7 @@ ingress:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: snyk-broker-RELEASE-NAME
+        customLabel: customValue
         helm.sh/chart: snyk-broker-0.0.0
       name: RELEASE-NAME-snyk-broker-RELEASE-NAME
       namespace: NAMESPACE
