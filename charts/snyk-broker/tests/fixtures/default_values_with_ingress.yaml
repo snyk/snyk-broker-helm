@@ -23,3 +23,5 @@ brokerDispatcherUrl: "https://api.test.snyk.io"
 
 brokerIngress:
   enabled: true
+  labels:
+    customLabel: customValue
