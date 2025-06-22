@@ -37,12 +37,7 @@ spec:
       containers:
         - name: container-registry-agent{{if not .Values.disableSuffixes }}-{{ .Release.Name }}{{ end }}
           resources:
-            limits:
-              cpu: {{ .Values.crResources.limits.cpu }}
-              memory: {{ .Values.crResources.limits.memory }}
-            requests:
-              cpu: {{ .Values.crResources.requests.cpu }}
-              memory: {{ .Values.crResources.requests.memory}}
+            {{- toYaml .Values.crResources | nindent 12 }}
           securityContext:
             {{- toYaml .Values.securityContextCr | nindent 12 }}
           image: "{{ .Values.image.crRepository }}:{{ .Values.crImage}}"
