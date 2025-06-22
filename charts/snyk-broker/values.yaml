@@ -365,10 +365,10 @@ brokerReadinessProbe:
 brokerResources:
    limits:
      cpu: 1
-     memory: "256Mi"
+     memory: "1Gi"
    requests:
      cpu: 1
-     memory: "256Mi"
+     memory: "1Gi"
 
 
 ##### Container Registry Agent Resource Values #####
