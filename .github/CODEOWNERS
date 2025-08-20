@@ -1,4 +1,4 @@
-* @snyk/access
+* @snyk/access @snyk/platformeng_access
 
 charts/snyk-broker/templates/cra_deployment.yaml @snyk/infrasec_container
 charts/snyk-broker/tests/broker_cra_deployment_test.yaml @snyk/infrasec_container
