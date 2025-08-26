@@ -47,7 +47,7 @@
     "brokerServerUrl": {
       "type": "string",
       "default": "https://broker.snyk.io",
-      "pattern": "^https:\/\/broker(.*)snyk.io"
+      "pattern": "^https:\/\/broker(.*)snyk(gov)?.io"
     },
     "preflightChecks": {
       "type": "object",
@@ -73,7 +73,7 @@
     "brokerDispatcherUrl": {
       "type": "string",
       "default": "https://api.snyk.io",
-      "pattern": "^https:\/\/api(.*)snyk.io"
+      "pattern": "^https:\/\/api(.*)snyk(gov)?.io"
     },
     "replicaCount": {
       "type": "integer",
