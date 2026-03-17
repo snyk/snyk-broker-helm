@@ -217,7 +217,7 @@ spec:
         {{- if .Values.disableNetworkAutoSelection }}
          # Disable Node.js automatic network family selection to prevent ETIMEDOUT in dual-stack environments
             - name: NODE_OPTIONS
-              value: "--no-network-family-autoselection"
+              value: "--no-network-family-autoselection --dns-result-order=ipv4first"
         {{- end}}
         {{- range .Values.env }}
          # custom env var in override.yaml
