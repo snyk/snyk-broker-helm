@@ -257,6 +257,14 @@ logLevel: "info"
 # Add additional logging by setting to true
 logEnableBody: "false"
 
+##### Network Configuration #####
+
+# Disable Node.js automatic IPv4/IPv6 network family selection (autoSelectFamily).
+# When enabled, sets NODE_OPTIONS="--no-network-family-autoselection"
+# Enable this if experiencing ETIMEDOUT errors in environments
+# See: https://github.com/nodejs/node/issues/54359
+disableNetworkAutoSelection: false
+
 ##### Enable HTTPS #####
 
 # To enable broker client to run a HTTPS server enable enableBrokerLocalWebserverOverHttps flag and also provide location of HTTPS_CERT and HTTPS_KEY

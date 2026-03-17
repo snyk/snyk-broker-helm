@@ -1,0 +1,28 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/helm-unittest/helm-unittest/main/schema/helm-testsuite.json
+suite: test broker network auto selection configuration
+chart:
+  version: 0.0.0
+templates:
+  - broker_deployment.yaml
+values:
+  - ./fixtures/default_values.yaml
+
+tests:
+  - it: does not set NODE_OPTIONS when disableNetworkAutoSelection is false (default)
+    set:
+      disableNetworkAutoSelection: false
+    asserts:
+      - notContains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: NODE_OPTIONS
+          any: true
+  - it: sets NODE_OPTIONS when disableNetworkAutoSelection is true
+    set:
+      disableNetworkAutoSelection: true
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: NODE_OPTIONS
+            value: "--no-network-family-autoselection"
