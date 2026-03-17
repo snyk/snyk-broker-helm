@@ -25,4 +25,4 @@ tests:
           path: spec.template.spec.containers[0].env
           content:
             name: NODE_OPTIONS
-            value: "--no-network-family-autoselection"
+            value: "--no-network-family-autoselection --dns-result-order=ipv4first"
