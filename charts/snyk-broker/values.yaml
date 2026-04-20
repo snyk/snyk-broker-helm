@@ -259,11 +259,18 @@ logEnableBody: "false"
 
 ##### Network Configuration #####
 
+
+# Deprecated: use ipv6ConnectivityCheck.enabled: false instead. When true, forces ipv4-first
+# via NODE_OPTIONS and also disables the broker's IPv6 connectivity check.
 # Disable Node.js automatic IPv4/IPv6 network family selection (autoSelectFamily).
 # When enabled, sets NODE_OPTIONS="--no-network-family-autoselection"
 # Enable this if experiencing ETIMEDOUT errors in environments
 # See: https://github.com/nodejs/node/issues/54359
 disableNetworkAutoSelection: false
+
+# Set to false to disable the broker's built-in IPv6 connectivity check (happy-eyeballs fix).
+ipv6ConnectivityCheck:
+  enabled: true
 
 ##### Enable HTTPS #####
 
