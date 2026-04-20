@@ -17,7 +17,15 @@ tests:
           content:
             name: NODE_OPTIONS
           any: true
-  - it: sets NODE_OPTIONS when disableNetworkAutoSelection is true
+  - it: does not set IPV6_CONNECTIVITY_CHECK_ENABLED by default
+    asserts:
+      - notContains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: IPV6_CONNECTIVITY_CHECK_ENABLED
+          any: true
+
+  - it: sets NODE_OPTIONS and IPV6_CONNECTIVITY_CHECK_ENABLED=false when disableNetworkAutoSelection is true
     set:
       disableNetworkAutoSelection: true
     asserts:
@@ -26,3 +34,41 @@ tests:
           content:
             name: NODE_OPTIONS
             value: "--no-network-family-autoselection --dns-result-order=ipv4first"
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: IPV6_CONNECTIVITY_CHECK_ENABLED
+            value: "false"
+
+  - it: sets IPV6_CONNECTIVITY_CHECK_ENABLED=false and no NODE_OPTIONS when ipv6ConnectivityCheck.enabled is false
+    set:
+      ipv6ConnectivityCheck:
+        enabled: false
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: IPV6_CONNECTIVITY_CHECK_ENABLED
+            value: "false"
+      - notContains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: NODE_OPTIONS
+          any: true
+
+  - it: ipv6ConnectivityCheck.enabled false takes precedence over disableNetworkAutoSelection, no NODE_OPTIONS rendered
+    set:
+      disableNetworkAutoSelection: true
+      ipv6ConnectivityCheck:
+        enabled: false
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: IPV6_CONNECTIVITY_CHECK_ENABLED
+            value: "false"
+      - notContains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: NODE_OPTIONS
+          any: true
