@@ -274,8 +274,9 @@ ipv6ConnectivityCheck:
 
 ##### Enable HTTPS #####
 
-# To enable broker client to run a HTTPS server enable enableBrokerLocalWebserverOverHttps flag and also provide location of HTTPS_CERT and HTTPS_KEY
-enableBrokerLocalWebserverOverHttps: false
+# When HTTPS certificates are provided, the broker serves all endpoints over HTTPS
+# including the healthcheck endpoint. Probes will automatically use HTTPS scheme.
+# Note: enableBrokerLocalWebserverOverHttps is deprecated and no longer used
 
 # Location of mounted cert
 httpsCert: ""
