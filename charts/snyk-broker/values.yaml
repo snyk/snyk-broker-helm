@@ -379,7 +379,7 @@ brokerReadinessProbe:
 ##### Broker Resource Values #####
 brokerResources:
    limits:
-     cpu: 1
+#     cpu: 1
      memory: "256Mi"
    requests:
      cpu: 1
@@ -390,7 +390,7 @@ brokerResources:
 
 crResources:
    limits:
-     cpu: 1
+#     cpu: 1
      memory: "2Gi"
    requests:
      cpu: 1
@@ -400,7 +400,7 @@ crResources:
 
 caResources:
    limits:
-     cpu: 1
+#     cpu: 1
      memory: "2Gi"
    requests:
      cpu: 1
