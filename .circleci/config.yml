@@ -73,6 +73,7 @@ workflows:
           name: Scan repository for secrets
           context:
             - snyk-bot-slack
+            - prodsec-orb-runtime
           trusted-branch: main
           channel: broker-alerts
       - commitlint/lint:
